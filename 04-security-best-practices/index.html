@@ -1,0 +1,994 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Security Best Practices | Blocksphere Training</title>
+    
+    <!-- Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+    
+    <!-- Reveal.js -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/reveal.js@5.0.4/dist/reset.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/reveal.js@5.0.4/dist/reveal.css">
+    
+    <!-- Highlight.js for code -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/highlight.js@11.9.0/styles/atom-one-dark.min.css">
+    
+    <!-- Custom Theme -->
+    <link rel="stylesheet" href="../assets/css/blocksphere-theme.css">
+</head>
+<body>
+    <div class="reveal">
+        <div class="slides">
+            
+            <!-- ============================================
+                 SLIDE 1: TITLE SLIDE
+                 ============================================ -->
+            <section data-background="linear-gradient(135deg, #043854 0%, #065a7a 100%)">
+                <div class="slide-header">
+                    <img src="../assets/images/logo-blocksphere.png" alt="Blocksphere" class="logo">
+                    <span class="topic-badge">Day 3 | Session 2</span>
+                </div>
+                
+                <div class="title-slide">
+                    <h1>Security Best Practices</h1>
+                    <p class="subtitle">"Think Like a Hacker, Build Like a Fortress"</p>
+                    <p class="session-info">Team Competition: Hackers vs. Security Experts</p>
+                </div>
+                
+                <div class="slide-footer">
+                    <span class="presenter">Gilang Bhagaskara | Certified Blockchain Professional</span>
+                </div>
+            </section>
+
+            <!-- ============================================
+                 SLIDE 2: HACKER HALL OF FAME
+                 ============================================ -->
+            <section data-background="#043854">
+                <div class="slide-header">
+                    <img src="../assets/images/logo-blocksphere.png" alt="Blocksphere" class="logo">
+                </div>
+                
+                <div class="slide-content">
+                    <h2>🏆 The Crypto Hack Hall of Fame</h2>
+                    
+                    <p>Welcome to the Hall of Fame—the <strong>Hacker</strong> Hall of Fame. These are the largest cryptocurrency hacks in history. By the end of today, you'll understand exactly how each of these happened and how to prevent them.</p>
+                    
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>Rank</th>
+                                <th>Hack</th>
+                                <th>Amount Stolen</th>
+                                <th>Year</th>
+                                <th>Vulnerability</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>🥇</td>
+                                <td>Ronin Bridge</td>
+                                <td style="color: #ef4444;">$625M</td>
+                                <td>2022</td>
+                                <td>Compromised Keys</td>
+                            </tr>
+                            <tr>
+                                <td>🥈</td>
+                                <td>Poly Network</td>
+                                <td style="color: #ef4444;">$611M</td>
+                                <td>2021</td>
+                                <td>Access Control</td>
+                            </tr>
+                            <tr>
+                                <td>🥉</td>
+                                <td>BNB Bridge</td>
+                                <td style="color: #ef4444;">$586M</td>
+                                <td>2022</td>
+                                <td>Signature Verification</td>
+                            </tr>
+                            <tr>
+                                <td>4</td>
+                                <td>Wormhole</td>
+                                <td style="color: #ef4444;">$326M</td>
+                                <td>2022</td>
+                                <td>Input Validation</td>
+                            </tr>
+                            <tr>
+                                <td>5</td>
+                                <td>Nomad Bridge</td>
+                                <td style="color: #ef4444;">$190M</td>
+                                <td>2022</td>
+                                <td>Logic Flaw</td>
+                            </tr>
+                            <tr>
+                                <td>6</td>
+                                <td>The DAO</td>
+                                <td style="color: #ef4444;">$60M</td>
+                                <td>2016</td>
+                                <td><strong>Reentrancy</strong></td>
+                            </tr>
+                        </tbody>
+                    </table>
+                    
+                    <div class="stat-highlight" style="margin-top: 25px;">
+                        <div class="stat-number">$3B+</div>
+                        <div class="stat-label">Total stolen from these attacks alone</div>
+                    </div>
+                    
+                    <div class="callout callout-danger">
+                        <strong>Today YOU become the hacker AND the defender.</strong> We'll explore each vulnerability type and compete to understand both attack and defense.
+                    </div>
+                </div>
+                
+                <div class="slide-footer">
+                    <span class="presenter">Gilang Bhagaskara | Certified Blockchain Professional</span>
+                </div>
+            </section>
+
+            <!-- ============================================
+                 SLIDE 3: TEAM SETUP
+                 ============================================ -->
+            <section data-background="#043854">
+                <div class="slide-header">
+                    <img src="../assets/images/logo-blocksphere.png" alt="Blocksphere" class="logo">
+                </div>
+                
+                <div class="slide-content">
+                    <h2>Team Competition: Hackers vs. Security</h2>
+                    
+                    <p>Today's session is a competition! We'll split into two teams, and for each vulnerability, you'll race to understand both the attack and the defense.</p>
+                    
+                    <div class="two-columns">
+                        <div class="team-box team-hacker">
+                            <h4>Team Hacker</h4>
+                            <p><strong>Your Mission:</strong> Understand and explain how to exploit each vulnerability. Think like an attacker—what's the exact sequence of calls? How would you drain the contract?</p>
+                            <ul style="font-size: 0.85em;">
+                                <li>Identify the vulnerability</li>
+                                <li>Explain the attack step-by-step</li>
+                                <li>Calculate exact exploit values</li>
+                                <li>Demonstrate with code/pseudocode</li>
+                            </ul>
+                        </div>
+                        <div class="team-box team-security">
+                            <h4>Team Security</h4>
+                            <p><strong>Your Mission:</strong> Propose fixes and explain why they work. Think like a defender—what checks are missing? How do we close the vulnerability?</p>
+                            <ul style="font-size: 0.85em;">
+                                <li>Identify what's missing</li>
+                                <li>Propose the correct fix</li>
+                                <li>Explain why the fix works</li>
+                                <li>Suggest additional protections</li>
+                            </ul>
+                        </div>
+                    </div>
+                    
+                    <div class="scoreboard" style="margin-top: 25px;">
+                        <div class="score-team hacker">
+                            <div class="score-value" id="score-hacker">0</div>
+                            <div>Team Hacker</div>
+                        </div>
+                        <div style="font-size: 2em; font-weight: 700;">VS</div>
+                        <div class="score-team security">
+                            <div class="score-value" id="score-security">0</div>
+                            <div>Team Security</div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="slide-footer">
+                    <span class="presenter">Gilang Bhagaskara | Certified Blockchain Professional</span>
+                </div>
+            </section>
+
+            <!-- ============================================
+                 SLIDE 4: REENTRANCY CONCEPT
+                 ============================================ -->
+            <section data-background="#043854">
+                <div class="slide-header">
+                    <img src="../assets/images/logo-blocksphere.png" alt="Blocksphere" class="logo">
+                </div>
+                
+                <div class="slide-content">
+                    <h2>Vulnerability #1: Reentrancy Attack</h2>
+                    
+                    <p>Reentrancy is <strong>the most famous bug in blockchain history</strong>—it's what killed The DAO. The attack exploits the fact that external calls can "call back" into your contract before your function finishes executing.</p>
+                    
+                    <h3>What is Reentrancy?</h3>
+                    <ul>
+                        <li><strong>External calls can call BACK into your contract:</strong> When you send ETH or call another contract, that recipient can execute code—including calling your contract again.</li>
+                        <li><strong>If state isn't updated yet, the callback sees OLD state:</strong> The attacking contract's receive() function triggers while your state still shows the old balance.</li>
+                        <li><strong>Attacker keeps calling until funds are drained:</strong> Each recursive call withdraws more funds because the balance check keeps passing.</li>
+                    </ul>
+                    
+                    <h3>The Attack Flow</h3>
+                    <div class="mermaid">
+                        graph LR
+                            A["1. Attacker calls withdraw"]
+                            B["2. Contract sends ETH"]
+                            C["3. Attacker receive triggers"]
+                            D["4. receive calls withdraw AGAIN"]
+                            E["5. Balance still shows funds"]
+                            F["6. Repeat until empty"]
+                            
+                            A --> B
+                            B --> C
+                            C --> D
+                            D --> E
+                            E --> B
+                            E --> F
+                    </div>
+                    
+                    <div class="callout callout-info">
+                        <strong>ATM Analogy:</strong> Imagine withdrawing from an ATM that doesn't update your balance until after you walk away. You could keep pressing "withdraw" and get unlimited cash!
+                    </div>
+                </div>
+                
+                <div class="slide-footer">
+                    <span class="presenter">Gilang Bhagaskara | Certified Blockchain Professional</span>
+                </div>
+            </section>
+
+            <!-- ============================================
+                 SLIDE 5: REENTRANCY VULNERABLE CODE
+                 ============================================ -->
+            <section data-background="#043854">
+                <div class="slide-header">
+                    <img src="../assets/images/logo-blocksphere.png" alt="Blocksphere" class="logo">
+                </div>
+                
+                <div class="slide-content">
+                    <h2>Live Demo: Reentrancy in Action</h2>
+                    
+                    <p>Let's look at vulnerable code and the attack contract. This is exactly the pattern that was exploited in The DAO hack—except that attack drained $60 million.</p>
+                    
+                    <div class="two-columns">
+                        <div>
+                            <h4 style="color: #ef4444;">Vulnerable Bank Contract</h4>
+                            <div class="code-block" data-language="Solidity">
+                                <pre><code class="language-solidity">// VULNERABLE - DO NOT USE!
+contract VulnerableBank {
+    mapping(address => uint256) public balances;
+    
+    function deposit() external payable {
+        balances[msg.sender] += msg.value;
+    }
+    
+    function withdraw() external {
+        uint256 amount = balances[msg.sender];
+        require(amount > 0, "No balance");
+        
+        // DANGER: External call BEFORE state update!
+        (bool success, ) = msg.sender.call{value: amount}("");
+        require(success, "Transfer failed");
+        
+        // State updated AFTER - TOO LATE!
+        balances[msg.sender] = 0;
+    }
+}</code></pre>
+                            </div>
+                        </div>
+                        <div>
+                            <h4 style="color: #ef4444;">Attacker Contract</h4>
+                            <div class="code-block" data-language="Solidity">
+                                <pre><code class="language-solidity">contract Attacker {
+    VulnerableBank public bank;
+    
+    constructor(address _bank) {
+        bank = VulnerableBank(_bank);
+    }
+    
+    function attack() external payable {
+        bank.deposit{value: msg.value}();
+        bank.withdraw();
+    }
+    
+    // This is called when bank sends ETH
+    receive() external payable {
+        if (address(bank).balance >= 1 ether) {
+            bank.withdraw();  // Call again!
+        }
+    }
+}</code></pre>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="callout callout-danger">
+                        <strong>The Critical Bug:</strong> The line <code>balances[msg.sender] = 0</code> happens AFTER the external call. When <code>receive()</code> calls <code>withdraw()</code> again, the balance still shows the original amount!
+                    </div>
+                </div>
+                
+                <div class="slide-footer">
+                    <span class="presenter">Gilang Bhagaskara | Certified Blockchain Professional</span>
+                </div>
+            </section>
+
+            <!-- ============================================
+                 SLIDE 6: REENTRANCY CHALLENGE
+                 ============================================ -->
+            <section data-background="#043854">
+                <div class="slide-header">
+                    <img src="../assets/images/logo-blocksphere.png" alt="Blocksphere" class="logo">
+                </div>
+                
+                <div class="slide-content">
+                    <h2>🏆 Round 1 Challenge: Reentrancy</h2>
+                    
+                    <div class="challenge-box">
+                        <h3>5 Minutes on the Clock!</h3>
+                        <div class="challenge-timer" id="reentrancy-timer">5:00</div>
+                        <button class="demo-button" onclick="BlocksphereDemos.startTimer('reentrancy-timer', 300)">START!</button>
+                    </div>
+                    
+                    <div class="two-columns" style="margin-top: 20px;">
+                        <div class="team-box team-hacker">
+                            <h4>Team Hacker Task</h4>
+                            <p>Explain step-by-step how you would drain this contract. What exact sequence of calls happens? Write out each step numbered 1-10.</p>
+                        </div>
+                        <div class="team-box team-security">
+                            <h4>Team Security Task</h4>
+                            <p>Propose a fix. How would you modify <code>withdraw()</code> to prevent this attack? Explain why your fix works.</p>
+                        </div>
+                    </div>
+                    
+                    <h3>The Vulnerable Code:</h3>
+                    <div class="code-block" data-language="Solidity">
+                        <pre><code class="language-solidity">function withdraw() external {
+    uint256 amount = balances[msg.sender];
+    require(amount > 0, "No balance");
+    
+    (bool success, ) = msg.sender.call{value: amount}("");
+    require(success, "Transfer failed");
+    
+    balances[msg.sender] = 0;
+}</code></pre>
+                    </div>
+                </div>
+                
+                <div class="slide-footer">
+                    <span class="presenter">Gilang Bhagaskara | Certified Blockchain Professional</span>
+                </div>
+            </section>
+
+            <!-- ============================================
+                 SLIDE 7: REENTRANCY SOLUTION
+                 ============================================ -->
+            <section data-background="#043854">
+                <div class="slide-header">
+                    <img src="../assets/images/logo-blocksphere.png" alt="Blocksphere" class="logo">
+                </div>
+                
+                <div class="slide-content">
+                    <h2>The Fix: Checks-Effects-Interactions (CEI)</h2>
+                    
+                    <p>The <strong>Checks-Effects-Interactions</strong> pattern is the gold standard for preventing reentrancy. The key insight: update ALL state BEFORE making any external calls.</p>
+                    
+                    <div class="two-columns">
+                        <div>
+                            <h4 style="color: #ef4444;">Vulnerable (Wrong Order)</h4>
+                            <div class="code-block" data-language="Solidity">
+                                <pre><code class="language-solidity">function withdraw() external {
+    uint256 amount = balances[msg.sender];
+    require(amount > 0, "No balance");
+    
+    // External call FIRST (bad!)
+    (bool success, ) = msg.sender.call{value: amount}("");
+    require(success, "Transfer failed");
+    
+    // State update LAST (too late!)
+    balances[msg.sender] = 0;
+}</code></pre>
+                            </div>
+                        </div>
+                        <div>
+                            <h4 style="color: #10b981;">Fixed (CEI Pattern)</h4>
+                            <div class="code-block" data-language="Solidity">
+                                <pre><code class="language-solidity">function withdraw() external {
+    // 1. CHECKS
+    uint256 amount = balances[msg.sender];
+    require(amount > 0, "No balance");
+    
+    // 2. EFFECTS (state update FIRST!)
+    balances[msg.sender] = 0;
+    
+    // 3. INTERACTIONS (external call LAST)
+    (bool success, ) = msg.sender.call{value: amount}("");
+    require(success, "Transfer failed");
+}</code></pre>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <h3>Why This Works</h3>
+                    <p>When the attacker's <code>receive()</code> calls back into <code>withdraw()</code>, the balance is already 0. The <code>require(amount > 0)</code> fails, and the attack stops immediately.</p>
+                    
+                    <div class="callout callout-success">
+                        <strong>Extra Protection:</strong> Use OpenZeppelin's <code>ReentrancyGuard</code> modifier for critical functions: <code>function withdraw() external nonReentrant { ... }</code>
+                    </div>
+                </div>
+                
+                <div class="slide-footer">
+                    <span class="presenter">Gilang Bhagaskara | Certified Blockchain Professional</span>
+                </div>
+            </section>
+
+            <!-- ============================================
+                 SLIDE 8: OVERFLOW CONCEPT
+                 ============================================ -->
+            <section data-background="#043854">
+                <div class="slide-header">
+                    <img src="../assets/images/logo-blocksphere.png" alt="Blocksphere" class="logo">
+                </div>
+                
+                <div class="slide-content">
+                    <h2>Vulnerability #2: Integer Overflow/Underflow</h2>
+                    
+                    <p>In older Solidity versions (pre-0.8), integers could "wrap around" when they exceeded their maximum or minimum values. This silent failure led to numerous exploits where attackers could create tokens from nothing or bypass balance checks.</p>
+                    
+                    <h3>What is Overflow/Underflow?</h3>
+                    <ul>
+                        <li><strong>Overflow:</strong> When a number exceeds its maximum value and wraps around to 0 (or a small number)</li>
+                        <li><strong>Underflow:</strong> When a number goes below 0 and wraps around to the maximum value</li>
+                    </ul>
+                    
+                    <div class="code-block" data-language="Solidity">
+                        <pre><code class="language-solidity">// Pre-Solidity 0.8 behavior (DANGEROUS!)
+uint8 balance = 255;       // uint8 max is 255
+balance = balance + 1;     // balance is now 0! (overflow)
+
+uint8 small = 0;           // uint8 min is 0
+small = small - 1;         // small is now 255! (underflow)</code></pre>
+                    </div>
+                    
+                    <h3>Real-World Attack Pattern</h3>
+                    <div class="code-block" data-language="Solidity">
+                        <pre><code class="language-solidity">// Vulnerable batchTransfer function
+function batchTransfer(address[] calldata recipients, uint256 amount) external {
+    uint256 total = recipients.length * amount;  // CAN OVERFLOW!
+    require(balances[msg.sender] >= total, "Insufficient");  // Passes if total = 0!
+    
+    // Attacker creates tokens from nothing...
+}</code></pre>
+                    </div>
+                    
+                    <div class="callout callout-info">
+                        <strong>Y2K Analogy:</strong> Remember the Y2K bug? Two-digit years meant 99 + 1 = 00. Same concept—computers don't know when numbers are "supposed" to be bigger.
+                    </div>
+                </div>
+                
+                <div class="slide-footer">
+                    <span class="presenter">Gilang Bhagaskara | Certified Blockchain Professional</span>
+                </div>
+            </section>
+
+            <!-- ============================================
+                 SLIDE 9: OVERFLOW CHALLENGE
+                 ============================================ -->
+            <section data-background="#043854">
+                <div class="slide-header">
+                    <img src="../assets/images/logo-blocksphere.png" alt="Blocksphere" class="logo">
+                </div>
+                
+                <div class="slide-content">
+                    <h2>🏆 Round 2 Challenge: Integer Overflow</h2>
+                    
+                    <div class="challenge-box">
+                        <h3>5 Minutes on the Clock!</h3>
+                        <div class="challenge-timer" id="overflow-timer">5:00</div>
+                        <button class="demo-button" onclick="BlocksphereDemos.startTimer('overflow-timer', 300)">START!</button>
+                    </div>
+                    
+                    <div class="two-columns" style="margin-top: 20px;">
+                        <div class="team-box team-hacker">
+                            <h4>Team Hacker Task</h4>
+                            <p>Calculate exact values to exploit <code>batchTransfer()</code>. What numbers for <code>recipients.length</code> and <code>amount</code> would make <code>total</code> overflow to 0?</p>
+                        </div>
+                        <div class="team-box team-security">
+                            <h4>Team Security Task</h4>
+                            <p>Propose <strong>TWO different ways</strong> to fix this vulnerability. Explain why each approach works.</p>
+                        </div>
+                    </div>
+                    
+                    <div class="code-block" data-language="Solidity">
+                        <pre><code class="language-solidity">function batchTransfer(address[] calldata recipients, uint256 amount) external {
+    uint256 total = recipients.length * amount;  // OVERFLOW RISK!
+    require(balances[msg.sender] >= total, "Insufficient");
+    
+    for (uint i = 0; i < recipients.length; i++) {
+        balances[recipients[i]] += amount;
+    }
+    balances[msg.sender] -= total;
+}</code></pre>
+                    </div>
+                    
+                    <div class="reveal-answer" id="overflow-hint">
+                        <div class="answer-content">
+                            <p><strong>Hint:</strong> uint256 max = 2^256 - 1. What two numbers multiply to exactly 2^256?</p>
+                        </div>
+                        <p class="reveal-hint">Need a hint? Click here</p>
+                    </div>
+                </div>
+                
+                <div class="slide-footer">
+                    <span class="presenter">Gilang Bhagaskara | Certified Blockchain Professional</span>
+                </div>
+            </section>
+
+            <!-- ============================================
+                 SLIDE 10: OVERFLOW SOLUTION
+                 ============================================ -->
+            <section data-background="#043854">
+                <div class="slide-header">
+                    <img src="../assets/images/logo-blocksphere.png" alt="Blocksphere" class="logo">
+                </div>
+                
+                <div class="slide-content">
+                    <h2>Overflow Solutions</h2>
+                    
+                    <h3>Solution 1: Use Solidity 0.8+ (Best Practice)</h3>
+                    <div class="code-block" data-language="Solidity">
+                        <pre><code class="language-solidity">// SPDX-License-Identifier: MIT
+pragma solidity ^0.8.19;  // Built-in overflow checks!
+
+// Now multiplication automatically reverts on overflow
+uint256 total = recipients.length * amount;  // Safe!</code></pre>
+                    </div>
+                    <p>Solidity 0.8 and later automatically checks for overflow/underflow on all arithmetic operations. If an overflow would occur, the transaction reverts.</p>
+                    
+                    <h3>Solution 2: SafeMath Library (Legacy)</h3>
+                    <div class="code-block" data-language="Solidity">
+                        <pre><code class="language-solidity">import "@openzeppelin/contracts/utils/math/SafeMath.sol";
+
+using SafeMath for uint256;
+
+function batchTransfer(...) external {
+    uint256 total = recipients.length.mul(amount);  // Reverts on overflow!
+    // ...
+}</code></pre>
+                    </div>
+                    
+                    <h3>Solution 3: Manual Check</h3>
+                    <div class="code-block" data-language="Solidity">
+                        <pre><code class="language-solidity">require(amount == 0 || recipients.length <= type(uint256).max / amount, "Overflow!");
+uint256 total = recipients.length * amount;</code></pre>
+                    </div>
+                    
+                    <div class="callout callout-success">
+                        <strong>Best Practice:</strong> Just use Solidity 0.8+. The compiler handles overflow protection automatically. No SafeMath needed!
+                    </div>
+                </div>
+                
+                <div class="slide-footer">
+                    <span class="presenter">Gilang Bhagaskara | Certified Blockchain Professional</span>
+                </div>
+            </section>
+
+            <!-- ============================================
+                 SLIDE 11: ACCESS CONTROL
+                 ============================================ -->
+            <section data-background="#043854">
+                <div class="slide-header">
+                    <img src="../assets/images/logo-blocksphere.png" alt="Blocksphere" class="logo">
+                </div>
+                
+                <div class="slide-content">
+                    <h2>Vulnerability #3: Access Control</h2>
+                    
+                    <p>Access control vulnerabilities are embarrassingly simple—a missing <code>require()</code> or wrong visibility modifier—yet they've caused hundreds of millions in losses. Always ask: <strong>"WHO should be able to call this function?"</strong></p>
+                    
+                    <h3>Common Access Control Mistakes</h3>
+                    
+                    <div class="code-block" data-language="Solidity">
+                        <pre><code class="language-solidity">// MISTAKE 1: No access control at all!
+function setAdmin(address _admin) public {
+    admin = _admin;  // Anyone can become admin!
+}
+
+// MISTAKE 2: Wrong visibility (public instead of internal)
+function _internalMint(address to, uint256 amount) public {  // Should be internal!
+    _mint(to, amount);  // Anyone can mint unlimited tokens!
+}
+
+// MISTAKE 3: Logic error in condition
+function withdraw() public {
+    require(msg.sender != admin, "Admin cannot withdraw");  // Backwards!
+    // Should be: require(msg.sender == admin, ...)
+}
+
+// MISTAKE 4: Missing require entirely
+function emergencyWithdraw() public {
+    // Should check: require(msg.sender == owner);
+    payable(msg.sender).transfer(address(this).balance);
+}</code></pre>
+                    </div>
+                    
+                    <div class="callout callout-warning">
+                        <strong>Real Attack:</strong> The Poly Network hack ($611M) was essentially an access control bug. An attacker manipulated the contract into giving them admin privileges, then drained everything.
+                    </div>
+                </div>
+                
+                <div class="slide-footer">
+                    <span class="presenter">Gilang Bhagaskara | Certified Blockchain Professional</span>
+                </div>
+            </section>
+
+            <!-- ============================================
+                 SLIDE 12: FINAL ROUND CHALLENGE
+                 ============================================ -->
+            <section data-background="#043854">
+                <div class="slide-header">
+                    <img src="../assets/images/logo-blocksphere.png" alt="Blocksphere" class="logo">
+                </div>
+                
+                <div class="slide-content">
+                    <h2>🏆 Final Round: Find ALL The Bugs!</h2>
+                    
+                    <div class="challenge-box">
+                        <h3>7 Minutes - Multiple Vulnerabilities!</h3>
+                        <div class="challenge-timer" id="final-timer">7:00</div>
+                        <button class="demo-button" onclick="BlocksphereDemos.startTimer('final-timer', 420)">START FINAL ROUND!</button>
+                    </div>
+                    
+                    <div class="code-block" data-language="Solidity">
+                        <pre><code class="language-solidity">contract VulnerableVault {
+    address public owner;
+    mapping(address => bool) public admins;
+    mapping(address => uint256) public deposits;
+    bool public paused;
+    
+    constructor() { owner = msg.sender; }
+    
+    function setOwner(address _owner) public {        // Bug 1?
+        owner = _owner;
+    }
+    
+    function addAdmin(address _admin) public {        // Bug 2?
+        admins[_admin] = true;
+    }
+    
+    function pause() public {                         // Bug 3?
+        paused = true;
+    }
+    
+    function emergencyWithdraw() public {             // Bug 4?
+        require(admins[msg.sender] == true);
+        payable(msg.sender).transfer(address(this).balance);
+    }
+}</code></pre>
+                    </div>
+                    
+                    <div class="two-columns" style="margin-top: 15px;">
+                        <div class="team-box team-hacker">
+                            <h4>Team Hacker: Find ALL vulnerabilities and explain each exploit</h4>
+                        </div>
+                        <div class="team-box team-security">
+                            <h4>Team Security: Fix ALL the bugs with corrected code</h4>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="slide-footer">
+                    <span class="presenter">Gilang Bhagaskara | Certified Blockchain Professional</span>
+                </div>
+            </section>
+
+            <!-- ============================================
+                 SLIDE 13: FINAL ROUND SOLUTIONS
+                 ============================================ -->
+            <section data-background="#043854">
+                <div class="slide-header">
+                    <img src="../assets/images/logo-blocksphere.png" alt="Blocksphere" class="logo">
+                </div>
+                
+                <div class="slide-content">
+                    <h2>Final Round: Solutions</h2>
+                    
+                    <div class="reveal-answer" id="final-solutions">
+                        <div class="answer-content">
+                            <h4>All 4 Vulnerabilities:</h4>
+                            <ol style="font-size: 0.85em;">
+                                <li><strong>setOwner():</strong> No access control! Anyone can become owner. <em>Fix: Add <code>require(msg.sender == owner)</code></em></li>
+                                <li><strong>addAdmin():</strong> No access control! Anyone can make themselves admin. <em>Fix: Add <code>require(msg.sender == owner)</code></em></li>
+                                <li><strong>pause():</strong> No access control! Anyone can pause the contract (DoS attack). <em>Fix: Add <code>require(msg.sender == owner)</code></em></li>
+                                <li><strong>emergencyWithdraw():</strong> Admin check exists, BUT since anyone can become admin... <em>Fix: Fix the addAdmin() function first!</em></li>
+                            </ol>
+                            
+                            <h4 style="margin-top: 20px;">The Fixed Code:</h4>
+                            <div class="code-block" data-language="Solidity">
+                                <pre><code class="language-solidity">function setOwner(address _owner) public {
+    require(msg.sender == owner, "Only owner");
+    owner = _owner;
+}
+
+function addAdmin(address _admin) public {
+    require(msg.sender == owner, "Only owner");
+    admins[_admin] = true;
+}
+
+function pause() public {
+    require(msg.sender == owner || admins[msg.sender], "Not authorized");
+    paused = true;
+}</code></pre>
+                            </div>
+                        </div>
+                        <p class="reveal-hint">👆 Click to reveal all solutions</p>
+                    </div>
+                </div>
+                
+                <div class="slide-footer">
+                    <span class="presenter">Gilang Bhagaskara | Certified Blockchain Professional</span>
+                </div>
+            </section>
+
+            <!-- ============================================
+                 SLIDE 14: AUDIT TOOLS
+                 ============================================ -->
+            <section data-background="#043854">
+                <div class="slide-header">
+                    <img src="../assets/images/logo-blocksphere.png" alt="Blocksphere" class="logo">
+                </div>
+                
+                <div class="slide-content">
+                    <h2>Security Audit Tools</h2>
+                    
+                    <p>You don't have to find every bug manually. Automated tools can catch many common vulnerabilities. Here are the essential tools every Solidity developer should use.</p>
+                    
+                    <h3>Slither - Static Analysis (Free)</h3>
+                    <div class="terminal">
+                        <div class="terminal-header">
+                            <span class="terminal-dot red"></span>
+                            <span class="terminal-dot yellow"></span>
+                            <span class="terminal-dot green"></span>
+                        </div>
+                        <div class="terminal-body">
+                            <span class="terminal-prompt">$</span> pip install slither-analyzer<br>
+                            <span class="terminal-prompt">$</span> slither contracts/MyContract.sol<br><br>
+                            <span class="terminal-output" style="color: #ef4444;">HIGH: Reentrancy in withdraw() (contracts/Bank.sol#45-52)</span><br>
+                            <span class="terminal-output" style="color: #f59e0b;">MEDIUM: Unused return value (contracts/Bank.sol#67)</span><br>
+                            <span class="terminal-output" style="color: #10b981;">LOW: Variable shadowing (contracts/Bank.sol#12)</span>
+                        </div>
+                    </div>
+                    
+                    <h3>Tool Comparison</h3>
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>Tool</th>
+                                <th>Speed</th>
+                                <th>Depth</th>
+                                <th>Cost</th>
+                                <th>When to Use</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>Slither</td>
+                                <td>Fast</td>
+                                <td>Medium</td>
+                                <td>Free</td>
+                                <td>During development</td>
+                            </tr>
+                            <tr>
+                                <td>MythX</td>
+                                <td>Slow</td>
+                                <td>Deep</td>
+                                <td>Free/Paid</td>
+                                <td>Before deployment</td>
+                            </tr>
+                            <tr>
+                                <td>Manual Audit</td>
+                                <td>Slowest</td>
+                                <td>Deepest</td>
+                                <td>$$$</td>
+                                <td>Before mainnet</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+                
+                <div class="slide-footer">
+                    <span class="presenter">Gilang Bhagaskara | Certified Blockchain Professional</span>
+                </div>
+            </section>
+
+            <!-- ============================================
+                 SLIDE 15: SECURITY CHECKLIST
+                 ============================================ -->
+            <section data-background="#043854">
+                <div class="slide-header">
+                    <img src="../assets/images/logo-blocksphere.png" alt="Blocksphere" class="logo">
+                </div>
+                
+                <div class="slide-content">
+                    <h2>Pre-Deployment Security Checklist</h2>
+                    
+                    <p>Before deploying any contract to mainnet, run through this checklist. Each item represents lessons learned from real attacks.</p>
+                    
+                    <div class="two-columns">
+                        <div>
+                            <h4>Code Patterns</h4>
+                            <ul style="font-size: 0.85em;">
+                                <li>Follow Checks-Effects-Interactions pattern</li>
+                                <li>Use <code>ReentrancyGuard</code> for ETH transfers</li>
+                                <li>Use Solidity 0.8+ (overflow protection)</li>
+                                <li>Access control on ALL sensitive functions</li>
+                                <li>Validate ALL inputs</li>
+                                <li>Use custom errors for gas efficiency</li>
+                            </ul>
+                            
+                            <h4 style="margin-top: 20px;">Testing</h4>
+                            <ul style="font-size: 0.85em;">
+                                <li>Unit tests for all functions</li>
+                                <li>Test access control (unauthorized should fail)</li>
+                                <li>Test edge cases (zero, max values)</li>
+                                <li>Test state transitions</li>
+                            </ul>
+                        </div>
+                        <div>
+                            <h4>Tooling</h4>
+                            <ul style="font-size: 0.85em;">
+                                <li>Run Slither - fix High/Medium findings</li>
+                                <li>Run MythX deep scan</li>
+                                <li>Consider professional audit for mainnet</li>
+                                <li>Set up monitoring for deployed contracts</li>
+                            </ul>
+                            
+                            <h4 style="margin-top: 20px;">Documentation</h4>
+                            <ul style="font-size: 0.85em;">
+                                <li>Document all functions (NatSpec)</li>
+                                <li>Document access control roles</li>
+                                <li>Document upgrade procedures</li>
+                                <li>Create incident response plan</li>
+                            </ul>
+                        </div>
+                    </div>
+                    
+                    <div class="callout callout-warning" style="margin-top: 15px;">
+                        <strong>Remember:</strong> Code is law—bugs are permanent. Take security seriously before deployment, not after the hack.
+                    </div>
+                </div>
+                
+                <div class="slide-footer">
+                    <span class="presenter">Gilang Bhagaskara | Certified Blockchain Professional</span>
+                </div>
+            </section>
+
+            <!-- ============================================
+                 SLIDE 16: KEY TAKEAWAYS
+                 ============================================ -->
+            <section data-background="#043854">
+                <div class="slide-header">
+                    <img src="../assets/images/logo-blocksphere.png" alt="Blocksphere" class="logo">
+                </div>
+                
+                <div class="slide-content">
+                    <h2>Key Takeaways: Security Best Practices</h2>
+                    
+                    <div class="progress-tracker">
+                        <div class="progress-item completed">
+                            <div class="progress-checkbox"></div>
+                            <div><strong>Reentrancy:</strong> Always follow Checks-Effects-Interactions. Update state BEFORE external calls. Use ReentrancyGuard.</div>
+                        </div>
+                        <div class="progress-item completed">
+                            <div class="progress-checkbox"></div>
+                            <div><strong>Overflow:</strong> Use Solidity 0.8+ for automatic protection. Understand why overflow is dangerous.</div>
+                        </div>
+                        <div class="progress-item completed">
+                            <div class="progress-checkbox"></div>
+                            <div><strong>Access Control:</strong> Every function needs access control consideration. Ask "WHO should call this?"</div>
+                        </div>
+                        <div class="progress-item completed">
+                            <div class="progress-checkbox"></div>
+                            <div><strong>Testing:</strong> Test the unhappy path. Verify unauthorized calls fail.</div>
+                        </div>
+                        <div class="progress-item completed">
+                            <div class="progress-checkbox"></div>
+                            <div><strong>Tooling:</strong> Use Slither, MythX, and professional audits. Automate security checks.</div>
+                        </div>
+                    </div>
+                    
+                    <div class="callout callout-success" style="margin-top: 20px;">
+                        <strong>The Mindset:</strong> Think like a hacker to build like a fortress. Every function is an attack surface. Every input is malicious until proven otherwise. Paranoia is a virtue in smart contract development.
+                    </div>
+                </div>
+                
+                <div class="slide-footer">
+                    <span class="presenter">Gilang Bhagaskara | Certified Blockchain Professional</span>
+                </div>
+            </section>
+
+            <!-- ============================================
+                 SLIDE 17: SESSION COMPLETE
+                 ============================================ -->
+            <section data-background="linear-gradient(135deg, #043854 0%, #065a7a 100%)">
+                <div class="slide-header">
+                    <img src="../assets/images/logo-blocksphere.png" alt="Blocksphere" class="logo">
+                </div>
+                
+                <div class="title-slide">
+                    <h1 style="font-size: 2.2em;">🛡️ Security Training Complete!</h1>
+                    <p class="subtitle">You Can Now Think Like a Hacker AND a Defender</p>
+                    
+                    <div class="scoreboard" style="margin: 30px auto; max-width: 500px;">
+                        <div class="score-team hacker">
+                            <div class="score-value" id="final-score-hacker">—</div>
+                            <div>Team Hacker</div>
+                        </div>
+                        <div style="font-size: 1.5em; font-weight: 700;">VS</div>
+                        <div class="score-team security">
+                            <div class="score-value" id="final-score-security">—</div>
+                            <div>Team Security</div>
+                        </div>
+                    </div>
+                    
+                    <div style="margin-top: 30px; text-align: center;">
+                        <h3 style="color: var(--bs-accent);">You've Learned to Identify & Prevent:</h3>
+                        <p style="font-size: 0.95em;">Reentrancy Attacks | Integer Overflow | Access Control Bugs</p>
+                        <p style="font-size: 0.95em;">+ Professional audit tools and pre-deployment checklists</p>
+                    </div>
+                    
+                    <p class="session-info" style="margin-top: 30px;">
+                        Training Complete! Go Build Secure Smart Contracts! 🚀
+                    </p>
+                </div>
+                
+                <div class="slide-footer">
+                    <span class="presenter">Gilang Bhagaskara | Certified Blockchain Professional</span>
+                    <span>blocksphere.id</span>
+                </div>
+            </section>
+
+        </div>
+    </div>
+
+    <!-- Reveal.js -->
+    <script src="https://cdn.jsdelivr.net/npm/reveal.js@5.0.4/dist/reveal.js"></script>
+    
+    <!-- Highlight.js -->
+    <script src="https://cdn.jsdelivr.net/npm/highlight.js@11.9.0/lib/highlight.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/highlight.js@11.9.0/lib/languages/javascript.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/highlight.js@11.9.0/lib/languages/solidity.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/highlight.js@11.9.0/lib/languages/bash.min.js"></script>
+    
+    <!-- Mermaid -->
+    <script src="https://cdn.jsdelivr.net/npm/mermaid@10.6.1/dist/mermaid.min.js"></script>
+    
+    <!-- Custom Interactive Functions -->
+    <script src="../assets/js/interactive.js"></script>
+    
+    <script>
+        Reveal.initialize({
+            hash: true,
+            slideNumber: 'c/t',
+            showSlideNumber: 'all',
+            transition: 'slide',
+            transitionSpeed: 'default',
+            backgroundTransition: 'fade',
+            pdfSeparateFragments: false,
+            width: 1920,
+            height: 1080,
+            margin: 0.04,
+            minScale: 0.2,
+            maxScale: 2.0
+        });
+        
+        mermaid.initialize({
+            startOnLoad: true,
+            theme: 'base',
+            themeVariables: {
+                primaryColor: '#4a9ea4',
+                primaryTextColor: '#ffffff',
+                primaryBorderColor: '#4a9ea4',
+                lineColor: '#4a9ea4',
+                secondaryColor: '#043854',
+                tertiaryColor: '#065a7a',
+                fontSize: '16px'
+            }
+        });
+        
+        hljs.highlightAll();
+    </script>
+</body>
+</html>

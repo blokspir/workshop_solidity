@@ -1,0 +1,1196 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Solidity Fundamentals | Blocksphere Training</title>
+    
+    <!-- Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+    
+    <!-- Reveal.js -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/reveal.js@5.0.4/dist/reset.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/reveal.js@5.0.4/dist/reveal.css">
+    
+    <!-- Highlight.js for code -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/highlight.js@11.9.0/styles/atom-one-dark.min.css">
+    
+    <!-- Custom Theme -->
+    <link rel="stylesheet" href="../assets/css/blocksphere-theme.css">
+</head>
+<body>
+    <div class="reveal">
+        <div class="slides">
+            
+            <!-- ============================================
+                 SLIDE 1: TITLE SLIDE
+                 ============================================ -->
+            <section data-background="linear-gradient(135deg, #043854 0%, #065a7a 100%)">
+                <div class="slide-header">
+                    <img src="../assets/images/logo-blocksphere.png" alt="Blocksphere" class="logo">
+                    <span class="topic-badge">Day 2 | Session 2</span>
+                </div>
+                
+                <div class="title-slide">
+                    <h1>Solidity Fundamentals</h1>
+                    <p class="subtitle">"Building Smart Contracts for Finance"</p>
+                    <p class="session-info">Deep Dive into Ethereum's Programming Language</p>
+                </div>
+                
+                <div class="slide-footer">
+                    <span class="presenter">Gilang Bhagaskara | Certified Blockchain Professional</span>
+                </div>
+            </section>
+
+            <!-- ============================================
+                 SLIDE 2: THE DAO HACK - OPENING HOOK
+                 ============================================ -->
+            <section data-background="#043854">
+                <div class="slide-header">
+                    <img src="../assets/images/logo-blocksphere.png" alt="Blocksphere" class="logo">
+                </div>
+                
+                <div class="slide-content">
+                    <h2>The $60 Million Bug</h2>
+                    
+                    <p>Before we write a single line of code, let's talk about why getting Solidity right matters so much. June 2016—the cryptocurrency world watched in horror as one of the largest crowdfunding projects in history was drained of funds in real-time.</p>
+                    
+                    <div class="stat-highlight" style="margin: 30px 0;">
+                        <div class="stat-number">$60M</div>
+                        <div class="stat-label">Stolen in a single exploit from The DAO</div>
+                    </div>
+                    
+                    <h3>The DAO Story</h3>
+                    <ul>
+                        <li><strong>The Vision:</strong> A decentralized venture capital fund—anyone could propose projects and vote on funding decisions. It raised $150 million in ETH, making it the largest crowdfund ever at that time.</li>
+                        <li><strong>The Bug:</strong> About 10 lines of Solidity code contained a "reentrancy" vulnerability. The withdrawal function sent ETH before updating the sender's balance.</li>
+                        <li><strong>The Consequence:</strong> The attack was so devastating it split Ethereum into two chains—ETH (which rolled back the hack) and ETC (which kept the hack). The philosophical debate continues today.</li>
+                    </ul>
+                    
+                    <div class="callout callout-danger">
+                        <strong>The Scary Part:</strong> The code looked fine to most developers. Professional auditors missed it. By the end of this course, you'll be able to spot this bug instantly—and you'll understand exactly why it happens.
+                    </div>
+                </div>
+                
+                <div class="slide-footer">
+                    <span class="presenter">Gilang Bhagaskara | Certified Blockchain Professional</span>
+                </div>
+            </section>
+
+            <!-- ============================================
+                 SLIDE 3: SOLIDITY OVERVIEW
+                 ============================================ -->
+            <section data-background="#043854">
+                <div class="slide-header">
+                    <img src="../assets/images/logo-blocksphere.png" alt="Blocksphere" class="logo">
+                </div>
+                
+                <div class="slide-content">
+                    <h2>What is Solidity?</h2>
+                    
+                    <p>Solidity is a <strong>statically-typed, contract-oriented programming language</strong> designed specifically for writing smart contracts on blockchain platforms, particularly Ethereum. If you know JavaScript, Python, or C++, you'll find familiar concepts—but with some critical differences that reflect the unique constraints of blockchain execution.</p>
+                    
+                    <h3>Key Characteristics</h3>
+                    <ul>
+                        <li><strong>Contract-Oriented:</strong> The primary code unit is a "contract" rather than a class or module. Contracts have state, functions, and can interact with other contracts.</li>
+                        <li><strong>Compiled Language:</strong> Solidity compiles to EVM bytecode—the instruction set that runs on every Ethereum node. The compiler catches many bugs before deployment.</li>
+                        <li><strong>Gas-Aware:</strong> Every operation costs gas (and therefore money). You'll constantly think about optimization in ways that traditional programming doesn't require.</li>
+                        <li><strong>Immutable Deployments:</strong> Once deployed, contract code cannot be changed. Bugs live forever unless you've built in upgrade mechanisms.</li>
+                    </ul>
+                    
+                    <h3>Basic Contract Structure</h3>
+                    <div class="code-block" data-language="Solidity">
+                        <pre><code class="language-solidity">// SPDX-License-Identifier: MIT
+pragma solidity ^0.8.19;
+
+contract MyFirstContract {
+    // State variables - stored permanently on blockchain
+    uint256 public value;
+    
+    // Functions - can read/modify state
+    function setValue(uint256 _value) public {
+        value = _value;
+    }
+}</code></pre>
+                    </div>
+                </div>
+                
+                <div class="slide-footer">
+                    <span class="presenter">Gilang Bhagaskara | Certified Blockchain Professional</span>
+                </div>
+            </section>
+
+            <!-- ============================================
+                 SLIDE 4: VALUE TYPES
+                 ============================================ -->
+            <section data-background="#043854">
+                <div class="slide-header">
+                    <img src="../assets/images/logo-blocksphere.png" alt="Blocksphere" class="logo">
+                </div>
+                
+                <div class="slide-content">
+                    <h2>Data Types: Value Types</h2>
+                    
+                    <p>Solidity has two categories of types: <strong>value types</strong> (copied when assigned) and <strong>reference types</strong> (point to data locations). Let's start with value types—these are the building blocks you'll use in almost every contract.</p>
+                    
+                    <h3>Boolean</h3>
+                    <div class="code-block" data-language="Solidity">
+                        <pre><code class="language-solidity">bool public isActive = true;
+bool public isPaused = false;
+// Operators: !, &&, ||, ==, !=</code></pre>
+                    </div>
+                    
+                    <h3>Integers</h3>
+                    <div class="code-block" data-language="Solidity">
+                        <pre><code class="language-solidity">int256 public signedNumber = -100;    // Can be negative (-2^255 to 2^255-1)
+uint256 public amount = 1000;          // Unsigned only (0 to 2^256-1)
+uint8 public smallNumber = 255;        // Max value: 255 (1 byte)
+// uint256 is most common - it's the EVM's native word size</code></pre>
+                    </div>
+                    
+                    <h3>Address</h3>
+                    <div class="code-block" data-language="Solidity">
+                        <pre><code class="language-solidity">address public wallet = 0x71C7656EC7ab88b098defB751B7401B5f6d8976F;
+address payable public recipient;  // Can receive ETH via .transfer() or .send()
+// Address is 20 bytes - remember from cryptography session!</code></pre>
+                    </div>
+                    
+                    <h3>Bytes</h3>
+                    <div class="code-block" data-language="Solidity">
+                        <pre><code class="language-solidity">bytes32 public txHash;    // Fixed 32 bytes - common for hashes
+bytes1 public flag;       // Single byte
+// Fixed sizes: bytes1, bytes2, ... bytes32</code></pre>
+                    </div>
+                </div>
+                
+                <div class="slide-footer">
+                    <span class="presenter">Gilang Bhagaskara | Certified Blockchain Professional</span>
+                </div>
+            </section>
+
+            <!-- ============================================
+                 SLIDE 5: REFERENCE TYPES
+                 ============================================ -->
+            <section data-background="#043854">
+                <div class="slide-header">
+                    <img src="../assets/images/logo-blocksphere.png" alt="Blocksphere" class="logo">
+                </div>
+                
+                <div class="slide-content">
+                    <h2>Data Types: Reference Types</h2>
+                    
+                    <p>Reference types don't fit in a single 32-byte slot and must specify a <strong>data location</strong>: storage, memory, or calldata. Understanding this is crucial for both correctness and gas optimization.</p>
+                    
+                    <h3>Arrays</h3>
+                    <div class="code-block" data-language="Solidity">
+                        <pre><code class="language-solidity">uint256[] public dynamicArray;           // Dynamic size - can grow/shrink
+uint256[10] public fixedArray;           // Fixed size: exactly 10 elements
+string[] public names;                   // Array of strings
+
+// Array operations
+dynamicArray.push(100);        // Add element
+dynamicArray.pop();            // Remove last
+uint256 len = dynamicArray.length;  // Get length</code></pre>
+                    </div>
+                    
+                    <h3>Structs</h3>
+                    <div class="code-block" data-language="Solidity">
+                        <pre><code class="language-solidity">struct Person {
+    string name;
+    uint256 age;
+    address wallet;
+}
+
+Person public alice = Person("Alice", 30, 0x123...);
+// Access: alice.name, alice.age, alice.wallet</code></pre>
+                    </div>
+                    
+                    <h3>Mappings</h3>
+                    <div class="code-block" data-language="Solidity">
+                        <pre><code class="language-solidity">mapping(address => uint256) public balances;  // Address to balance
+mapping(uint256 => Person) public people;      // ID to Person struct
+mapping(address => mapping(address => uint256)) public allowances;  // Nested!
+
+// Usage
+balances[msg.sender] = 100;
+uint256 bal = balances[msg.sender];</code></pre>
+                    </div>
+                    
+                    <div class="callout callout-warning">
+                        <strong>Mapping Limitation:</strong> You CANNOT iterate over mappings. All possible keys technically exist and return zero/default values. If you need to iterate, store keys separately in an array.
+                    </div>
+                </div>
+                
+                <div class="slide-footer">
+                    <span class="presenter">Gilang Bhagaskara | Certified Blockchain Professional</span>
+                </div>
+            </section>
+
+            <!-- ============================================
+                 SLIDE 6: STORAGE VS MEMORY VS CALLDATA
+                 ============================================ -->
+            <section data-background="#043854">
+                <div class="slide-header">
+                    <img src="../assets/images/logo-blocksphere.png" alt="Blocksphere" class="logo">
+                </div>
+                
+                <div class="slide-content">
+                    <h2>Storage vs Memory vs Calldata</h2>
+                    
+                    <p>This is one of the <strong>most critical concepts</strong> in Solidity and a common source of bugs. Every reference type must declare where its data lives. The choice affects both behavior and gas costs.</p>
+                    
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>Location</th>
+                                <th>Persistence</th>
+                                <th>Cost</th>
+                                <th>Use Case</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td><code>storage</code></td>
+                                <td>Permanent (on-chain)</td>
+                                <td>$$$ (20,000 gas to write)</td>
+                                <td>State variables, persistent data</td>
+                            </tr>
+                            <tr>
+                                <td><code>memory</code></td>
+                                <td>Temporary (function lifetime)</td>
+                                <td>$ (3 gas per operation)</td>
+                                <td>Function variables, computations</td>
+                            </tr>
+                            <tr>
+                                <td><code>calldata</code></td>
+                                <td>Read-only (external call data)</td>
+                                <td>Cheapest</td>
+                                <td>External function parameters</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                    
+                    <div class="code-block" data-language="Solidity">
+                        <pre><code class="language-solidity">contract DataLocations {
+    uint256[] public numbers;  // storage (state variable - implicit)
+    
+    function process(uint256[] calldata input) external {
+        // input is calldata - read-only, cheapest
+        
+        uint256[] memory temp = new uint256[](10);
+        // temp is memory - temporary, moderate cost
+        
+        numbers.push(input[0]);
+        // numbers is storage - permanent, expensive
+    }
+    
+    // CRITICAL: storage reference vs memory copy
+    function dangerous() external {
+        uint256[] storage ref = numbers;  // Points to state!
+        ref[0] = 999;  // Modifies the actual state variable!
+        
+        uint256[] memory copy = numbers;  // Copies data
+        copy[0] = 999;  // Only modifies the local copy
+    }
+}</code></pre>
+                    </div>
+                </div>
+                
+                <div class="slide-footer">
+                    <span class="presenter">Gilang Bhagaskara | Certified Blockchain Professional</span>
+                </div>
+            </section>
+
+            <!-- ============================================
+                 SLIDE 7: BUG HUNT CHALLENGE
+                 ============================================ -->
+            <section data-background="#043854">
+                <div class="slide-header">
+                    <img src="../assets/images/logo-blocksphere.png" alt="Blocksphere" class="logo">
+                </div>
+                
+                <div class="slide-content">
+                    <h2>🔍 Bug Hunt #1: Find the Errors!</h2>
+                    
+                    <p>Time to test your understanding! This code has <strong>4 bugs</strong>. Work with a partner and find them all. These are real mistakes that would prevent compilation—the kind of errors you'll encounter daily.</p>
+                    
+                    <div class="challenge-box">
+                        <h3>Your Mission (5 Minutes)</h3>
+                        <p>Find at least 3 bugs in the code below. Bonus points for finding all 4!</p>
+                        
+                        <div class="challenge-timer" id="bug-hunt-timer">5:00</div>
+                        <button class="demo-button" onclick="BlocksphereDemos.startTimer('bug-hunt-timer', 300)">Start Timer</button>
+                    </div>
+                    
+                    <div class="code-block" data-language="Solidity">
+                        <pre><code class="language-solidity">// SPDX-License-Identifier: MIT
+pragma solidity ^0.8.19;
+
+contract BuggyContract {
+    unit256 public balance;                    // Bug 1: ???
+    address public owner;
+    
+    string[] public names storage;             // Bug 2: ???
+    
+    mapping(address => uint256) balances;      // Bug 3: ???
+    
+    function deposit() public {
+        balance = balance + msg.value;
+    }
+    
+    function getNames() public returns (string[]) {  // Bug 4: ???
+        return names;
+    }
+}</code></pre>
+                    </div>
+                    
+                    <div class="reveal-answer" id="bug-hunt-answers">
+                        <div class="answer-content">
+                            <p><strong>The Bugs:</strong></p>
+                            <ol style="font-size: 0.85em;">
+                                <li><code>unit256</code> should be <code>uint256</code> (typo - missing 'i')</li>
+                                <li><code>string[] public names storage</code> - state variables are implicitly storage, remove the keyword</li>
+                                <li><code>mapping(address => uint256) balances</code> - missing visibility modifier, add <code>public</code> or <code>private</code></li>
+                                <li><code>returns (string[])</code> - return type needs <code>memory</code> location: <code>returns (string[] memory)</code></li>
+                            </ol>
+                        </div>
+                        <p class="reveal-hint">👆 Click to reveal answers</p>
+                    </div>
+                </div>
+                
+                <div class="slide-footer">
+                    <span class="presenter">Gilang Bhagaskara | Certified Blockchain Professional</span>
+                </div>
+            </section>
+
+            <!-- ============================================
+                 SLIDE 8: ENUMS
+                 ============================================ -->
+            <section data-background="#043854">
+                <div class="slide-header">
+                    <img src="../assets/images/logo-blocksphere.png" alt="Blocksphere" class="logo">
+                </div>
+                
+                <div class="slide-content">
+                    <h2>Enums: Defining States</h2>
+                    
+                    <p>Enums are perfect for representing a fixed set of states or options. They make your code more readable and catch invalid state transitions at compile time. Under the hood, they're stored as small integers (uint8 by default).</p>
+                    
+                    <h3>Our Invoice Status State Machine</h3>
+                    
+                    <div class="code-block" data-language="Solidity">
+                        <pre><code class="language-solidity">enum InvoiceStatus {
+    Created,            // 0 - Invoice just created by supplier
+    Approved,           // 1 - Buyer approved the invoice
+    FinancingRequested, // 2 - Supplier wants early payment
+    Funded,             // 3 - Financier paid the supplier
+    Settled,            // 4 - Buyer paid back the financier
+    Cancelled           // 5 - Invoice was cancelled
+}
+
+// Usage in code
+InvoiceStatus public status = InvoiceStatus.Created;
+
+function approve() public {
+    require(status == InvoiceStatus.Created, "Invalid status");
+    status = InvoiceStatus.Approved;  // Transition state
+}
+
+// Convert to integer when needed
+function getStatusNumber() public view returns (uint8) {
+    return uint8(status);  // Returns 0, 1, 2, etc.
+}</code></pre>
+                    </div>
+                    
+                    <div class="mermaid">
+                        graph LR
+                            Created["Created"]
+                            Approved["Approved"]
+                            FinancingRequested["FinancingRequested"]
+                            Funded["Funded"]
+                            Settled["Settled"]
+                            Cancelled["Cancelled"]
+                            
+                            Created --> Approved
+                            Created --> Cancelled
+                            Approved --> FinancingRequested
+                            Approved --> Cancelled
+                            FinancingRequested --> Funded
+                            Funded --> Settled
+                    </div>
+                    
+                    <div class="callout callout-info">
+                        <strong>Why Enums?</strong> Instead of using magic numbers (0, 1, 2) throughout your code, enums give meaningful names to states. The compiler ensures you only use valid enum values—no risk of setting status to 99.
+                    </div>
+                </div>
+                
+                <div class="slide-footer">
+                    <span class="presenter">Gilang Bhagaskara | Certified Blockchain Professional</span>
+                </div>
+            </section>
+
+            <!-- ============================================
+                 SLIDE 9: STRUCTS
+                 ============================================ -->
+            <section data-background="#043854">
+                <div class="slide-header">
+                    <img src="../assets/images/logo-blocksphere.png" alt="Blocksphere" class="logo">
+                </div>
+                
+                <div class="slide-content">
+                    <h2>Structs: Grouping Related Data</h2>
+                    
+                    <p>Structs let you create custom data types that group related variables together. Think of them like forms with labeled fields—all the data about one entity in one organized place.</p>
+                    
+                    <h3>Our Invoice Struct</h3>
+                    
+                    <div class="code-block" data-language="Solidity">
+                        <pre><code class="language-solidity">struct Invoice {
+    uint256 id;              // Unique identifier
+    address supplier;        // Who created this invoice
+    address buyer;           // Who needs to pay
+    uint256 amount;          // Payment amount in wei
+    uint256 dueDate;         // Unix timestamp for due date
+    InvoiceStatus status;    // Current state (our enum)
+    uint256 createdAt;       // When the invoice was created
+    uint256 approvedAt;      // When buyer approved (0 if not yet)
+    address financier;       // Who funded it (address(0) if not funded)
+}
+
+// Store invoices in a mapping
+mapping(uint256 => Invoice) public invoices;
+uint256 public invoiceCount;
+
+// Create an invoice using named parameters (recommended)
+invoices[1] = Invoice({
+    id: 1,
+    supplier: msg.sender,
+    buyer: buyerAddress,
+    amount: 1 ether,
+    dueDate: block.timestamp + 30 days,
+    status: InvoiceStatus.Created,
+    createdAt: block.timestamp,
+    approvedAt: 0,
+    financier: address(0)
+});</code></pre>
+                    </div>
+                    
+                    <div class="callout callout-success">
+                        <strong>Best Practice:</strong> Always use named parameters when creating structs. It prevents bugs from accidentally swapping field order and makes code self-documenting.
+                    </div>
+                </div>
+                
+                <div class="slide-footer">
+                    <span class="presenter">Gilang Bhagaskara | Certified Blockchain Professional</span>
+                </div>
+            </section>
+
+            <!-- ============================================
+                 SLIDE 10: MAPPINGS DEEP DIVE
+                 ============================================ -->
+            <section data-background="#043854">
+                <div class="slide-header">
+                    <img src="../assets/images/logo-blocksphere.png" alt="Blocksphere" class="logo">
+                </div>
+                
+                <div class="slide-content">
+                    <h2>Mappings: Key-Value Storage</h2>
+                    
+                    <p>Mappings are Solidity's hash tables—they provide O(1) lookup from any key to its value. They're the most common way to associate data with addresses or IDs. However, they have important limitations you must understand.</p>
+                    
+                    <div class="code-block" data-language="Solidity">
+                        <pre><code class="language-solidity">// Basic mapping: address to balance
+mapping(address => uint256) public balances;
+
+// Struct mapping: ID to Invoice
+mapping(uint256 => Invoice) public invoices;
+
+// Nested mapping: allowances (who can spend whose tokens)
+mapping(address => mapping(address => uint256)) public allowances;
+// allowances[owner][spender] = amount
+
+// Usage examples
+balances[msg.sender] = 100;                    // Set value
+uint256 myBalance = balances[msg.sender];      // Get value
+balances[0x123...];  // Returns 0 (default) even if never set!</code></pre>
+                    </div>
+                    
+                    <h3>Critical Limitations</h3>
+                    <ul>
+                        <li><strong>No Iteration:</strong> You cannot loop over all keys in a mapping. If you need this, maintain a separate array of keys.</li>
+                        <li><strong>No Length:</strong> You cannot get the "size" of a mapping. Track count separately if needed.</li>
+                        <li><strong>All Keys Exist:</strong> Every possible key returns a value (zero/default for unset keys). You can't check "does this key exist?"</li>
+                    </ul>
+                    
+                    <div class="callout callout-warning">
+                        <strong>Common Pattern:</strong> To track whether a key has been set, use a separate mapping or a boolean field in your struct: <code>mapping(address => bool) public hasDeposited;</code>
+                    </div>
+                </div>
+                
+                <div class="slide-footer">
+                    <span class="presenter">Gilang Bhagaskara | Certified Blockchain Professional</span>
+                </div>
+            </section>
+
+            <!-- ============================================
+                 SLIDE 11: GAS COSTS
+                 ============================================ -->
+            <section data-background="#043854">
+                <div class="slide-header">
+                    <img src="../assets/images/logo-blocksphere.png" alt="Blocksphere" class="logo">
+                </div>
+                
+                <div class="slide-content">
+                    <h2>Gas Costs: Why Storage Matters</h2>
+                    
+                    <p><strong>Gas is money.</strong> Every operation in the EVM costs gas, and users pay for that gas. Understanding costs helps you write efficient contracts that don't bankrupt your users. Storage operations are by far the most expensive.</p>
+                    
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>Operation</th>
+                                <th>Gas Cost</th>
+                                <th>USD @ 30 gwei, $3000 ETH</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td><code>SSTORE</code> (new slot)</td>
+                                <td>20,000</td>
+                                <td>~$1.80</td>
+                            </tr>
+                            <tr>
+                                <td><code>SSTORE</code> (update existing)</td>
+                                <td>5,000</td>
+                                <td>~$0.45</td>
+                            </tr>
+                            <tr>
+                                <td><code>SLOAD</code> (read storage)</td>
+                                <td>2,100</td>
+                                <td>~$0.19</td>
+                            </tr>
+                            <tr>
+                                <td>Memory operation</td>
+                                <td>3</td>
+                                <td>~$0.00</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                    
+                    <h3>Optimization Example</h3>
+                    <div class="two-columns">
+                        <div>
+                            <h4 style="color: #ef4444;">Bad: Multiple Storage Reads</h4>
+                            <div class="code-block" data-language="Solidity">
+                                <pre><code class="language-solidity">function bad(uint256 id) public view {
+    uint256 a = invoices[id].amount;  // SLOAD
+    uint256 b = invoices[id].amount;  // SLOAD again!
+    uint256 c = invoices[id].amount;  // SLOAD third time!
+}</code></pre>
+                            </div>
+                        </div>
+                        <div>
+                            <h4 style="color: #10b981;">Good: Cache in Memory</h4>
+                            <div class="code-block" data-language="Solidity">
+                                <pre><code class="language-solidity">function good(uint256 id) public view {
+    Invoice memory inv = invoices[id];  // One SLOAD
+    uint256 a = inv.amount;  // Memory (cheap)
+    uint256 b = inv.amount;  // Memory (cheap)
+    uint256 c = inv.amount;  // Memory (cheap)
+}</code></pre>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="slide-footer">
+                    <span class="presenter">Gilang Bhagaskara | Certified Blockchain Professional</span>
+                </div>
+            </section>
+
+            <!-- ============================================
+                 SLIDE 12: FUNCTION VISIBILITY
+                 ============================================ -->
+            <section data-background="#043854">
+                <div class="slide-header">
+                    <img src="../assets/images/logo-blocksphere.png" alt="Blocksphere" class="logo">
+                </div>
+                
+                <div class="slide-content">
+                    <h2>Function Visibility</h2>
+                    
+                    <p>Every function must declare who can call it. Choosing the right visibility affects both security and gas costs. Getting this wrong can expose sensitive functions to attackers.</p>
+                    
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>Visibility</th>
+                                <th>Who Can Call</th>
+                                <th>Use Case</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td><code>public</code></td>
+                                <td>Anyone (external + internal)</td>
+                                <td>User-facing functions, getters</td>
+                            </tr>
+                            <tr>
+                                <td><code>external</code></td>
+                                <td>Only from outside</td>
+                                <td>API endpoints (slightly cheaper than public)</td>
+                            </tr>
+                            <tr>
+                                <td><code>internal</code></td>
+                                <td>This contract + children</td>
+                                <td>Helper functions, shared logic</td>
+                            </tr>
+                            <tr>
+                                <td><code>private</code></td>
+                                <td>Only this exact contract</td>
+                                <td>Implementation details</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                    
+                    <div class="code-block" data-language="Solidity">
+                        <pre><code class="language-solidity">contract VisibilityExample {
+    function publicFunc() public { }      // Anyone can call
+    function externalFunc() external { }  // Only external calls
+    function internalFunc() internal { }  // This contract + children
+    function privateFunc() private { }    // ONLY this contract
+}
+
+// SECURITY WARNING: A common vulnerability!
+function _mint(address to, uint256 amount) public {  // OOPS! Should be internal!
+    // Anyone can call this and mint unlimited tokens!
+}</code></pre>
+                    </div>
+                    
+                    <div class="callout callout-danger">
+                        <strong>Security Note:</strong> <code>private</code> does NOT mean the data is hidden! All blockchain data is public. Private only restricts which contracts can call the function. Anyone can still read private variables by examining the blockchain state directly.
+                    </div>
+                </div>
+                
+                <div class="slide-footer">
+                    <span class="presenter">Gilang Bhagaskara | Certified Blockchain Professional</span>
+                </div>
+            </section>
+
+            <!-- ============================================
+                 SLIDE 13: STATE MUTABILITY
+                 ============================================ -->
+            <section data-background="#043854">
+                <div class="slide-header">
+                    <img src="../assets/images/logo-blocksphere.png" alt="Blocksphere" class="logo">
+                </div>
+                
+                <div class="slide-content">
+                    <h2>Function State Mutability</h2>
+                    
+                    <p>Beyond visibility, functions declare what they can do with contract state. These keywords help the compiler catch bugs and let users know which calls are free (read-only) vs. cost gas (write operations).</p>
+                    
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>Keyword</th>
+                                <th>Can Read State</th>
+                                <th>Can Modify State</th>
+                                <th>Costs Gas</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>(none)</td>
+                                <td>✅</td>
+                                <td>✅</td>
+                                <td>✅ (if writes)</td>
+                            </tr>
+                            <tr>
+                                <td><code>view</code></td>
+                                <td>✅</td>
+                                <td>❌</td>
+                                <td>Free*</td>
+                            </tr>
+                            <tr>
+                                <td><code>pure</code></td>
+                                <td>❌</td>
+                                <td>❌</td>
+                                <td>Free*</td>
+                            </tr>
+                            <tr>
+                                <td><code>payable</code></td>
+                                <td>✅</td>
+                                <td>✅</td>
+                                <td>✅</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                    <p style="font-size: 0.7em; color: rgba(255,255,255,0.6);">*Free when called externally (off-chain). Costs gas when called from another contract.</p>
+                    
+                    <div class="code-block" data-language="Solidity">
+                        <pre><code class="language-solidity">contract MutabilityExample {
+    uint256 public value = 100;
+    
+    // Can read and modify state
+    function setValue(uint256 _val) public {
+        value = _val;  // Modifies state - costs gas
+    }
+    
+    // Can only read state (free to call externally)
+    function getValue() public view returns (uint256) {
+        return value;  // Reads state only
+    }
+    
+    // Cannot access state at all (pure computation)
+    function double(uint256 x) public pure returns (uint256) {
+        return x * 2;  // No state access
+    }
+    
+    // Can receive ETH
+    function deposit() public payable {
+        // msg.value contains the ETH sent with this call
+    }
+}</code></pre>
+                    </div>
+                </div>
+                
+                <div class="slide-footer">
+                    <span class="presenter">Gilang Bhagaskara | Certified Blockchain Professional</span>
+                </div>
+            </section>
+
+            <!-- ============================================
+                 SLIDE 14: MODIFIERS
+                 ============================================ -->
+            <section data-background="#043854">
+                <div class="slide-header">
+                    <img src="../assets/images/logo-blocksphere.png" alt="Blocksphere" class="logo">
+                </div>
+                
+                <div class="slide-content">
+                    <h2>Modifiers: Reusable Access Control</h2>
+                    
+                    <p>Modifiers are reusable code snippets that run BEFORE (and optionally after) a function body. They're perfect for access control checks, validation, and state requirements. The <code>_</code> symbol represents where the function body gets inserted.</p>
+                    
+                    <div class="code-block" data-language="Solidity">
+                        <pre><code class="language-solidity">// Define modifiers
+modifier onlyAdmin() {
+    require(msg.sender == admin, "Only admin");
+    _;  // Function body runs here if check passes
+}
+
+modifier onlyBuyer(uint256 invoiceId) {
+    require(msg.sender == invoices[invoiceId].buyer, "Only buyer");
+    _;
+}
+
+modifier inStatus(uint256 invoiceId, InvoiceStatus required) {
+    require(invoices[invoiceId].status == required, "Invalid status");
+    _;
+}
+
+// Use modifiers - they stack!
+function approveInvoice(uint256 invoiceId) 
+    external 
+    onlyBuyer(invoiceId)                         // Check 1
+    inStatus(invoiceId, InvoiceStatus.Created)   // Check 2
+{
+    // Only runs if BOTH modifiers pass
+    invoices[invoiceId].status = InvoiceStatus.Approved;
+    invoices[invoiceId].approvedAt = block.timestamp;
+}</code></pre>
+                    </div>
+                    
+                    <div class="callout callout-info">
+                        <strong>Execution Order:</strong> When stacking multiple modifiers, they execute in order (left to right). If any modifier fails, the entire transaction reverts—subsequent modifiers and the function body never run.
+                    </div>
+                </div>
+                
+                <div class="slide-footer">
+                    <span class="presenter">Gilang Bhagaskara | Certified Blockchain Professional</span>
+                </div>
+            </section>
+
+            <!-- ============================================
+                 SLIDE 15: EVENTS
+                 ============================================ -->
+            <section data-background="#043854">
+                <div class="slide-header">
+                    <img src="../assets/images/logo-blocksphere.png" alt="Blocksphere" class="logo">
+                </div>
+                
+                <div class="slide-content">
+                    <h2>Events: Logging on the Blockchain</h2>
+                    
+                    <p>Events are Solidity's logging mechanism. They're stored on the blockchain but NOT in contract storage—making them much cheaper than state variables. They're essential for tracking history, debugging, and notifying frontend applications.</p>
+                    
+                    <h3>Why Use Events?</h3>
+                    <ul>
+                        <li><strong>Audit Trail:</strong> Permanent record of who did what and when</li>
+                        <li><strong>Frontend Notifications:</strong> Web3 apps can listen for events in real-time</li>
+                        <li><strong>Cheap Storage:</strong> ~375 gas per indexed topic vs. 20,000 gas for storage write</li>
+                        <li><strong>Searchable:</strong> The <code>indexed</code> keyword makes parameters filterable</li>
+                    </ul>
+                    
+                    <div class="code-block" data-language="Solidity">
+                        <pre><code class="language-solidity">// Declare events (up to 3 indexed parameters)
+event InvoiceCreated(
+    uint256 indexed id,       // indexed = searchable
+    address indexed supplier,
+    address indexed buyer,
+    uint256 amount            // not indexed (still logged)
+);
+
+event InvoiceApproved(uint256 indexed id, uint256 approvedAt);
+event InvoiceFunded(uint256 indexed id, address indexed financier, uint256 amount);
+
+// Emit events in functions
+function createInvoice(...) external returns (uint256) {
+    // ... create invoice logic ...
+    
+    emit InvoiceCreated(invoiceCount, msg.sender, _buyer, _amount);
+    
+    return invoiceCount;
+}</code></pre>
+                    </div>
+                    
+                    <div class="callout callout-success">
+                        <strong>Best Practice:</strong> Emit events for every state change. They cost little gas but provide invaluable debugging information and frontend integration.
+                    </div>
+                </div>
+                
+                <div class="slide-footer">
+                    <span class="presenter">Gilang Bhagaskara | Certified Blockchain Professional</span>
+                </div>
+            </section>
+
+            <!-- ============================================
+                 SLIDE 16: ERROR HANDLING
+                 ============================================ -->
+            <section data-background="#043854">
+                <div class="slide-header">
+                    <img src="../assets/images/logo-blocksphere.png" alt="Blocksphere" class="logo">
+                </div>
+                
+                <div class="slide-content">
+                    <h2>Error Handling in Solidity</h2>
+                    
+                    <p>Solidity provides three ways to handle errors, each with different use cases and gas implications. When an error triggers, the transaction reverts—all state changes are undone and remaining gas is refunded.</p>
+                    
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>Method</th>
+                                <th>Use Case</th>
+                                <th>Gas Refund</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td><code>require()</code></td>
+                                <td>Input validation, access control</td>
+                                <td>Yes</td>
+                            </tr>
+                            <tr>
+                                <td><code>revert()</code></td>
+                                <td>Explicit conditional revert</td>
+                                <td>Yes</td>
+                            </tr>
+                            <tr>
+                                <td><code>assert()</code></td>
+                                <td>Internal invariants (should never fail)</td>
+                                <td>No (consumes all gas)</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                    
+                    <div class="code-block" data-language="Solidity">
+                        <pre><code class="language-solidity">function withdraw(uint256 amount) external {
+    // require() - validate inputs and preconditions (90% of checks)
+    require(amount > 0, "Amount must be positive");
+    require(balances[msg.sender] >= amount, "Insufficient balance");
+    
+    // assert() - check invariants that should NEVER be false
+    // If this fails, you have a bug in your code
+    assert(totalSupply >= amount);
+    
+    // revert() - explicit conditional revert with custom logic
+    if (paused) {
+        revert("Contract is paused");
+    }
+    
+    balances[msg.sender] -= amount;
+    payable(msg.sender).transfer(amount);
+}</code></pre>
+                    </div>
+                    
+                    <div class="callout callout-info">
+                        <strong>Rule of Thumb:</strong> Use <code>require()</code> for checking external inputs and conditions. Use <code>assert()</code> only for internal errors that indicate bugs. Use <code>revert()</code> when you need complex conditional logic.
+                    </div>
+                </div>
+                
+                <div class="slide-footer">
+                    <span class="presenter">Gilang Bhagaskara | Certified Blockchain Professional</span>
+                </div>
+            </section>
+
+            <!-- ============================================
+                 SLIDE 17: CUSTOM ERRORS
+                 ============================================ -->
+            <section data-background="#043854">
+                <div class="slide-header">
+                    <img src="../assets/images/logo-blocksphere.png" alt="Blocksphere" class="logo">
+                </div>
+                
+                <div class="slide-content">
+                    <h2>Custom Errors: Gas-Efficient Reverts</h2>
+                    
+                    <p>Since Solidity 0.8.4, you can define custom errors that are much cheaper than string error messages. Strings are stored in the contract bytecode and included in the revert data—custom errors just include a selector and parameters.</p>
+                    
+                    <div class="two-columns">
+                        <div>
+                            <h4 style="color: #ef4444;">Old Way: String Messages</h4>
+                            <div class="code-block" data-language="Solidity">
+                                <pre><code class="language-solidity">// Each string costs ~200 gas more
+require(
+    msg.sender == admin,
+    "Only admin can call this"
+);</code></pre>
+                            </div>
+                        </div>
+                        <div>
+                            <h4 style="color: #10b981;">New Way: Custom Errors</h4>
+                            <div class="code-block" data-language="Solidity">
+                                <pre><code class="language-solidity">// Define at contract level
+error NotAdmin(address caller);
+error InsufficientFunds(uint256 have, uint256 need);
+
+// Use with revert
+if (msg.sender != admin) {
+    revert NotAdmin(msg.sender);
+}</code></pre>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <h3>Benefits of Custom Errors</h3>
+                    <ul>
+                        <li><strong>~50% Gas Savings:</strong> No string storage overhead</li>
+                        <li><strong>Structured Data:</strong> Include relevant parameters for debugging</li>
+                        <li><strong>Better DevX:</strong> Tools can decode error parameters automatically</li>
+                        <li><strong>Type Safety:</strong> Compiler catches typos in error names</li>
+                    </ul>
+                    
+                    <div class="callout callout-success">
+                        <strong>Production Best Practice:</strong> Use custom errors in all new contracts. They're the standard for modern Solidity development.
+                    </div>
+                </div>
+                
+                <div class="slide-footer">
+                    <span class="presenter">Gilang Bhagaskara | Certified Blockchain Professional</span>
+                </div>
+            </section>
+
+            <!-- ============================================
+                 SLIDE 18: SPEED ROUND QUIZ
+                 ============================================ -->
+            <section data-background="#043854">
+                <div class="slide-header">
+                    <img src="../assets/images/logo-blocksphere.png" alt="Blocksphere" class="logo">
+                </div>
+                
+                <div class="slide-content">
+                    <h2>🏆 Speed Round: Visibility Quiz!</h2>
+                    
+                    <p>Quick fire! For each scenario, what visibility would you use?</p>
+                    
+                    <div class="reveal-answer" style="margin-bottom: 12px;">
+                        <p><strong>Q1:</strong> A function that calculates tax rate, used only within this contract</p>
+                        <div class="answer-content">
+                            <p style="color: #10b981;"><strong>Answer:</strong> <code>private</code> or <code>internal</code></p>
+                        </div>
+                        <p class="reveal-hint">Click to reveal</p>
+                    </div>
+                    
+                    <div class="reveal-answer" style="margin-bottom: 12px;">
+                        <p><strong>Q2:</strong> A function that users call to withdraw their balance</p>
+                        <div class="answer-content">
+                            <p style="color: #10b981;"><strong>Answer:</strong> <code>external</code> (or <code>public</code>)</p>
+                        </div>
+                        <p class="reveal-hint">Click to reveal</p>
+                    </div>
+                    
+                    <div class="reveal-answer" style="margin-bottom: 12px;">
+                        <p><strong>Q3:</strong> A helper function that child contracts should also be able to use</p>
+                        <div class="answer-content">
+                            <p style="color: #10b981;"><strong>Answer:</strong> <code>internal</code></p>
+                        </div>
+                        <p class="reveal-hint">Click to reveal</p>
+                    </div>
+                    
+                    <div class="reveal-answer" style="margin-bottom: 12px;">
+                        <p><strong>Q4:</strong> A function that returns the current admin address</p>
+                        <div class="answer-content">
+                            <p style="color: #10b981;"><strong>Answer:</strong> <code>public view</code> or <code>external view</code></p>
+                        </div>
+                        <p class="reveal-hint">Click to reveal</p>
+                    </div>
+                    
+                    <div class="reveal-answer">
+                        <p><strong>Q5:</strong> A state variable storing sensitive configuration (trick question!)</p>
+                        <div class="answer-content">
+                            <p style="color: #10b981;"><strong>Answer:</strong> State variables can't be <code>external</code>. Use <code>private</code>—but remember data is STILL visible on-chain! Nothing is truly secret.</p>
+                        </div>
+                        <p class="reveal-hint">Click to reveal</p>
+                    </div>
+                </div>
+                
+                <div class="slide-footer">
+                    <span class="presenter">Gilang Bhagaskara | Certified Blockchain Professional</span>
+                </div>
+            </section>
+
+            <!-- ============================================
+                 SLIDE 19: KEY TAKEAWAYS
+                 ============================================ -->
+            <section data-background="#043854">
+                <div class="slide-header">
+                    <img src="../assets/images/logo-blocksphere.png" alt="Blocksphere" class="logo">
+                </div>
+                
+                <div class="slide-content">
+                    <h2>Key Takeaways: Solidity Fundamentals</h2>
+                    
+                    <div class="progress-tracker">
+                        <div class="progress-item completed">
+                            <div class="progress-checkbox"></div>
+                            <div><strong>Contract Structure</strong> — pragma, state variables, functions, organized with comments</div>
+                        </div>
+                        <div class="progress-item completed">
+                            <div class="progress-checkbox"></div>
+                            <div><strong>Data Types</strong> — uint, address, arrays, structs, mappings (and their limitations)</div>
+                        </div>
+                        <div class="progress-item completed">
+                            <div class="progress-checkbox"></div>
+                            <div><strong>Storage Locations</strong> — storage (expensive), memory (moderate), calldata (cheapest)</div>
+                        </div>
+                        <div class="progress-item completed">
+                            <div class="progress-checkbox"></div>
+                            <div><strong>Visibility</strong> — public, external, internal, private (security implications!)</div>
+                        </div>
+                        <div class="progress-item completed">
+                            <div class="progress-checkbox"></div>
+                            <div><strong>Modifiers</strong> — reusable access control, stackable checks</div>
+                        </div>
+                        <div class="progress-item completed">
+                            <div class="progress-checkbox"></div>
+                            <div><strong>Events</strong> — cheap logging for frontends and audit trails</div>
+                        </div>
+                        <div class="progress-item completed">
+                            <div class="progress-checkbox"></div>
+                            <div><strong>Error Handling</strong> — require, revert, assert, and gas-efficient custom errors</div>
+                        </div>
+                    </div>
+                    
+                    <div class="callout callout-info" style="margin-top: 20px;">
+                        <strong>The Big Picture:</strong> Solidity is about STATE and TRANSITIONS. Think like a state machine. Every line costs money (gas). Security first, features second.
+                    </div>
+                </div>
+                
+                <div class="slide-footer">
+                    <span class="presenter">Gilang Bhagaskara | Certified Blockchain Professional</span>
+                </div>
+            </section>
+
+            <!-- ============================================
+                 SLIDE 20: SESSION COMPLETE
+                 ============================================ -->
+            <section data-background="linear-gradient(135deg, #043854 0%, #065a7a 100%)">
+                <div class="slide-header">
+                    <img src="../assets/images/logo-blocksphere.png" alt="Blocksphere" class="logo">
+                </div>
+                
+                <div class="title-slide">
+                    <h1 style="font-size: 2.2em;">Solidity Foundations: Complete!</h1>
+                    <p class="subtitle">Time to write REAL functions!</p>
+                    
+                    <div style="margin-top: 40px; text-align: left; max-width: 600px; margin-left: auto; margin-right: auto;">
+                        <h3 style="color: var(--bs-accent);">Up Next: Smart Contract Development Lab</h3>
+                        <p style="font-size: 0.9em;">We'll implement the actual business logic:</p>
+                        <ul style="font-size: 0.85em;">
+                            <li><code>createInvoice()</code> — Supplier creates new invoices</li>
+                            <li><code>approveInvoice()</code> — Buyer approves payment</li>
+                            <li><code>requestEarlyPayment()</code> — Supplier requests financing</li>
+                            <li><code>fund()</code> — Financier provides capital</li>
+                            <li><code>settle()</code> — Buyer pays back financier</li>
+                        </ul>
+                    </div>
+                    
+                    <p class="session-info" style="margin-top: 30px;">
+                        100% Hands-On Coding — No More Theory!
+                    </p>
+                </div>
+                
+                <div class="slide-footer">
+                    <span class="presenter">Gilang Bhagaskara | Certified Blockchain Professional</span>
+                    <span>blocksphere.id</span>
+                </div>
+            </section>
+
+        </div>
+    </div>
+
+    <!-- Reveal.js -->
+    <script src="https://cdn.jsdelivr.net/npm/reveal.js@5.0.4/dist/reveal.js"></script>
+    
+    <!-- Highlight.js -->
+    <script src="https://cdn.jsdelivr.net/npm/highlight.js@11.9.0/lib/highlight.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/highlight.js@11.9.0/lib/languages/javascript.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/highlight.js@11.9.0/lib/languages/solidity.min.js"></script>
+    
+    <!-- Mermaid -->
+    <script src="https://cdn.jsdelivr.net/npm/mermaid@10.6.1/dist/mermaid.min.js"></script>
+    
+    <!-- Custom Interactive Functions -->
+    <script src="../assets/js/interactive.js"></script>
+    
+    <script>
+        // Initialize Reveal.js
+        Reveal.initialize({
+            hash: true,
+            slideNumber: 'c/t',
+            showSlideNumber: 'all',
+            transition: 'slide',
+            transitionSpeed: 'default',
+            backgroundTransition: 'fade',
+            pdfSeparateFragments: false,
+            width: 1920,
+            height: 1080,
+            margin: 0.04,
+            minScale: 0.2,
+            maxScale: 2.0
+        });
+        
+        // Initialize Mermaid
+        mermaid.initialize({
+            startOnLoad: true,
+            theme: 'base',
+            themeVariables: {
+                primaryColor: '#4a9ea4',
+                primaryTextColor: '#043854',
+                primaryBorderColor: '#043854',
+                lineColor: '#4a9ea4',
+                secondaryColor: '#ffffff',
+                tertiaryColor: '#f8fafc',
+                fontSize: '16px'
+            }
+        });
+        
+        // Initialize code highlighting
+        hljs.highlightAll();
+    </script>
+</body>
+</html>

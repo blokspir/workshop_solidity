@@ -1,0 +1,364 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Web3 Engineering Training | Blocksphere.id</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bs-primary: #043854;
+            --bs-accent: #4a9ea4;
+            --bs-white: #ffffff;
+            --bs-light-bg: #f8fafc;
+        }
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Inter', system-ui, -apple-system, sans-serif;
+            background: linear-gradient(135deg, var(--bs-primary) 0%, #065a7a 100%);
+            min-height: 100vh;
+            color: var(--bs-white);
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 40px 20px;
+        }
+        
+        /* Header */
+        header {
+            text-align: center;
+            padding: 60px 20px;
+        }
+        
+        .logo {
+            height: 60px;
+            margin-bottom: 30px;
+        }
+        
+        header h1 {
+            font-size: 3em;
+            font-weight: 800;
+            margin-bottom: 15px;
+            background: linear-gradient(135deg, var(--bs-white) 0%, var(--bs-accent) 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+        
+        header .subtitle {
+            font-size: 1.4em;
+            color: var(--bs-accent);
+            margin-bottom: 10px;
+        }
+        
+        header .presenter {
+            font-size: 1.1em;
+            color: rgba(255, 255, 255, 0.8);
+        }
+        
+        header .presenter strong {
+            color: var(--bs-white);
+        }
+        
+        /* Topic Cards Grid */
+        .topics-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 25px;
+            margin-top: 40px;
+        }
+        
+        .topic-card {
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 20px;
+            padding: 35px;
+            text-decoration: none;
+            color: var(--bs-white);
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .topic-card:hover {
+            transform: translateY(-8px);
+            background: rgba(255, 255, 255, 0.1);
+            border-color: var(--bs-accent);
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.3);
+        }
+        
+        .topic-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 4px;
+            background: var(--bs-accent);
+            transform: scaleX(0);
+            transition: transform 0.3s ease;
+        }
+        
+        .topic-card:hover::before {
+            transform: scaleX(1);
+        }
+        
+        .topic-number {
+            display: inline-block;
+            background: var(--bs-accent);
+            color: var(--bs-white);
+            width: 40px;
+            height: 40px;
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 700;
+            font-size: 1.1em;
+            margin-bottom: 20px;
+        }
+        
+        .topic-card h2 {
+            font-size: 1.4em;
+            margin-bottom: 12px;
+            font-weight: 700;
+        }
+        
+        .topic-card .tagline {
+            font-size: 0.95em;
+            color: var(--bs-accent);
+            margin-bottom: 15px;
+            font-style: italic;
+        }
+        
+        .topic-card p {
+            font-size: 0.9em;
+            color: rgba(255, 255, 255, 0.7);
+            line-height: 1.6;
+            margin-bottom: 20px;
+        }
+        
+        .topic-card .meta {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            font-size: 0.8em;
+            color: rgba(255, 255, 255, 0.5);
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+            padding-top: 15px;
+            margin-top: auto;
+        }
+        
+        .topic-card .duration {
+            display: flex;
+            align-items: center;
+            gap: 5px;
+        }
+        
+        .topic-card .slides-count {
+            background: rgba(74, 158, 164, 0.3);
+            padding: 4px 10px;
+            border-radius: 12px;
+        }
+        
+        .topic-card .arrow {
+            position: absolute;
+            right: 25px;
+            top: 50%;
+            transform: translateY(-50%);
+            font-size: 1.5em;
+            opacity: 0;
+            transition: all 0.3s ease;
+        }
+        
+        .topic-card:hover .arrow {
+            opacity: 1;
+            right: 20px;
+        }
+        
+        /* Features Section */
+        .features {
+            margin-top: 80px;
+            padding: 60px 0;
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+        }
+        
+        .features h2 {
+            text-align: center;
+            font-size: 2em;
+            margin-bottom: 40px;
+        }
+        
+        .features-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 30px;
+        }
+        
+        .feature {
+            text-align: center;
+            padding: 25px;
+        }
+        
+        .feature-icon {
+            font-size: 2.5em;
+            margin-bottom: 15px;
+        }
+        
+        .feature h3 {
+            font-size: 1.1em;
+            margin-bottom: 10px;
+            color: var(--bs-accent);
+        }
+        
+        .feature p {
+            font-size: 0.9em;
+            color: rgba(255, 255, 255, 0.7);
+            line-height: 1.6;
+        }
+        
+        /* Footer */
+        footer {
+            text-align: center;
+            padding: 40px 20px;
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+            margin-top: 60px;
+        }
+        
+        footer p {
+            color: rgba(255, 255, 255, 0.5);
+            font-size: 0.9em;
+        }
+        
+        footer a {
+            color: var(--bs-accent);
+            text-decoration: none;
+        }
+        
+        footer a:hover {
+            text-decoration: underline;
+        }
+        
+        /* Responsive */
+        @media (max-width: 768px) {
+            header h1 {
+                font-size: 2em;
+            }
+            
+            .topics-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .topic-card {
+                padding: 25px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <img src="assets/images/logo-blocksphere.png" alt="Blocksphere.id" class="logo">
+            <h1>Web3 Engineering Training</h1>
+            <p class="subtitle">Build Secure Smart Contracts from Ground Up</p>
+            <p class="presenter">Presented by <strong>Gilang Bhagaskara</strong>, Certified Blockchain Professional</p>
+        </header>
+        
+        <main>
+            <div class="topics-grid">
+                <!-- Topic 1: Cryptographic Primitives -->
+                <a href="01-cryptographic-primitives/index.html" class="topic-card">
+                    <div class="topic-number">01</div>
+                    <h2>Cryptographic Primitives</h2>
+                    <p class="tagline">"The Building Blocks of Trust in Web3"</p>
+                    <p>Deep dive into hashing, Merkle trees, public key cryptography, digital signatures, and how Ethereum addresses are generated. Includes interactive hash demos and hands-on blockchain simulation.</p>
+                    <div class="meta">
+                        <span class="duration">⏱️ 2 hours</span>
+                        <span class="slides-count">~28 slides</span>
+                    </div>
+                    <span class="arrow">→</span>
+                </a>
+                
+                <!-- Topic 2: Solidity Fundamentals -->
+                <a href="02-solidity-fundamentals/index.html" class="topic-card">
+                    <div class="topic-number">02</div>
+                    <h2>Solidity Fundamentals</h2>
+                    <p class="tagline">"Building Smart Contracts for Finance"</p>
+                    <p>Master Solidity data types, storage vs memory, functions, modifiers, events, and error handling. Features interactive bug hunts and coding challenges to reinforce learning.</p>
+                    <div class="meta">
+                        <span class="duration">⏱️ 2 hours</span>
+                        <span class="slides-count">~35 slides</span>
+                    </div>
+                    <span class="arrow">→</span>
+                </a>
+                
+                <!-- Topic 3: Smart Contract Development -->
+                <a href="03-smart-contract-development/index.html" class="topic-card">
+                    <div class="topic-number">03</div>
+                    <h2>Smart Contract Development</h2>
+                    <p class="tagline">"No More Slides - Let's CODE!"</p>
+                    <p>Hands-on lab session building a real invoice factoring contract. Code-along format covering createInvoice(), approveInvoice(), testing, and deployment to local network.</p>
+                    <div class="meta">
+                        <span class="duration">⏱️ 1 hour</span>
+                        <span class="slides-count">~15 slides</span>
+                    </div>
+                    <span class="arrow">→</span>
+                </a>
+                
+                <!-- Topic 4: Security Best Practices -->
+                <a href="04-security-best-practices/index.html" class="topic-card">
+                    <div class="topic-number">04</div>
+                    <h2>Security Best Practices</h2>
+                    <p class="tagline">"Think Like a Hacker, Build Like a Fortress"</p>
+                    <p>Team competition format exploring reentrancy attacks, integer overflow, access control vulnerabilities. Learn to identify, exploit, and fix common smart contract security issues.</p>
+                    <div class="meta">
+                        <span class="duration">⏱️ 2 hours</span>
+                        <span class="slides-count">~34 slides</span>
+                    </div>
+                    <span class="arrow">→</span>
+                </a>
+            </div>
+            
+            <section class="features">
+                <h2>Interactive Learning Experience</h2>
+                <div class="features-grid">
+                    <div class="feature">
+                        <div class="feature-icon">🔧</div>
+                        <h3>Live Demos</h3>
+                        <p>Interactive hash calculators, wallet generators, and code executors built right into the slides.</p>
+                    </div>
+                    <div class="feature">
+                        <div class="feature-icon">🏆</div>
+                        <h3>Challenges & Games</h3>
+                        <p>Crack-the-hash puzzles, bug hunts, and team competitions to make learning engaging.</p>
+                    </div>
+                    <div class="feature">
+                        <div class="feature-icon">📊</div>
+                        <h3>Visual Diagrams</h3>
+                        <p>Animated Merkle trees, attack flow diagrams, and data structure visualizations.</p>
+                    </div>
+                    <div class="feature">
+                        <div class="feature-icon">💻</div>
+                        <h3>Copy-Ready Code</h3>
+                        <p>All code examples are copy-to-clipboard enabled for easy use in your own projects.</p>
+                    </div>
+                </div>
+            </section>
+        </main>
+        
+        <footer>
+            <p>© 2024 <a href="https://blocksphere.id" target="_blank">Blocksphere.id</a> | Training materials by Gilang Bhagaskara</p>
+        </footer>
+    </div>
+</body>
+</html>

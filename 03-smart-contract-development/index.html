@@ -1,0 +1,810 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Smart Contract Development Lab | Blocksphere Training</title>
+    
+    <!-- Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+    
+    <!-- Reveal.js -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/reveal.js@5.0.4/dist/reset.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/reveal.js@5.0.4/dist/reveal.css">
+    
+    <!-- Highlight.js for code -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/highlight.js@11.9.0/styles/atom-one-dark.min.css">
+    
+    <!-- Custom Theme -->
+    <link rel="stylesheet" href="../assets/css/blocksphere-theme.css">
+</head>
+<body>
+    <div class="reveal">
+        <div class="slides">
+            
+            <!-- ============================================
+                 SLIDE 1: TITLE SLIDE
+                 ============================================ -->
+            <section data-background="linear-gradient(135deg, #043854 0%, #065a7a 100%)">
+                <div class="slide-header">
+                    <img src="../assets/images/logo-blocksphere.png" alt="Blocksphere" class="logo">
+                    <span class="topic-badge">Day 2 | Session 3</span>
+                </div>
+                
+                <div class="title-slide">
+                    <h1>Smart Contract Development Lab</h1>
+                    <p class="subtitle">"No More Slides — Let's CODE!"</p>
+                    <p class="session-info">Full Hands-On Coding Session</p>
+                </div>
+                
+                <div class="slide-footer">
+                    <span class="presenter">Gilang Bhagaskara | Certified Blockchain Professional</span>
+                </div>
+            </section>
+
+            <!-- ============================================
+                 SLIDE 2: LAB OVERVIEW
+                 ============================================ -->
+            <section data-background="#043854">
+                <div class="slide-header">
+                    <img src="../assets/images/logo-blocksphere.png" alt="Blocksphere" class="logo">
+                </div>
+                
+                <div class="slide-content">
+                    <h2>What We're Building Today</h2>
+                    
+                    <p>This session is <strong>100% hands-on coding</strong>. We'll implement real business logic for our invoice factoring smart contract. You'll write every line of code yourself, guided step-by-step. If you fall behind, grab a partner or raise your hand!</p>
+                    
+                    <h3>By End of This Session:</h3>
+                    
+                    <div class="progress-tracker">
+                        <div class="progress-item" id="task-create">
+                            <div class="progress-checkbox"></div>
+                            <div><code>createInvoice()</code> — Supplier creates new invoices</div>
+                        </div>
+                        <div class="progress-item" id="task-approve">
+                            <div class="progress-checkbox"></div>
+                            <div><code>approveInvoice()</code> — Buyer approves payment</div>
+                        </div>
+                        <div class="progress-item" id="task-review">
+                            <div class="progress-checkbox"></div>
+                            <div>Pair code review — Learn from each other</div>
+                        </div>
+                        <div class="progress-item" id="task-request">
+                            <div class="progress-checkbox"></div>
+                            <div><code>requestEarlyPayment()</code> — Supplier requests financing</div>
+                        </div>
+                        <div class="progress-item" id="task-test">
+                            <div class="progress-checkbox"></div>
+                            <div>Test our functions — Verify everything works</div>
+                        </div>
+                    </div>
+                    
+                    <div class="callout callout-info">
+                        <strong>Format:</strong> I code, you code. Ask questions anytime. Help your neighbor if they're stuck. The best learning happens when we work together!
+                    </div>
+                </div>
+                
+                <div class="slide-footer">
+                    <span class="presenter">Gilang Bhagaskara | Certified Blockchain Professional</span>
+                </div>
+            </section>
+
+            <!-- ============================================
+                 SLIDE 3: SETUP CHECK
+                 ============================================ -->
+            <section data-background="#043854">
+                <div class="slide-header">
+                    <img src="../assets/images/logo-blocksphere.png" alt="Blocksphere" class="logo">
+                </div>
+                
+                <div class="slide-content">
+                    <h2>Quick Setup Check</h2>
+                    
+                    <p>Before we dive in, let's make sure everyone's environment is ready. Run these commands and confirm you see green checkmarks. If anything fails, pair up with someone who's ready—they can help you catch up.</p>
+                    
+                    <h3>Verification Checklist</h3>
+                    
+                    <div class="terminal">
+                        <div class="terminal-header">
+                            <span class="terminal-dot red"></span>
+                            <span class="terminal-dot yellow"></span>
+                            <span class="terminal-dot green"></span>
+                        </div>
+                        <div class="terminal-body">
+                            <span class="terminal-prompt">$</span> npx hardhat --version<br>
+                            <span class="terminal-output">2.19.0</span><br><br>
+                            
+                            <span class="terminal-prompt">$</span> ls contracts/<br>
+                            <span class="terminal-output">FactoringContract.sol</span><br><br>
+                            
+                            <span class="terminal-prompt">$</span> npx hardhat compile<br>
+                            <span class="terminal-output" style="color: #10b981;">✓ Compiled 1 Solidity file successfully</span>
+                        </div>
+                    </div>
+                    
+                    <h3>If You Get Errors:</h3>
+                    <ul>
+                        <li><strong>Hardhat not found:</strong> Run <code>npm install --save-dev hardhat</code></li>
+                        <li><strong>No contracts folder:</strong> Run <code>npx hardhat init</code> and select "Create an empty hardhat.config.js"</li>
+                        <li><strong>Compile fails:</strong> Check for typos, missing semicolons, or version mismatches</li>
+                    </ul>
+                    
+                    <div class="callout callout-success">
+                        <strong>Ready?</strong> Raise your hand if you see "Compiled successfully"! If not, pair up with someone nearby while we sort it out.
+                    </div>
+                </div>
+                
+                <div class="slide-footer">
+                    <span class="presenter">Gilang Bhagaskara | Certified Blockchain Professional</span>
+                </div>
+            </section>
+
+            <!-- ============================================
+                 SLIDE 4: CREATE INVOICE FUNCTION
+                 ============================================ -->
+            <section data-background="#043854">
+                <div class="slide-header">
+                    <img src="../assets/images/logo-blocksphere.png" alt="Blocksphere" class="logo">
+                </div>
+                
+                <div class="slide-content">
+                    <h2>Code-Along: createInvoice() Function</h2>
+                    
+                    <p>Let's build the <code>createInvoice()</code> function step by step. This is the primary function that suppliers will use to create new invoices. We'll implement proper validation, state changes, and event emission following the <strong>Checks-Effects-Interactions</strong> pattern.</p>
+                    
+                    <h3>Function Requirements</h3>
+                    <ul>
+                        <li>Supplier creates an invoice for a specific buyer</li>
+                        <li>Caller must be an authorized supplier</li>
+                        <li>Amount must be greater than zero</li>
+                        <li>Due date must be in the future</li>
+                        <li>Emit <code>InvoiceCreated</code> event</li>
+                        <li>Return the new invoice ID</li>
+                    </ul>
+                    
+                    <div class="code-block" data-language="Solidity">
+                        <button class="code-copy-btn">Copy</button>
+                        <pre><code class="language-solidity">/// @notice Create a new invoice
+/// @param _buyer Address of the buyer who will pay
+/// @param _amount Invoice amount in wei
+/// @param _dueDate Unix timestamp for payment due date
+/// @return invoiceId The ID of the newly created invoice
+function createInvoice(
+    address _buyer,
+    uint256 _amount,
+    uint256 _dueDate
+) external returns (uint256) {
+    // STEP 1: Validations (the "Checks")
+    require(authorizedSuppliers[msg.sender], "Not authorized supplier");
+    require(_amount > 0, "Amount must be positive");
+    require(_dueDate > block.timestamp, "Due date must be in future");
+    require(_buyer != address(0), "Invalid buyer address");
+    
+    // STEP 2: State changes (the "Effects")
+    invoiceCount++;
+    
+    invoices[invoiceCount] = Invoice({
+        id: invoiceCount,
+        supplier: msg.sender,
+        buyer: _buyer,
+        amount: _amount,
+        dueDate: _dueDate,
+        status: InvoiceStatus.Created,
+        createdAt: block.timestamp,
+        approvedAt: 0,
+        financier: address(0)
+    });
+    
+    // STEP 3: Emit event
+    emit InvoiceCreated(invoiceCount, msg.sender, _buyer, _amount);
+    
+    // STEP 4: Return the invoice ID
+    return invoiceCount;
+}</code></pre>
+                    </div>
+                </div>
+                
+                <div class="slide-footer">
+                    <span class="presenter">Gilang Bhagaskara | Certified Blockchain Professional</span>
+                </div>
+            </section>
+
+            <!-- ============================================
+                 SLIDE 5: UNDERSTANDING CREATE INVOICE
+                 ============================================ -->
+            <section data-background="#043854">
+                <div class="slide-header">
+                    <img src="../assets/images/logo-blocksphere.png" alt="Blocksphere" class="logo">
+                </div>
+                
+                <div class="slide-content">
+                    <h2>Understanding Each Validation</h2>
+                    
+                    <p>Let's break down why each validation in <code>createInvoice()</code> exists. Every <code>require()</code> statement protects against a specific attack vector or business logic error.</p>
+                    
+                    <div class="code-block" data-language="Solidity">
+                        <pre><code class="language-solidity">require(authorizedSuppliers[msg.sender], "Not authorized supplier");</code></pre>
+                    </div>
+                    <p><strong>Why:</strong> Only whitelisted suppliers can create invoices. Without this, anyone could flood the contract with fake invoices or impersonate legitimate businesses.</p>
+                    
+                    <div class="code-block" data-language="Solidity">
+                        <pre><code class="language-solidity">require(_amount > 0, "Amount must be positive");</code></pre>
+                    </div>
+                    <p><strong>Why:</strong> A zero-amount invoice has no economic purpose and could break financing calculations (division by zero, interest on zero, etc.).</p>
+                    
+                    <div class="code-block" data-language="Solidity">
+                        <pre><code class="language-solidity">require(_dueDate > block.timestamp, "Due date must be in future");</code></pre>
+                    </div>
+                    <p><strong>Why:</strong> Creating an already-overdue invoice makes no business sense and could be used to manipulate the system.</p>
+                    
+                    <div class="code-block" data-language="Solidity">
+                        <pre><code class="language-solidity">require(_buyer != address(0), "Invalid buyer address");</code></pre>
+                    </div>
+                    <p><strong>Why:</strong> The zero address is often the result of uninitialized variables. An invoice to address(0) could never be approved by anyone.</p>
+                    
+                    <div class="callout callout-warning">
+                        <strong>Discussion:</strong> Should we also require <code>_buyer != msg.sender</code> (can't invoice yourself)? What about <code>authorizedBuyers[_buyer]</code> (only known buyers)? These are business decisions you'll make with stakeholders.
+                    </div>
+                </div>
+                
+                <div class="slide-footer">
+                    <span class="presenter">Gilang Bhagaskara | Certified Blockchain Professional</span>
+                </div>
+            </section>
+
+            <!-- ============================================
+                 SLIDE 6: COMPILE CHECK
+                 ============================================ -->
+            <section data-background="#043854">
+                <div class="slide-header">
+                    <img src="../assets/images/logo-blocksphere.png" alt="Blocksphere" class="logo">
+                </div>
+                
+                <div class="slide-content">
+                    <h2>Checkpoint: Does It Compile?</h2>
+                    
+                    <p>Let's make sure everyone's code compiles before we move on. This is a good habit—compile frequently to catch errors early rather than debugging a mountain of code later.</p>
+                    
+                    <div class="terminal">
+                        <div class="terminal-header">
+                            <span class="terminal-dot red"></span>
+                            <span class="terminal-dot yellow"></span>
+                            <span class="terminal-dot green"></span>
+                        </div>
+                        <div class="terminal-body">
+                            <span class="terminal-prompt">$</span> npx hardhat compile<br><br>
+                            <span class="terminal-output" style="color: #10b981;">Compiled 1 Solidity file successfully</span>
+                        </div>
+                    </div>
+                    
+                    <h3>Common Compilation Errors</h3>
+                    
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>Error Message</th>
+                                <th>Likely Cause</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>"ParserError: Expected ';'"</td>
+                                <td>Missing semicolon at end of line</td>
+                            </tr>
+                            <tr>
+                                <td>"Undeclared identifier"</td>
+                                <td>Typo in variable name or missing declaration</td>
+                            </tr>
+                            <tr>
+                                <td>"Member not found"</td>
+                                <td>Wrong struct field name or accessing non-existent property</td>
+                            </tr>
+                            <tr>
+                                <td>"Expected visibility"</td>
+                                <td>Missing public/external/internal/private on state variable</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                    
+                    <div class="callout callout-success">
+                        <strong>Success?</strong> If you see "Compiled successfully", you're ready to proceed! If not, raise your hand or check with your neighbor.
+                    </div>
+                </div>
+                
+                <div class="slide-footer">
+                    <span class="presenter">Gilang Bhagaskara | Certified Blockchain Professional</span>
+                </div>
+            </section>
+
+            <!-- ============================================
+                 SLIDE 7: PAIR CODE REVIEW
+                 ============================================ -->
+            <section data-background="#043854">
+                <div class="slide-header">
+                    <img src="../assets/images/logo-blocksphere.png" alt="Blocksphere" class="logo">
+                </div>
+                
+                <div class="slide-content">
+                    <h2>👥 Pair Activity: Code Review!</h2>
+                    
+                    <p>Time to learn from each other! Swap screens with your partner and review their code. Real development teams do code reviews constantly—it's how we catch bugs and share knowledge.</p>
+                    
+                    <div class="challenge-box">
+                        <h3>Review Checklist (5 Minutes)</h3>
+                        
+                        <div class="challenge-timer" id="review-timer">5:00</div>
+                        <button class="demo-button" onclick="BlocksphereDemos.startTimer('review-timer', 300)">Start Timer</button>
+                    </div>
+                    
+                    <h3>Check Each Item:</h3>
+                    <ul>
+                        <li>Does the code compile without errors?</li>
+                        <li>Are all four validations present and correct?</li>
+                        <li>Is the struct creation complete with all fields?</li>
+                        <li>Is the event emitted with correct parameters?</li>
+                        <li>Any typos, style issues, or missing comments?</li>
+                    </ul>
+                    
+                    <h3>Discussion Questions:</h3>
+                    <ol>
+                        <li>"Could we add any other validations?"</li>
+                        <li>"What if the buyer address is the same as the supplier?"</li>
+                        <li>"Should we limit the maximum invoice amount?"</li>
+                    </ol>
+                    
+                    <div class="callout callout-info">
+                        <strong>Extra Challenge:</strong> Add validation to prevent self-invoicing: <code>require(_buyer != msg.sender, "Cannot invoice yourself");</code>
+                    </div>
+                </div>
+                
+                <div class="slide-footer">
+                    <span class="presenter">Gilang Bhagaskara | Certified Blockchain Professional</span>
+                </div>
+            </section>
+
+            <!-- ============================================
+                 SLIDE 8: APPROVE INVOICE FUNCTION
+                 ============================================ -->
+            <section data-background="#043854">
+                <div class="slide-header">
+                    <img src="../assets/images/logo-blocksphere.png" alt="Blocksphere" class="logo">
+                </div>
+                
+                <div class="slide-content">
+                    <h2>Code-Along: approveInvoice() Function</h2>
+                    
+                    <p>Now let's implement <code>approveInvoice()</code>. This function demonstrates the power of modifiers—notice how much cleaner the code is when validation logic is abstracted into reusable components.</p>
+                    
+                    <h3>Function Requirements</h3>
+                    <ul>
+                        <li>Only the buyer of that specific invoice can approve</li>
+                        <li>Invoice must be in "Created" status</li>
+                        <li>Update status to "Approved"</li>
+                        <li>Record the approval timestamp</li>
+                        <li>Emit <code>InvoiceApproved</code> event</li>
+                    </ul>
+                    
+                    <div class="code-block" data-language="Solidity">
+                        <button class="code-copy-btn">Copy</button>
+                        <pre><code class="language-solidity">/// @notice Buyer approves an invoice for payment
+/// @param _invoiceId The ID of the invoice to approve
+function approveInvoice(uint256 _invoiceId)
+    external
+    onlyBuyer(_invoiceId)                         // Modifier handles buyer check
+    inStatus(_invoiceId, InvoiceStatus.Created)   // Modifier handles status check
+{
+    // All validation is done by modifiers!
+    // Function body only contains state changes
+    
+    // STEP 1: Update status
+    invoices[_invoiceId].status = InvoiceStatus.Approved;
+    
+    // STEP 2: Record when approval happened
+    invoices[_invoiceId].approvedAt = block.timestamp;
+    
+    // STEP 3: Emit event for frontend notification
+    emit InvoiceApproved(_invoiceId, block.timestamp);
+}</code></pre>
+                    </div>
+                    
+                    <div class="callout callout-success">
+                        <strong>Notice:</strong> The function body is just 4 lines! All the validation complexity is hidden in modifiers, making the code readable and the logic obvious.
+                    </div>
+                </div>
+                
+                <div class="slide-footer">
+                    <span class="presenter">Gilang Bhagaskara | Certified Blockchain Professional</span>
+                </div>
+            </section>
+
+            <!-- ============================================
+                 SLIDE 9: MODIFIER POWER COMPARISON
+                 ============================================ -->
+            <section data-background="#043854">
+                <div class="slide-header">
+                    <img src="../assets/images/logo-blocksphere.png" alt="Blocksphere" class="logo">
+                </div>
+                
+                <div class="slide-content">
+                    <h2>The Power of Modifiers: Before & After</h2>
+                    
+                    <p>Let's compare what <code>approveInvoice()</code> would look like without modifiers versus with them. This illustrates why modifiers are such a valuable pattern for smart contract development.</p>
+                    
+                    <div class="two-columns">
+                        <div>
+                            <h4 style="color: #ef4444;">Without Modifiers (Verbose)</h4>
+                            <div class="code-block" data-language="Solidity">
+                                <pre><code class="language-solidity">function approveInvoice(uint256 _invoiceId) 
+    external 
+{
+    require(
+        msg.sender == invoices[_invoiceId].buyer,
+        "Only buyer can approve"
+    );
+    require(
+        invoices[_invoiceId].status == 
+            InvoiceStatus.Created,
+        "Invoice not in Created status"
+    );
+    
+    invoices[_invoiceId].status = 
+        InvoiceStatus.Approved;
+    invoices[_invoiceId].approvedAt = 
+        block.timestamp;
+    emit InvoiceApproved(
+        _invoiceId, 
+        block.timestamp
+    );
+}</code></pre>
+                            </div>
+                            <p style="font-size: 0.8em; color: #ef4444;">~15 lines, repeated validation logic</p>
+                        </div>
+                        <div>
+                            <h4 style="color: #10b981;">With Modifiers (Clean)</h4>
+                            <div class="code-block" data-language="Solidity">
+                                <pre><code class="language-solidity">function approveInvoice(uint256 _invoiceId)
+    external
+    onlyBuyer(_invoiceId)
+    inStatus(_invoiceId, InvoiceStatus.Created)
+{
+    invoices[_invoiceId].status = 
+        InvoiceStatus.Approved;
+    invoices[_invoiceId].approvedAt = 
+        block.timestamp;
+    emit InvoiceApproved(
+        _invoiceId, 
+        block.timestamp
+    );
+}</code></pre>
+                            </div>
+                            <p style="font-size: 0.8em; color: #10b981;">~10 lines, reusable validation</p>
+                        </div>
+                    </div>
+                    
+                    <h3>Benefits of Modifiers</h3>
+                    <ul>
+                        <li><strong>Reusable:</strong> Same validation used across multiple functions</li>
+                        <li><strong>Readable:</strong> Function signature tells you the requirements</li>
+                        <li><strong>Auditable:</strong> Easier for security reviewers to verify access control</li>
+                        <li><strong>Consistent:</strong> Same error messages throughout the contract</li>
+                    </ul>
+                </div>
+                
+                <div class="slide-footer">
+                    <span class="presenter">Gilang Bhagaskara | Certified Blockchain Professional</span>
+                </div>
+            </section>
+
+            <!-- ============================================
+                 SLIDE 10: MINI COMPETITION
+                 ============================================ -->
+            <section data-background="#043854">
+                <div class="slide-header">
+                    <img src="../assets/images/logo-blocksphere.png" alt="Blocksphere" class="logo">
+                </div>
+                
+                <div class="slide-content">
+                    <h2>🏁 Race: First to Compile!</h2>
+                    
+                    <p>Time for a quick competition! Using what you've learned, implement <code>requestEarlyPayment()</code> on your own. First person to compile successfully wins bragging rights!</p>
+                    
+                    <div class="challenge-box">
+                        <h3>Implement requestEarlyPayment()</h3>
+                        
+                        <div class="challenge-timer" id="race-timer">3:00</div>
+                        <button class="demo-button" onclick="BlocksphereDemos.startTimer('race-timer', 180)">START RACE!</button>
+                    </div>
+                    
+                    <h3>Requirements:</h3>
+                    <ul>
+                        <li>Only the supplier of that invoice can call it</li>
+                        <li>Invoice must be in "Approved" status</li>
+                        <li>Update status to "FinancingRequested"</li>
+                        <li>Emit <code>FinancingRequested</code> event with invoiceId and supplier address</li>
+                    </ul>
+                    
+                    <div class="reveal-answer" id="race-solution">
+                        <div class="answer-content">
+                            <div class="code-block" data-language="Solidity">
+                                <pre><code class="language-solidity">/// @notice Supplier requests early payment (financing)
+/// @param _invoiceId The ID of the invoice
+function requestEarlyPayment(uint256 _invoiceId)
+    external
+    onlySupplier(_invoiceId)
+    inStatus(_invoiceId, InvoiceStatus.Approved)
+{
+    invoices[_invoiceId].status = InvoiceStatus.FinancingRequested;
+    
+    emit FinancingRequested(_invoiceId, msg.sender);
+}</code></pre>
+                            </div>
+                        </div>
+                        <p class="reveal-hint">👆 Click to reveal solution</p>
+                    </div>
+                </div>
+                
+                <div class="slide-footer">
+                    <span class="presenter">Gilang Bhagaskara | Certified Blockchain Professional</span>
+                </div>
+            </section>
+
+            <!-- ============================================
+                 SLIDE 11: TESTING CHECKPOINT
+                 ============================================ -->
+            <section data-background="#043854">
+                <div class="slide-header">
+                    <img src="../assets/images/logo-blocksphere.png" alt="Blocksphere" class="logo">
+                </div>
+                
+                <div class="slide-content">
+                    <h2>Testing Checkpoint: Let's Verify Our Code!</h2>
+                    
+                    <p>Writing code is only half the job—we need to test it! Let's use the Hardhat console to interact with our deployed contract and verify that everything works as expected.</p>
+                    
+                    <div class="code-block" data-language="JavaScript">
+                        <button class="code-copy-btn">Copy</button>
+                        <pre><code class="language-javascript">// Start Hardhat console
+// Run: npx hardhat console
+
+// Deploy the contract
+const Factory = await ethers.getContractFactory("FactoringContract");
+const contract = await Factory.deploy();
+await contract.waitForDeployment();
+console.log("Contract deployed to:", await contract.getAddress());
+
+// Get test accounts
+const [admin, supplier, buyer] = await ethers.getSigners();
+console.log("Admin:", admin.address);
+console.log("Supplier:", supplier.address);
+console.log("Buyer:", buyer.address);
+
+// Authorize supplier and buyer
+await contract.authorizeSupplier(supplier.address);
+await contract.authorizeBuyer(buyer.address);
+console.log("Users authorized!");
+
+// Create an invoice (as supplier)
+const amount = ethers.parseEther("100");
+const dueDate = Math.floor(Date.now() / 1000) + 86400 * 30; // 30 days
+const tx = await contract.connect(supplier).createInvoice(buyer.address, amount, dueDate);
+await tx.wait();
+console.log("Invoice created!");
+
+// Check the invoice
+const invoice = await contract.invoices(1);
+console.log("Invoice ID:", invoice.id.toString());
+console.log("Status:", invoice.status); // 0 = Created
+
+// Approve as buyer
+await contract.connect(buyer).approveInvoice(1);
+const updated = await contract.invoices(1);
+console.log("After approval, status:", updated.status); // 1 = Approved</code></pre>
+                    </div>
+                </div>
+                
+                <div class="slide-footer">
+                    <span class="presenter">Gilang Bhagaskara | Certified Blockchain Professional</span>
+                </div>
+            </section>
+
+            <!-- ============================================
+                 SLIDE 12: EXPECTED RESULTS
+                 ============================================ -->
+            <section data-background="#043854">
+                <div class="slide-header">
+                    <img src="../assets/images/logo-blocksphere.png" alt="Blocksphere" class="logo">
+                </div>
+                
+                <div class="slide-content">
+                    <h2>Test Results: What to Expect</h2>
+                    
+                    <p>When you run the test script, here's what you should see at each step. If something doesn't match, we'll troubleshoot together.</p>
+                    
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>Test</th>
+                                <th>Expected Result</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>Invoice created</td>
+                                <td>ID = 1 (first invoice)</td>
+                            </tr>
+                            <tr>
+                                <td>Initial status</td>
+                                <td>0 (InvoiceStatus.Created)</td>
+                            </tr>
+                            <tr>
+                                <td>After approve</td>
+                                <td>1 (InvoiceStatus.Approved)</td>
+                            </tr>
+                            <tr>
+                                <td>Supplier address</td>
+                                <td>Matches test signer</td>
+                            </tr>
+                            <tr>
+                                <td>Amount</td>
+                                <td>100 ETH (100000000000000000000 wei)</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                    
+                    <h3>Common Test Errors & Fixes</h3>
+                    
+                    <div class="code-block" data-language="JavaScript">
+                        <pre><code class="language-javascript">// Error: "Not authorized supplier"
+// Fix: You forgot to authorize the supplier first!
+await contract.authorizeSupplier(supplier.address);
+
+// Error: "Only buyer can approve"
+// Fix: You're calling approveInvoice from wrong account
+await contract.connect(buyer).approveInvoice(1);  // Use buyer, not admin!
+
+// Error: "Invoice not in Created status"
+// Fix: Invoice was already approved or status changed</code></pre>
+                    </div>
+                </div>
+                
+                <div class="slide-footer">
+                    <span class="presenter">Gilang Bhagaskara | Certified Blockchain Professional</span>
+                </div>
+            </section>
+
+            <!-- ============================================
+                 SLIDE 13: PROGRESS CHECK
+                 ============================================ -->
+            <section data-background="#043854">
+                <div class="slide-header">
+                    <img src="../assets/images/logo-blocksphere.png" alt="Blocksphere" class="logo">
+                </div>
+                
+                <div class="slide-content">
+                    <h2>Lab Progress Check</h2>
+                    
+                    <p>Let's see how far we've come. We've built the core invoice creation and approval flow—the foundation of any invoice factoring system.</p>
+                    
+                    <h3>Completed This Session:</h3>
+                    <div class="progress-tracker">
+                        <div class="progress-item completed">
+                            <div class="progress-checkbox"></div>
+                            <div><code>createInvoice()</code> — Suppliers can create new invoices ✅</div>
+                        </div>
+                        <div class="progress-item completed">
+                            <div class="progress-checkbox"></div>
+                            <div><code>approveInvoice()</code> — Buyers can approve invoices ✅</div>
+                        </div>
+                        <div class="progress-item completed">
+                            <div class="progress-checkbox"></div>
+                            <div><code>requestEarlyPayment()</code> — Suppliers can request financing ✅</div>
+                        </div>
+                        <div class="progress-item completed">
+                            <div class="progress-checkbox"></div>
+                            <div>Pair code review — Learned from each other ✅</div>
+                        </div>
+                        <div class="progress-item completed">
+                            <div class="progress-checkbox"></div>
+                            <div>Basic testing — Verified our code works ✅</div>
+                        </div>
+                    </div>
+                    
+                    <h3>Coming Up (Afternoon Session):</h3>
+                    <div class="progress-tracker">
+                        <div class="progress-item">
+                            <div class="progress-checkbox"></div>
+                            <div><code>fund()</code> — Financier pays the supplier early</div>
+                        </div>
+                        <div class="progress-item">
+                            <div class="progress-checkbox"></div>
+                            <div><code>settlePayment()</code> — Buyer pays back the financier</div>
+                        </div>
+                        <div class="progress-item">
+                            <div class="progress-checkbox"></div>
+                            <div>Comprehensive unit tests with Hardhat</div>
+                        </div>
+                        <div class="progress-item">
+                            <div class="progress-checkbox"></div>
+                            <div>Local network deployment</div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="slide-footer">
+                    <span class="presenter">Gilang Bhagaskara | Certified Blockchain Professional</span>
+                </div>
+            </section>
+
+            <!-- ============================================
+                 SLIDE 14: SESSION COMPLETE
+                 ============================================ -->
+            <section data-background="linear-gradient(135deg, #043854 0%, #065a7a 100%)">
+                <div class="slide-header">
+                    <img src="../assets/images/logo-blocksphere.png" alt="Blocksphere" class="logo">
+                </div>
+                
+                <div class="title-slide">
+                    <h1 style="font-size: 2.2em;">🎉 Lab Session Complete!</h1>
+                    <p class="subtitle">You've Written Real Smart Contract Code!</p>
+                    
+                    <div style="margin-top: 40px; text-align: left; max-width: 650px; margin-left: auto; margin-right: auto;">
+                        <h3 style="color: var(--bs-accent);">What You've Built:</h3>
+                        <ul style="font-size: 0.9em;">
+                            <li>A complete Invoice struct with 9 fields</li>
+                            <li>State management using mappings</li>
+                            <li>Access control with custom modifiers</li>
+                            <li>Event emissions for audit trails</li>
+                            <li>Three working business functions!</li>
+                        </ul>
+                        <p style="margin-top: 20px; color: var(--bs-accent); font-weight: 600;">This is a REAL smart contract foundation!</p>
+                    </div>
+                    
+                    <p class="session-info" style="margin-top: 30px;">
+                        Up Next: Security Best Practices — "Think Like a Hacker"
+                    </p>
+                </div>
+                
+                <div class="slide-footer">
+                    <span class="presenter">Gilang Bhagaskara | Certified Blockchain Professional</span>
+                    <span>blocksphere.id</span>
+                </div>
+            </section>
+
+        </div>
+    </div>
+
+    <!-- Reveal.js -->
+    <script src="https://cdn.jsdelivr.net/npm/reveal.js@5.0.4/dist/reveal.js"></script>
+    
+    <!-- Highlight.js -->
+    <script src="https://cdn.jsdelivr.net/npm/highlight.js@11.9.0/lib/highlight.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/highlight.js@11.9.0/lib/languages/javascript.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/highlight.js@11.9.0/lib/languages/solidity.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/highlight.js@11.9.0/lib/languages/bash.min.js"></script>
+    
+    <!-- Custom Interactive Functions -->
+    <script src="../assets/js/interactive.js"></script>
+    
+    <script>
+        Reveal.initialize({
+            hash: true,
+            slideNumber: 'c/t',
+            showSlideNumber: 'all',
+            transition: 'slide',
+            transitionSpeed: 'default',
+            backgroundTransition: 'fade',
+            pdfSeparateFragments: false,
+            width: 1920,
+            height: 1080,
+            margin: 0.04,
+            minScale: 0.2,
+            maxScale: 2.0
+        });
+        
+        hljs.highlightAll();
+    </script>
+</body>
+</html>

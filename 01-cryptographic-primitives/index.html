@@ -1,0 +1,1188 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cryptographic Primitives | Blocksphere Training</title>
+    
+    <!-- Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+    
+    <!-- Reveal.js -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/reveal.js@5.0.4/dist/reset.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/reveal.js@5.0.4/dist/reveal.css">
+    
+    <!-- Highlight.js for code -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/highlight.js@11.9.0/styles/atom-one-dark.min.css">
+    
+    <!-- Custom Theme -->
+    <link rel="stylesheet" href="../assets/css/blocksphere-theme.css">
+</head>
+<body>
+    <div class="reveal">
+        <div class="slides">
+            
+            <!-- ============================================
+                 SLIDE 1: TITLE SLIDE
+                 ============================================ -->
+            <section data-background="linear-gradient(135deg, #043854 0%, #065a7a 100%)">
+                <div class="slide-header">
+                    <img src="../assets/images/logo-blocksphere.png" alt="Blocksphere" class="logo">
+                    <span class="topic-badge">Day 1 | Session 2</span>
+                </div>
+                
+                <div class="title-slide">
+                    <h1>Cryptographic Primitives</h1>
+                    <p class="subtitle">"The Building Blocks of Trust in Web3"</p>
+                    <p class="session-info">Deep Dive into the Mathematics that Secures Billions</p>
+                </div>
+                
+                <div class="slide-footer">
+                    <span class="presenter">Gilang Bhagaskara | Certified Blockchain Professional</span>
+                </div>
+            </section>
+
+            <!-- ============================================
+                 SLIDE 2: THE STAKES - OPENING HOOK
+                 ============================================ -->
+            <section data-background="#043854">
+                <div class="slide-header">
+                    <img src="../assets/images/logo-blocksphere.png" alt="Blocksphere" class="logo">
+                </div>
+                
+                <div class="slide-content">
+                    <h2>Why Cryptography Matters: The Stakes</h2>
+                    
+                    <p>Before we dive into the technical details, let's understand why cryptographic primitives are absolutely critical in the blockchain space. The numbers are sobering, and they illustrate exactly what happens when cryptographic implementations go wrong.</p>
+                    
+                    <div class="two-columns" style="margin: 30px 0;">
+                        <div class="stat-highlight">
+                            <div class="stat-number">$3.8B</div>
+                            <div class="stat-label">Stolen in crypto hacks (2022)</div>
+                        </div>
+                        <div class="stat-highlight">
+                            <div class="stat-number">$1.7B</div>
+                            <div class="stat-label">Stolen in 2023</div>
+                        </div>
+                    </div>
+                    
+                    <p>Most of these attacks didn't involve breaking the cryptography itself—the mathematical foundations are incredibly robust. Instead, attackers exploited <strong>poor implementations</strong>, <strong>weak key management</strong>, and <strong>fundamental misunderstandings</strong> of how cryptographic primitives work.</p>
+                    
+                    <div class="callout callout-danger">
+                        <strong>Key Insight:</strong> Cryptography is your SHIELD. Understanding these primitives isn't just academic—it's the difference between building secure systems and becoming tomorrow's headline about a multi-million dollar hack.
+                    </div>
+                    
+                    <div class="placeholder-image" style="margin-top: 20px;">
+                        <span class="placeholder-icon">🔐</span>
+                        <span class="placeholder-text">[IMAGE: Infographic showing major crypto hacks - Ronin $625M, Poly Network $611M, Wormhole $326M]</span>
+                        <span class="placeholder-search">Search: "crypto hack statistics 2022 2023 infographic"</span>
+                    </div>
+                </div>
+                
+                <div class="slide-footer">
+                    <span class="presenter">Gilang Bhagaskara | Certified Blockchain Professional</span>
+                </div>
+            </section>
+
+            <!-- ============================================
+                 SLIDE 3: WHAT IS A HASH FUNCTION?
+                 ============================================ -->
+            <section data-background="#043854">
+                <div class="slide-header">
+                    <img src="../assets/images/logo-blocksphere.png" alt="Blocksphere" class="logo">
+                </div>
+                
+                <div class="slide-content">
+                    <h2>What is a Hash Function?</h2>
+                    
+                    <p>A hash function is one of the most fundamental building blocks in all of cryptography and blockchain technology. At its core, a hash function takes <strong>any input data</strong>—whether it's a single character, an entire book, or a multi-gigabyte file—and transforms it into a <strong>fixed-size output</strong> called a "hash" or "digest."</p>
+                    
+                    <p>Think of it like a <strong>fingerprint for data</strong>. Just as every person has a unique fingerprint that can identify them, every piece of data has a unique hash that can identify it. This analogy is powerful because fingerprints share key properties with cryptographic hashes:</p>
+                    
+                    <h3>Essential Properties of Hash Functions</h3>
+                    
+                    <ul>
+                        <li><strong>Deterministic:</strong> The same input will ALWAYS produce the same output. If you hash "Hello" today and hash "Hello" a year from now, you'll get identical results. This consistency is crucial for verification—if the hash doesn't match, you know the data has changed.</li>
+                        
+                        <li><strong>One-Way (Pre-image Resistance):</strong> Given a hash output, it is computationally infeasible to determine the original input. You can easily compute a hash from data, but you cannot reverse-engineer the data from its hash. This is why hashes are used to store passwords—even if an attacker gets the hash, they can't recover your password directly.</li>
+                        
+                        <li><strong>Collision-Resistant:</strong> It should be nearly impossible to find two different inputs that produce the same hash output. While collisions mathematically must exist (infinite inputs, finite outputs), a good hash function makes finding them practically impossible.</li>
+                        
+                        <li><strong>Avalanche Effect:</strong> A tiny change in input causes a dramatically different output. Change one character in a document, and the resulting hash looks completely unrelated to the original.</li>
+                    </ul>
+                    
+                    <div class="callout callout-info">
+                        <strong>Analogy:</strong> Think of hashing like a meat grinder. You can put a steak in and get ground beef out, but you can NEVER reconstruct the original steak from the ground beef. The transformation is irreversible.
+                    </div>
+                </div>
+                
+                <div class="slide-footer">
+                    <span class="presenter">Gilang Bhagaskara | Certified Blockchain Professional</span>
+                </div>
+            </section>
+
+            <!-- ============================================
+                 SLIDE 4: COMMON HASH ALGORITHMS
+                 ============================================ -->
+            <section data-background="#043854">
+                <div class="slide-header">
+                    <img src="../assets/images/logo-blocksphere.png" alt="Blocksphere" class="logo">
+                </div>
+                
+                <div class="slide-content">
+                    <h2>Common Hash Algorithms in Blockchain</h2>
+                    
+                    <p>Not all hash functions are created equal, and different blockchain platforms have made different choices based on security requirements, performance considerations, and historical context. Understanding these differences is important when working across different ecosystems.</p>
+                    
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>Algorithm</th>
+                                <th>Output Size</th>
+                                <th>Primary Use</th>
+                                <th>Notes</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td><strong>SHA-256</strong></td>
+                                <td>256 bits (64 hex chars)</td>
+                                <td>Bitcoin</td>
+                                <td>NSA-designed, part of SHA-2 family</td>
+                            </tr>
+                            <tr>
+                                <td><strong>Keccak-256</strong></td>
+                                <td>256 bits (64 hex chars)</td>
+                                <td>Ethereum</td>
+                                <td>Winner of SHA-3 competition</td>
+                            </tr>
+                            <tr>
+                                <td><strong>SHA-3</strong></td>
+                                <td>Variable</td>
+                                <td>General cryptography</td>
+                                <td>Standardized version of Keccak</td>
+                            </tr>
+                            <tr>
+                                <td><strong>RIPEMD-160</strong></td>
+                                <td>160 bits</td>
+                                <td>Bitcoin addresses</td>
+                                <td>Used with SHA-256 for addresses</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                    
+                    <div class="callout callout-warning">
+                        <strong>Critical Interview Question:</strong> Ethereum uses <strong>Keccak-256</strong>, which is NOT the same as standardized SHA-3! When NIST standardized SHA-3, they made small modifications to Keccak. Ethereum adopted the original Keccak before standardization, and changing would break compatibility. This distinction comes up frequently in technical interviews.
+                    </div>
+                    
+                    <p>The choice of hash function affects everything from transaction IDs to address generation to smart contract operations. When you call <code>keccak256()</code> in Solidity, you're using the same algorithm that secures the entire Ethereum network.</p>
+                </div>
+                
+                <div class="slide-footer">
+                    <span class="presenter">Gilang Bhagaskara | Certified Blockchain Professional</span>
+                </div>
+            </section>
+
+            <!-- ============================================
+                 SLIDE 5: INTERACTIVE HASH DEMO
+                 ============================================ -->
+            <section data-background="#043854">
+                <div class="slide-header">
+                    <img src="../assets/images/logo-blocksphere.png" alt="Blocksphere" class="logo">
+                </div>
+                
+                <div class="slide-content">
+                    <h2>Live Demo: Hashing in Action</h2>
+                    
+                    <p>Let's see hashing in action with an interactive demonstration. Type any text in the input field below and watch how the Keccak-256 algorithm transforms it into a fixed-length hash. Pay special attention to the <strong>avalanche effect</strong>—even a single character change produces a completely different hash.</p>
+                    
+                    <div class="interactive-demo">
+                        <h4>Interactive Keccak-256 Hash Calculator</h4>
+                        
+                        <input type="text" id="hash-input" class="demo-input" placeholder="Type anything here... try 'Hello Web3'" value="Hello Web3">
+                        
+                        <div style="margin: 15px 0;">
+                            <strong>Keccak-256 Hash Output:</strong>
+                        </div>
+                        <div id="hash-output" class="demo-output">Loading ethers.js...</div>
+                        
+                        <p style="margin-top: 20px; font-size: 0.8em; color: rgba(255,255,255,0.7);">
+                            <strong>Try this experiment:</strong> Type "Hello Web3" and note the hash. Then change just the "3" to "4" making it "Hello Web4". Notice how the entire hash changes dramatically—this is the avalanche effect in action. This property is what makes hashes useful for detecting even the tiniest modifications to data.
+                        </p>
+                    </div>
+                    
+                    <div class="code-block" data-language="JavaScript">
+                        <pre><code class="language-javascript">// This is the code running behind the demo above
+const { keccak256, toUtf8Bytes } = require('ethers');
+
+// Hash a message - any input produces exactly 64 hex characters
+const message = "Hello Web3";
+const hash = keccak256(toUtf8Bytes(message));
+console.log(hash);
+// Output: 0x8b1a944cf13a9a1c08facb2c9e98623ef3254d76d1c5b04a2a0e1c8c1e8d1f2a
+
+// The toUtf8Bytes() function converts the string to its byte representation
+// Then keccak256() processes those bytes through the hashing algorithm</code></pre>
+                    </div>
+                </div>
+                
+                <div class="slide-footer">
+                    <span class="presenter">Gilang Bhagaskara | Certified Blockchain Professional</span>
+                </div>
+            </section>
+
+            <!-- ============================================
+                 SLIDE 6: GOOGLE SHEETS BLOCKCHAIN DEMO
+                 ============================================ -->
+            <section data-background="#043854">
+                <div class="slide-header">
+                    <img src="../assets/images/logo-blocksphere.png" alt="Blocksphere" class="logo">
+                </div>
+                
+                <div class="slide-content">
+                    <h2>Hands-On: Blockchain in a Spreadsheet</h2>
+                    
+                    <p>One of the best ways to truly understand how hashing creates the "chain" in blockchain is to build one yourself. We've created an interactive Google Sheets simulation where you can experiment with a mock blockchain and see exactly how changes propagate through the chain.</p>
+                    
+                    <div class="google-sheets-demo">
+                        <h3>🔗 Interactive Blockchain Simulation</h3>
+                        <p>Open this Google Sheet to experiment with a working blockchain model. Try modifying transactions and watch how the hashes cascade through subsequent blocks!</p>
+                        <a href="#" class="demo-link" onclick="alert('Please replace this with your actual Google Sheets link'); return false;">
+                            📊 Open Blockchain Spreadsheet Demo
+                        </a>
+                        <p style="font-size: 0.75em; margin-top: 15px; opacity: 0.8;">
+                            [PLACEHOLDER: Replace the link above with your actual Google Sheets URL]
+                        </p>
+                    </div>
+                    
+                    <h3>What You'll Explore:</h3>
+                    
+                    <ul>
+                        <li><strong>Block Structure:</strong> See how each block contains a hash of the previous block, creating an unbreakable chain of data integrity.</li>
+                        <li><strong>Tamper Detection:</strong> Try changing a transaction in an earlier block and watch every subsequent block's hash change—instantly revealing the tampering.</li>
+                        <li><strong>Mining Simulation:</strong> Understand how changing the nonce affects the block hash and what it means to "find" a valid hash.</li>
+                        <li><strong>Chain Integrity:</strong> Verify for yourself why modifying historical data in a blockchain is practically impossible without detection.</li>
+                    </ul>
+                    
+                    <div class="callout callout-success">
+                        <strong>Learning Goal:</strong> After this exercise, you'll have an intuitive understanding of why blockchains are considered "immutable" and how cryptographic hashing makes this possible.
+                    </div>
+                </div>
+                
+                <div class="slide-footer">
+                    <span class="presenter">Gilang Bhagaskara | Certified Blockchain Professional</span>
+                </div>
+            </section>
+
+            <!-- ============================================
+                 SLIDE 7: CRACK THE HASH CHALLENGE
+                 ============================================ -->
+            <section data-background="#043854">
+                <div class="slide-header">
+                    <img src="../assets/images/logo-blocksphere.png" alt="Blocksphere" class="logo">
+                </div>
+                
+                <div class="slide-content">
+                    <h2>🏆 Challenge: Crack the Hash!</h2>
+                    
+                    <p>Now it's your turn to experience the security of hash functions firsthand. Below are three Keccak-256 hashes. Your mission: figure out what original words produced these hashes. Work with a partner and use any tools you like—online hash calculators, scripts, or even AI assistants.</p>
+                    
+                    <div class="challenge-box">
+                        <h3>Your Mission (5 Minutes)</h3>
+                        <p><strong>Hint:</strong> All answers are common English words between 4-6 letters. They're simpler than you might think!</p>
+                        
+                        <div class="challenge-timer" id="challenge-timer">5:00</div>
+                        <button class="demo-button" onclick="BlocksphereDemos.startTimer('challenge-timer', 300)">Start Timer</button>
+                        <button class="demo-button" onclick="BlocksphereDemos.resetTimer('challenge-timer', 300)" style="background: rgba(255,255,255,0.2);">Reset</button>
+                    </div>
+                    
+                    <div style="margin: 25px 0; font-family: 'JetBrains Mono', monospace; font-size: 0.7em;">
+                        <p><strong>Hash #1:</strong></p>
+                        <code style="word-break: break-all; display: block; background: #1e293b; padding: 10px; border-radius: 6px; margin-bottom: 15px;">0x1c8aff950685c2ed4bc3174f3472287b56d9517b9c948127319a09a7a36deac8</code>
+                        
+                        <p><strong>Hash #2:</strong></p>
+                        <code style="word-break: break-all; display: block; background: #1e293b; padding: 10px; border-radius: 6px; margin-bottom: 15px;">0x8452c9b9140222b08593a26daa782707297be9f7b3e8281d7b4974769f19afd0</code>
+                        
+                        <p><strong>Hash #3:</strong></p>
+                        <code style="word-break: break-all; display: block; background: #1e293b; padding: 10px; border-radius: 6px;">0x6c3e007e281f6948b37c511a11e43c8026d2a16a8a45fed4e83bb9bfbe8c578e</code>
+                    </div>
+                    
+                    <div class="reveal-answer" id="hash-answers">
+                        <div class="answer-content">
+                            <p><strong>Answers:</strong></p>
+                            <ul>
+                                <li>Hash #1: <code>hello</code></li>
+                                <li>Hash #2: <code>world</code></li>
+                                <li>Hash #3: <code>ether</code></li>
+                            </ul>
+                        </div>
+                        <p class="reveal-hint">👆 Click to reveal answers</p>
+                    </div>
+                </div>
+                
+                <div class="slide-footer">
+                    <span class="presenter">Gilang Bhagaskara | Certified Blockchain Professional</span>
+                </div>
+            </section>
+
+            <!-- ============================================
+                 SLIDE 8: CHALLENGE DISCUSSION
+                 ============================================ -->
+            <section data-background="#043854">
+                <div class="slide-header">
+                    <img src="../assets/images/logo-blocksphere.png" alt="Blocksphere" class="logo">
+                </div>
+                
+                <div class="slide-content">
+                    <h2>Challenge Debrief: Why Was This Hard?</h2>
+                    
+                    <p>Even with hints telling you the answers were simple 4-6 letter English words, finding those words wasn't instant. Let's discuss why, and what this tells us about hash security.</p>
+                    
+                    <h3>Key Insights from the Challenge</h3>
+                    
+                    <ul>
+                        <li><strong>You couldn't reverse the hash:</strong> The only way to find the answer was to guess words and check if their hash matched. There's no mathematical formula to go backwards from hash to input. This is the "one-way" property in action.</li>
+                        
+                        <li><strong>Simple inputs, impossible to guess at scale:</strong> Even knowing the answers were common words, you had to try many possibilities. Now imagine if the input was a complex password like <code>a8Kj#mP9!xQ2</code>—the search space becomes astronomically large.</li>
+                        
+                        <li><strong>This is why we hash passwords:</strong> When a website stores your password hash instead of your actual password, even if attackers steal the database, they can't easily recover passwords. They'd have to try billions of combinations.</li>
+                    </ul>
+                    
+                    <div class="callout callout-info">
+                        <strong>Dictionary Attacks:</strong> Attackers do use pre-computed tables of common word hashes (called "rainbow tables") to speed up password cracking. This is why modern systems add "salt"—random data added to passwords before hashing—to defeat these attacks.
+                    </div>
+                    
+                    <h3>The Math of Security</h3>
+                    <p>A 256-bit hash has 2<sup>256</sup> possible outputs. That's approximately 10<sup>77</sup> combinations—more than the estimated number of atoms in the observable universe. Brute-forcing a cryptographic hash is not just difficult; it's physically impossible with current or foreseeable technology.</p>
+                </div>
+                
+                <div class="slide-footer">
+                    <span class="presenter">Gilang Bhagaskara | Certified Blockchain Professional</span>
+                </div>
+            </section>
+
+            <!-- ============================================
+                 SLIDE 9: MERKLE TREES - CONCEPT
+                 ============================================ -->
+            <section data-background="#043854">
+                <div class="slide-header">
+                    <img src="../assets/images/logo-blocksphere.png" alt="Blocksphere" class="logo">
+                </div>
+                
+                <div class="slide-content">
+                    <h2>Merkle Trees: Efficient Data Verification</h2>
+                    
+                    <p>Named after computer scientist Ralph Merkle who invented them in 1979, Merkle trees are a brilliant data structure that allows us to verify the integrity of large datasets efficiently. They're fundamental to how blockchains work at scale.</p>
+                    
+                    <h3>The Problem Merkle Trees Solve</h3>
+                    <p>Imagine you want to verify that a specific transaction is included in a block containing 1,000 transactions. Without Merkle trees, you'd need to download and verify all 1,000 transactions. With Merkle trees, you only need about 10 hashes (log₂(1000) ≈ 10). This is the difference between downloading megabytes versus kilobytes.</p>
+                    
+                    <h3>How Merkle Trees Work</h3>
+                    <ul>
+                        <li><strong>Leaves:</strong> At the bottom of the tree, each transaction is hashed individually. These are the "leaf nodes."</li>
+                        <li><strong>Branches:</strong> Pairs of leaf hashes are concatenated and hashed together, forming parent nodes.</li>
+                        <li><strong>Root:</strong> This process continues up the tree until a single hash remains—the Merkle Root. This one hash is a fingerprint of ALL the data in the tree.</li>
+                    </ul>
+                    
+                    <div class="mermaid">
+                        graph TD
+                            ROOT["Merkle Root: Hash ABCD"]
+                            HAB["Hash AB"]
+                            HCD["Hash CD"]
+                            HA["Hash A"]
+                            HB["Hash B"]
+                            HC["Hash C"]
+                            HD["Hash D"]
+                            TXA["Tx A: Alice to Bob"]
+                            TXB["Tx B: Bob to Carol"]
+                            TXC["Tx C: Carol to Dave"]
+                            TXD["Tx D: Dave to Alice"]
+                            
+                            ROOT --> HAB
+                            ROOT --> HCD
+                            HAB --> HA
+                            HAB --> HB
+                            HCD --> HC
+                            HCD --> HD
+                            HA --> TXA
+                            HB --> TXB
+                            HC --> TXC
+                            HD --> TXD
+                    </div>
+                </div>
+                
+                <div class="slide-footer">
+                    <span class="presenter">Gilang Bhagaskara | Certified Blockchain Professional</span>
+                </div>
+            </section>
+
+            <!-- ============================================
+                 SLIDE 10: MERKLE PROOFS
+                 ============================================ -->
+            <section data-background="#043854">
+                <div class="slide-header">
+                    <img src="../assets/images/logo-blocksphere.png" alt="Blocksphere" class="logo">
+                </div>
+                
+                <div class="slide-content">
+                    <h2>Merkle Proofs: Verify Without Downloading Everything</h2>
+                    
+                    <p>The real power of Merkle trees comes from <strong>Merkle proofs</strong>—a way to prove that a specific piece of data is part of a larger dataset, using only a tiny fraction of the total data.</p>
+                    
+                    <h3>Example: Proving Transaction B is in the Block</h3>
+                    <p>To prove that Transaction B is included in a block, you don't need all the transactions. You only need:</p>
+                    
+                    <ol>
+                        <li><strong>Transaction B itself</strong> (the data you're verifying)</li>
+                        <li><strong>Hash A</strong> (the sibling of B, needed to compute Hash AB)</li>
+                        <li><strong>Hash CD</strong> (the uncle, needed to compute the root)</li>
+                        <li><strong>The Merkle Root</strong> (from the block header, publicly known)</li>
+                    </ol>
+                    
+                    <p>With just these 3-4 pieces of data, anyone can verify: Hash(Hash(A, B), CD) == Merkle Root. If it matches, Transaction B is definitely in the block!</p>
+                    
+                    <h3>Real-World Impact: Light Clients</h3>
+                    <p>This is how mobile wallets work. Your phone doesn't download the entire Bitcoin blockchain (500+ GB). Instead, it downloads only block headers (about 80 bytes each) and requests Merkle proofs for your specific transactions. You get the same security guarantees with a tiny fraction of the data.</p>
+                    
+                    <div class="two-columns">
+                        <div>
+                            <h4>Without Merkle Trees:</h4>
+                            <p style="font-size: 0.8em;">Download entire block (potentially megabytes) to verify one transaction</p>
+                        </div>
+                        <div>
+                            <h4>With Merkle Proofs:</h4>
+                            <p style="font-size: 0.8em;">Download ~320 bytes to verify one transaction among thousands</p>
+                        </div>
+                    </div>
+                    
+                    <div class="callout callout-success">
+                        <strong>Efficiency:</strong> For a block with 1 million transactions, a Merkle proof is only 20 hashes (640 bytes). This logarithmic scaling is what makes blockchains practical at scale.
+                    </div>
+                </div>
+                
+                <div class="slide-footer">
+                    <span class="presenter">Gilang Bhagaskara | Certified Blockchain Professional</span>
+                </div>
+            </section>
+
+            <!-- ============================================
+                 SLIDE 11: PUBLIC KEY CRYPTOGRAPHY
+                 ============================================ -->
+            <section data-background="#043854">
+                <div class="slide-header">
+                    <img src="../assets/images/logo-blocksphere.png" alt="Blocksphere" class="logo">
+                </div>
+                
+                <div class="slide-content">
+                    <h2>Public Key Cryptography: The Foundation of Ownership</h2>
+                    
+                    <p>If hashing is the fingerprint of data, <strong>public key cryptography</strong> is the foundation of digital ownership. It's what allows you to prove that you—and only you—control a wallet or can authorize a transaction, without revealing any secret information.</p>
+                    
+                    <h3>The Two-Key System</h3>
+                    <p>Unlike traditional encryption where everyone shares the same password, asymmetric cryptography uses a mathematically related pair of keys:</p>
+                    
+                    <div class="two-columns">
+                        <div class="callout" style="background: rgba(239, 68, 68, 0.2); border-left-color: #ef4444; padding-left: 25px;">
+                            <h4 style="color: #ef4444;">🔐 Private Key</h4>
+                            <ul style="font-size: 0.85em;">
+                                <li>Your ultimate secret</li>
+                                <li>Never share with anyone</li>
+                                <li>Used to sign transactions</li>
+                                <li>Like your bank PIN × 1000</li>
+                            </ul>
+                        </div>
+                        <div class="callout" style="background: rgba(16, 185, 129, 0.2); border-left-color: #10b981; padding-left: 25px;">
+                            <h4 style="color: #10b981;">🌐 Public Key</h4>
+                            <ul style="font-size: 0.85em;">
+                                <li>Safe to share with everyone</li>
+                                <li>Derived from private key</li>
+                                <li>Used to verify signatures</li>
+                                <li>Like your email address</li>
+                            </ul>
+                        </div>
+                    </div>
+                    
+                    <h3>The Mathematical Magic</h3>
+                    <p>The relationship between these keys is based on <strong>one-way mathematical functions</strong>. Given a private key, it's trivial to compute the corresponding public key. But given only the public key, it's computationally impossible to derive the private key. This asymmetry is what makes the entire system secure.</p>
+                    
+                    <div class="callout callout-info">
+                        <strong>Mailbox Analogy:</strong> Think of a public key like a mailbox with a slot. Anyone can drop a letter in (encrypt with public key), but only the person with the key to the box (private key) can open it and read the contents.
+                    </div>
+                </div>
+                
+                <div class="slide-footer">
+                    <span class="presenter">Gilang Bhagaskara | Certified Blockchain Professional</span>
+                </div>
+            </section>
+
+            <!-- ============================================
+                 SLIDE 12: ELLIPTIC CURVE CRYPTOGRAPHY
+                 ============================================ -->
+            <section data-background="#043854">
+                <div class="slide-header">
+                    <img src="../assets/images/logo-blocksphere.png" alt="Blocksphere" class="logo">
+                </div>
+                
+                <div class="slide-content">
+                    <h2>Elliptic Curve Cryptography (ECC)</h2>
+                    
+                    <p>Ethereum (and Bitcoin) use a specific type of public key cryptography called <strong>Elliptic Curve Cryptography</strong> based on the <strong>secp256k1</strong> curve. You don't need to understand all the math, but knowing the basics helps you understand the security model.</p>
+                    
+                    <h3>The secp256k1 Curve</h3>
+                    <p>This curve is defined by the equation: <strong>y² = x³ + 7</strong></p>
+                    
+                    <p>The security comes from the <strong>Elliptic Curve Discrete Logarithm Problem</strong>: given two points on the curve, it's easy to compute their "multiplication" (repeated addition), but given the result, it's practically impossible to figure out how many times you added.</p>
+                    
+                    <div class="placeholder-image">
+                        <span class="placeholder-icon">📈</span>
+                        <span class="placeholder-text">[IMAGE: Elliptic curve visualization showing secp256k1 curve with point multiplication]</span>
+                        <span class="placeholder-search">Search: "secp256k1 elliptic curve visualization"</span>
+                    </div>
+                    
+                    <h3>Key Sizes</h3>
+                    <ul>
+                        <li><strong>Private Key:</strong> 256 bits (32 bytes) - a random number</li>
+                        <li><strong>Public Key:</strong> 512 bits (64 bytes) uncompressed - a point (x, y) on the curve</li>
+                        <li><strong>Ethereum Address:</strong> 160 bits (20 bytes) - derived from public key via hashing</li>
+                    </ul>
+                    
+                    <div class="callout callout-warning">
+                        <strong>One-Way Street:</strong> Private Key → Public Key → Address is easy. Address → Public Key → Private Key is impossible. This is the fundamental security guarantee of blockchain wallets.
+                    </div>
+                </div>
+                
+                <div class="slide-footer">
+                    <span class="presenter">Gilang Bhagaskara | Certified Blockchain Professional</span>
+                </div>
+            </section>
+
+            <!-- ============================================
+                 SLIDE 13: WALLET GENERATION DEMO
+                 ============================================ -->
+            <section data-background="#043854">
+                <div class="slide-header">
+                    <img src="../assets/images/logo-blocksphere.png" alt="Blocksphere" class="logo">
+                </div>
+                
+                <div class="slide-content">
+                    <h2>Live Demo: Generate a Wallet</h2>
+                    
+                    <p>Let's generate a real Ethereum wallet right now. Every time you click the button below, completely new cryptographic keys are created. These are valid Ethereum addresses that could hold real assets—though please don't send anything to them!</p>
+                    
+                    <div class="interactive-demo">
+                        <h4>Wallet Generator</h4>
+                        
+                        <button class="demo-button" onclick="BlocksphereDemos.generateWallet('gen-private-key', 'gen-public-key', 'gen-address')">
+                            🔑 Generate New Wallet
+                        </button>
+                        
+                        <div style="margin-top: 20px;">
+                            <p><strong>Private Key (256 bits):</strong></p>
+                            <div id="gen-private-key" class="demo-output" style="color: #ef4444; font-size: 0.6em;">Click "Generate" to create a wallet</div>
+                            
+                            <p style="margin-top: 15px;"><strong>Public Key (512 bits):</strong></p>
+                            <div id="gen-public-key" class="demo-output" style="font-size: 0.55em;">—</div>
+                            
+                            <p style="margin-top: 15px;"><strong>Ethereum Address (160 bits):</strong></p>
+                            <div id="gen-address" class="demo-output" style="color: #10b981;">—</div>
+                        </div>
+                    </div>
+                    
+                    <div class="callout callout-danger">
+                        <strong>CRITICAL SECURITY RULES:</strong>
+                        <ul style="margin-top: 10px; font-size: 0.85em;">
+                            <li>NEVER share your private key with anyone—ever</li>
+                            <li>NEVER screenshot or email your private key</li>
+                            <li>NEVER enter your private key on any website</li>
+                            <li>If someone has your private key, they control ALL your assets</li>
+                        </ul>
+                    </div>
+                    
+                    <p><strong>Fun fact:</strong> What's the chance of two people generating the same private key? The private key space is 2²⁵⁶ possibilities—a number so large that if every person on Earth generated a billion keys per second since the Big Bang, we still wouldn't have explored even a tiny fraction of the space.</p>
+                </div>
+                
+                <div class="slide-footer">
+                    <span class="presenter">Gilang Bhagaskara | Certified Blockchain Professional</span>
+                </div>
+            </section>
+
+            <!-- ============================================
+                 SLIDE 14: DIGITAL SIGNATURES
+                 ============================================ -->
+            <section data-background="#043854">
+                <div class="slide-header">
+                    <img src="../assets/images/logo-blocksphere.png" alt="Blocksphere" class="logo">
+                </div>
+                
+                <div class="slide-content">
+                    <h2>Digital Signatures: Proving Authenticity</h2>
+                    
+                    <p>Digital signatures are the mechanism that makes blockchain transactions work. They prove three critical things simultaneously, which is why they're essential for any trustless system:</p>
+                    
+                    <h3>The Three Guarantees</h3>
+                    
+                    <ol>
+                        <li><strong>Authentication:</strong> The message definitely came from the claimed sender. Only someone with the private key could have created this signature.</li>
+                        
+                        <li><strong>Integrity:</strong> The message wasn't modified after signing. Any change to the message, even a single bit, would invalidate the signature.</li>
+                        
+                        <li><strong>Non-repudiation:</strong> The sender cannot deny having sent the message. The cryptographic proof is mathematically undeniable.</li>
+                    </ol>
+                    
+                    <h3>How Digital Signatures Work</h3>
+                    
+                    <div class="two-columns">
+                        <div>
+                            <h4>Signing (Private Operation)</h4>
+                            <p style="font-size: 0.85em;"><code>Private Key + Message → Signature</code></p>
+                            <p style="font-size: 0.8em;">Only you can create this signature because only you have the private key.</p>
+                        </div>
+                        <div>
+                            <h4>Verifying (Public Operation)</h4>
+                            <p style="font-size: 0.85em;"><code>Public Key + Message + Signature → ✓ or ✗</code></p>
+                            <p style="font-size: 0.8em;">Anyone can verify by checking the math with your public key.</p>
+                        </div>
+                    </div>
+                    
+                    <div class="callout callout-info">
+                        <strong>Real-World Analogy:</strong> A digital signature is like a wax seal on a medieval letter—it proves the sender's identity and shows if the letter was tampered with. But unlike wax seals, digital signatures are mathematically unbreakable and can't be forged.
+                    </div>
+                </div>
+                
+                <div class="slide-footer">
+                    <span class="presenter">Gilang Bhagaskara | Certified Blockchain Professional</span>
+                </div>
+            </section>
+
+            <!-- ============================================
+                 SLIDE 15: SIGNATURES IN ETHEREUM
+                 ============================================ -->
+            <section data-background="#043854">
+                <div class="slide-header">
+                    <img src="../assets/images/logo-blocksphere.png" alt="Blocksphere" class="logo">
+                </div>
+                
+                <div class="slide-content">
+                    <h2>Signatures in Ethereum Transactions</h2>
+                    
+                    <p>Every single Ethereum transaction is digitally signed. When you send ETH or interact with a smart contract, your wallet creates a signature using your private key. This signature is what authorizes the network to execute your transaction.</p>
+                    
+                    <h3>Transaction Structure with Signature</h3>
+                    
+                    <div class="code-block" data-language="JSON">
+                        <pre><code class="language-json">{
+    "nonce": 0,                    // Transaction count from this address
+    "gasPrice": 20000000000,       // Wei per gas unit
+    "gasLimit": 21000,             // Maximum gas for this tx
+    "to": "0x742d35Cc...",         // Recipient address
+    "value": 1000000000000000000,  // 1 ETH in Wei
+    "data": "0x",                  // Smart contract call data
+    
+    // THE SIGNATURE (v, r, s)
+    "v": 27,                       // Recovery parameter
+    "r": "0x28ef61340bd939...",    // Signature part 1 (32 bytes)
+    "s": "0x7d1c2c7e1e9846..."     // Signature part 2 (32 bytes)
+}</code></pre>
+                    </div>
+                    
+                    <h3>Understanding v, r, s</h3>
+                    <p>The signature consists of three components. The <strong>r</strong> and <strong>s</strong> values are the actual signature data (each 32 bytes), while <strong>v</strong> is a recovery identifier that helps derive the signer's public key from the signature.</p>
+                    
+                    <p>This is remarkably efficient: anyone can verify who signed a transaction without the signer having to explicitly include their public key. The verification math can recover the public key from just the signature and message.</p>
+                    
+                    <div class="callout callout-warning">
+                        <strong>Network Confirmation:</strong> When you see "Waiting for confirmation," the network is verifying your signature and ensuring you actually own the assets you're trying to transfer.
+                    </div>
+                </div>
+                
+                <div class="slide-footer">
+                    <span class="presenter">Gilang Bhagaskara | Certified Blockchain Professional</span>
+                </div>
+            </section>
+
+            <!-- ============================================
+                 SLIDE 16: CODE-ALONG - SIGN AND VERIFY
+                 ============================================ -->
+            <section data-background="#043854">
+                <div class="slide-header">
+                    <img src="../assets/images/logo-blocksphere.png" alt="Blocksphere" class="logo">
+                </div>
+                
+                <div class="slide-content">
+                    <h2>Code-Along: Sign and Verify Messages</h2>
+                    
+                    <p>Let's write code together to sign a message and then verify that signature. This is the exact same process used for transaction signing, but applied to arbitrary messages. Open your terminal and follow along!</p>
+                    
+                    <div class="code-block" data-language="JavaScript">
+                        <button class="code-copy-btn">Copy</button>
+                        <pre><code class="language-javascript">const { ethers } = require('ethers');
+
+// STEP 1: Create a wallet (or use an existing one)
+const wallet = ethers.Wallet.createRandom();
+console.log("My address:", wallet.address);
+
+// STEP 2: Sign a message
+// This could be anything - terms & conditions, a vote, a claim
+const message = "I agree to the terms and conditions";
+const signature = await wallet.signMessage(message);
+console.log("Signature:", signature);
+// Signature is a long hex string starting with 0x
+
+// STEP 3: Verify the signature (recover the signer's address)
+// Anyone can do this with just the message and signature
+const recoveredAddress = ethers.verifyMessage(message, signature);
+console.log("Recovered address:", recoveredAddress);
+
+// STEP 4: Check if it matches
+const isValid = recoveredAddress.toLowerCase() === wallet.address.toLowerCase();
+console.log("Signature valid?", isValid);  // true
+
+// EXPERIMENT: Try changing one character in the message
+// and see that verification fails!</code></pre>
+                    </div>
+                    
+                    <div class="callout callout-success">
+                        <strong>Key Insight:</strong> Notice that we didn't need to share any private key to verify the signature. This is the beauty of public key cryptography—you can prove you signed something without revealing any secrets.
+                    </div>
+                </div>
+                
+                <div class="slide-footer">
+                    <span class="presenter">Gilang Bhagaskara | Certified Blockchain Professional</span>
+                </div>
+            </section>
+
+            <!-- ============================================
+                 SLIDE 17: ETHEREUM ADDRESS DERIVATION
+                 ============================================ -->
+            <section data-background="#043854">
+                <div class="slide-header">
+                    <img src="../assets/images/logo-blocksphere.png" alt="Blocksphere" class="logo">
+                </div>
+                
+                <div class="slide-content">
+                    <h2>Ethereum Address Generation: The Complete Flow</h2>
+                    
+                    <p>Let's trace the complete derivation path from random entropy to your familiar Ethereum address. Understanding this flow helps you grasp the security model and why certain operations are possible while others are impossible.</p>
+                    
+                    <div class="mermaid">
+                        graph TD
+                            A["Random Entropy (256 bits)"]
+                            B["Private Key (256 bits / 32 bytes)"]
+                            C["Public Key (512 bits uncompressed)"]
+                            D["Hash Output (256 bits)"]
+                            E["Raw Address (160 bits)"]
+                            F["Ethereum Address"]
+                            
+                            A -->|"Direct Use"| B
+                            B -->|"Elliptic Curve Multiplication"| C
+                            C -->|"Keccak-256 Hash"| D
+                            D -->|"Take last 20 bytes"| E
+                            E -->|"Add 0x prefix"| F
+                    </div>
+                    
+                    <h3>Step-by-Step Breakdown</h3>
+                    <ol>
+                        <li><strong>Random Entropy:</strong> High-quality randomness is crucial. Poor randomness has led to real-world key theft.</li>
+                        <li><strong>Private Key:</strong> The entropy becomes your private key—guard this with your life.</li>
+                        <li><strong>Public Key:</strong> Multiply a known base point on the secp256k1 curve by your private key.</li>
+                        <li><strong>Keccak-256:</strong> Hash the public key (minus the 0x04 prefix) to get 32 bytes.</li>
+                        <li><strong>Address:</strong> Take only the last 20 bytes and add "0x" prefix.</li>
+                    </ol>
+                    
+                    <div class="callout callout-info">
+                        <strong>Why 20 bytes?</strong> Addresses are shorter than public keys for efficiency—they appear in every transaction and are stored on-chain. The 160-bit length provides ample collision resistance while keeping transactions compact.
+                    </div>
+                </div>
+                
+                <div class="slide-footer">
+                    <span class="presenter">Gilang Bhagaskara | Certified Blockchain Professional</span>
+                </div>
+            </section>
+
+            <!-- ============================================
+                 SLIDE 18: CHECKSUM ADDRESSES
+                 ============================================ -->
+            <section data-background="#043854">
+                <div class="slide-header">
+                    <img src="../assets/images/logo-blocksphere.png" alt="Blocksphere" class="logo">
+                </div>
+                
+                <div class="slide-content">
+                    <h2>EIP-55: Checksum Addresses</h2>
+                    
+                    <p>Ethereum addresses are technically case-insensitive—<code>0xabc</code> and <code>0xABC</code> refer to the same address. However, <strong>EIP-55</strong> introduced a clever checksum system using mixed case that helps detect typos before you accidentally send funds to the wrong address.</p>
+                    
+                    <h3>How EIP-55 Checksums Work</h3>
+                    
+                    <div class="code-block" data-language="Text">
+                        <pre><code>Without checksum (all lowercase):
+0x5aaeb6053f3e94c9b9a09f33669435e7ef1beaed
+
+With EIP-55 checksum (mixed case):
+0x5aAeb6053F3E94C9b9A09f33669435E7Ef1BeAed
+  ↑↑   ↑↑↑ ↑↑    ↑ ↑↑    ↑↑    ↑ ↑ ↑↑↑
+  These capital letters ARE the checksum!</code></pre>
+                    </div>
+                    
+                    <p>The capitalization pattern is derived by hashing the lowercase address. If a character in the hash is ≥ 8, the corresponding address character is uppercase. This creates a detectable pattern.</p>
+                    
+                    <h3>Why This Matters</h3>
+                    <ul>
+                        <li><strong>Typo Protection:</strong> If you accidentally change a character, the checksum will fail and your wallet will warn you.</li>
+                        <li><strong>No Extra Data:</strong> The checksum is encoded in the existing characters—no additional bytes needed.</li>
+                        <li><strong>Backwards Compatible:</strong> Old software that ignores case still works; new software adds protection.</li>
+                    </ul>
+                    
+                    <div class="callout callout-warning">
+                        <strong>Best Practice:</strong> Always copy-paste addresses and verify the checksum validates. Many wallets will show a warning or refuse to send if the checksum is invalid.
+                    </div>
+                </div>
+                
+                <div class="slide-footer">
+                    <span class="presenter">Gilang Bhagaskara | Certified Blockchain Professional</span>
+                </div>
+            </section>
+
+            <!-- ============================================
+                 SLIDE 19: DECENTRALIZED IDENTITY - PROBLEM
+                 ============================================ -->
+            <section data-background="#043854">
+                <div class="slide-header">
+                    <img src="../assets/images/logo-blocksphere.png" alt="Blocksphere" class="logo">
+                </div>
+                
+                <div class="slide-content">
+                    <h2>Decentralized Identity: The Problem with Web2</h2>
+                    
+                    <p>Before we discuss the solution, let's understand the problem. In today's internet, your digital identity is fragmented across dozens of platforms, each controlled by corporations with their own interests.</p>
+                    
+                    <div class="two-columns">
+                        <div class="team-box team-hacker">
+                            <h4>Web2 Identity (Centralized)</h4>
+                            <ul style="font-size: 0.85em;">
+                                <li>Google, Facebook, Apple control your identity</li>
+                                <li>Get banned = lose access to everything</li>
+                                <li>Your data is sold to advertisers</li>
+                                <li>Password resets depend on their servers</li>
+                                <li>Each platform has different credentials</li>
+                                <li>Data breaches expose your information</li>
+                            </ul>
+                        </div>
+                        <div class="team-box team-security">
+                            <h4>Web3 Identity (Self-Sovereign)</h4>
+                            <ul style="font-size: 0.85em;">
+                                <li>Your keys = your identity</li>
+                                <li>No central authority can ban you</li>
+                                <li>You choose what data to share</li>
+                                <li>Cryptographic control, not corporate</li>
+                                <li>One identity across all platforms</li>
+                                <li>Mathematically secured, not just passwords</li>
+                            </ul>
+                        </div>
+                    </div>
+                    
+                    <h3>The Fundamental Shift</h3>
+                    <p>Web3 identity inverts the control model. Instead of platforms owning your identity and granting you access, <strong>you own your identity</strong> and selectively grant platforms access. Your Ethereum address IS your identity—proven cryptographically, controlled only by you.</p>
+                    
+                    <div class="callout callout-info">
+                        <strong>Real Impact:</strong> Imagine logging into any website with just your wallet—no passwords, no email verification, no platform lock-in. This is already happening with "Sign in with Ethereum" (SIWE).
+                    </div>
+                </div>
+                
+                <div class="slide-footer">
+                    <span class="presenter">Gilang Bhagaskara | Certified Blockchain Professional</span>
+                </div>
+            </section>
+
+            <!-- ============================================
+                 SLIDE 20: DID STANDARDS
+                 ============================================ -->
+            <section data-background="#043854">
+                <div class="slide-header">
+                    <img src="../assets/images/logo-blocksphere.png" alt="Blocksphere" class="logo">
+                </div>
+                
+                <div class="slide-content">
+                    <h2>DID: The W3C Standard for Decentralized Identity</h2>
+                    
+                    <p>The World Wide Web Consortium (W3C) has standardized a format for <strong>Decentralized Identifiers (DIDs)</strong>. This creates interoperability across different blockchain platforms and identity systems.</p>
+                    
+                    <h3>DID Format</h3>
+                    <div class="code-block" data-language="Text">
+                        <pre><code>did:method:identifier
+
+Examples:
+did:ethr:0x71C7656EC7ab88b098defB751B7401B5f6d8976F  (Ethereum)
+did:web:example.com                                   (Web domain)
+did:key:z6MkhaXgBZDvotDkL5257faiztiGiC2QtKLGpbnnEGta2doK (Cryptographic key)
+did:ion:EiAnKD8-jfdd0MDcZUjAbRgaThBrMxPTFOxcnfJhI7Ukaw (Bitcoin/ION)</code></pre>
+                    </div>
+                    
+                    <h3>DID Documents</h3>
+                    <p>Each DID resolves to a <strong>DID Document</strong>—a JSON file containing:</p>
+                    <ul>
+                        <li><strong>Public keys</strong> for verification and encryption</li>
+                        <li><strong>Authentication methods</strong> (how to prove you own this DID)</li>
+                        <li><strong>Service endpoints</strong> (where to find more information)</li>
+                    </ul>
+                    
+                    <h3>Verifiable Credentials</h3>
+                    <p>DIDs enable <strong>Verifiable Credentials</strong>—digital certificates that are cryptographically signed and can be verified without contacting the issuer. Examples: university degrees, professional certifications, KYC verification status.</p>
+                    
+                    <div class="callout callout-success">
+                        <strong>Enterprise Use Case:</strong> A supplier can prove their ISO certification to any buyer instantly, without phone calls or paperwork. The certification body signed a Verifiable Credential that anyone can verify on-chain.
+                    </div>
+                </div>
+                
+                <div class="slide-footer">
+                    <span class="presenter">Gilang Bhagaskara | Certified Blockchain Professional</span>
+                </div>
+            </section>
+
+            <!-- ============================================
+                 SLIDE 21: SPEED ROUND QUIZ
+                 ============================================ -->
+            <section data-background="#043854">
+                <div class="slide-header">
+                    <img src="../assets/images/logo-blocksphere.png" alt="Blocksphere" class="logo">
+                </div>
+                
+                <div class="slide-content">
+                    <h2>🏆 Speed Round: Test Your Knowledge!</h2>
+                    
+                    <p>Quick-fire questions to reinforce what we've learned. Click each question to reveal the answer!</p>
+                    
+                    <div class="reveal-answer" style="margin-bottom: 15px;">
+                        <p><strong>Q1:</strong> What hash algorithm does Ethereum use?</p>
+                        <div class="answer-content">
+                            <p style="color: #10b981;"><strong>Answer:</strong> Keccak-256 (NOT SHA-3, though they're related)</p>
+                        </div>
+                        <p class="reveal-hint">Click to reveal</p>
+                    </div>
+                    
+                    <div class="reveal-answer" style="margin-bottom: 15px;">
+                        <p><strong>Q2:</strong> Can you derive a private key from a public key?</p>
+                        <div class="answer-content">
+                            <p style="color: #10b981;"><strong>Answer:</strong> No—it's mathematically impossible (discrete logarithm problem)</p>
+                        </div>
+                        <p class="reveal-hint">Click to reveal</p>
+                    </div>
+                    
+                    <div class="reveal-answer" style="margin-bottom: 15px;">
+                        <p><strong>Q3:</strong> What do you need to verify a Merkle proof?</p>
+                        <div class="answer-content">
+                            <p style="color: #10b981;"><strong>Answer:</strong> The Merkle root and sibling hashes along the path (not the entire tree)</p>
+                        </div>
+                        <p class="reveal-hint">Click to reveal</p>
+                    </div>
+                    
+                    <div class="reveal-answer" style="margin-bottom: 15px;">
+                        <p><strong>Q4:</strong> How many bytes is an Ethereum address?</p>
+                        <div class="answer-content">
+                            <p style="color: #10b981;"><strong>Answer:</strong> 20 bytes (160 bits), displayed as 40 hex characters + "0x"</p>
+                        </div>
+                        <p class="reveal-hint">Click to reveal</p>
+                    </div>
+                    
+                    <div class="reveal-answer">
+                        <p><strong>Q5:</strong> What three things does a digital signature prove?</p>
+                        <div class="answer-content">
+                            <p style="color: #10b981;"><strong>Answer:</strong> Authentication, Integrity, and Non-repudiation</p>
+                        </div>
+                        <p class="reveal-hint">Click to reveal</p>
+                    </div>
+                </div>
+                
+                <div class="slide-footer">
+                    <span class="presenter">Gilang Bhagaskara | Certified Blockchain Professional</span>
+                </div>
+            </section>
+
+            <!-- ============================================
+                 SLIDE 22: KEY TAKEAWAYS
+                 ============================================ -->
+            <section data-background="#043854">
+                <div class="slide-header">
+                    <img src="../assets/images/logo-blocksphere.png" alt="Blocksphere" class="logo">
+                </div>
+                
+                <div class="slide-content">
+                    <h2>Key Takeaways: Cryptographic Primitives</h2>
+                    
+                    <p>Let's summarize the fundamental concepts you've learned today. These primitives are the foundation of everything in blockchain—from securing transactions to enabling trustless systems.</p>
+                    
+                    <div class="progress-tracker">
+                        <div class="progress-item completed">
+                            <div class="progress-checkbox"></div>
+                            <div>
+                                <strong>Hashing</strong> enables data integrity. One-way, deterministic, collision-resistant functions that create unique fingerprints for any data.
+                            </div>
+                        </div>
+                        <div class="progress-item completed">
+                            <div class="progress-checkbox"></div>
+                            <div>
+                                <strong>Merkle Trees</strong> enable efficient verification. Prove any data is part of a set using logarithmically small proofs.
+                            </div>
+                        </div>
+                        <div class="progress-item completed">
+                            <div class="progress-checkbox"></div>
+                            <div>
+                                <strong>Public Key Cryptography</strong> enables ownership. Your private key IS your identity and control. NEVER share it.
+                            </div>
+                        </div>
+                        <div class="progress-item completed">
+                            <div class="progress-checkbox"></div>
+                            <div>
+                                <strong>Digital Signatures</strong> enable trust. Prove authenticity without revealing secrets. Every transaction is signed.
+                            </div>
+                        </div>
+                        <div class="progress-item completed">
+                            <div class="progress-checkbox"></div>
+                            <div>
+                                <strong>Decentralized Identity</strong> enables self-sovereignty. You control your identity, portable across platforms.
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="callout callout-success" style="margin-top: 20px;">
+                        <strong>Remember:</strong> These aren't just theoretical concepts—they're the mathematical guarantees that secure billions of dollars in value every day. Understanding them makes you a better blockchain engineer.
+                    </div>
+                </div>
+                
+                <div class="slide-footer">
+                    <span class="presenter">Gilang Bhagaskara | Certified Blockchain Professional</span>
+                </div>
+            </section>
+
+            <!-- ============================================
+                 SLIDE 23: SESSION COMPLETE
+                 ============================================ -->
+            <section data-background="linear-gradient(135deg, #043854 0%, #065a7a 100%)">
+                <div class="slide-header">
+                    <img src="../assets/images/logo-blocksphere.png" alt="Blocksphere" class="logo">
+                </div>
+                
+                <div class="title-slide">
+                    <h1 style="font-size: 2.5em;">🎉 Session Complete!</h1>
+                    <p class="subtitle">You now understand the cryptographic foundation of Web3</p>
+                    
+                    <div style="margin-top: 40px; text-align: left; max-width: 600px; margin-left: auto; margin-right: auto;">
+                        <h3 style="color: var(--bs-accent);">Break Challenge:</h3>
+                        <ol style="font-size: 0.9em;">
+                            <li>Generate a new wallet using the demo</li>
+                            <li>Sign the message: "I completed Gilang's crypto session"</li>
+                            <li>Share your signature in the group chat!</li>
+                        </ol>
+                    </div>
+                    
+                    <p class="session-info" style="margin-top: 40px;">
+                        Up Next: Development Environment Overview
+                    </p>
+                </div>
+                
+                <div class="slide-footer">
+                    <span class="presenter">Gilang Bhagaskara | Certified Blockchain Professional</span>
+                    <span>blocksphere.id</span>
+                </div>
+            </section>
+
+        </div>
+    </div>
+
+    <!-- Reveal.js -->
+    <script src="https://cdn.jsdelivr.net/npm/reveal.js@5.0.4/dist/reveal.js"></script>
+    
+    <!-- Highlight.js -->
+    <script src="https://cdn.jsdelivr.net/npm/highlight.js@11.9.0/lib/highlight.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/highlight.js@11.9.0/lib/languages/javascript.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/highlight.js@11.9.0/lib/languages/solidity.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/highlight.js@11.9.0/lib/languages/json.min.js"></script>
+    
+    <!-- Mermaid -->
+    <script src="https://cdn.jsdelivr.net/npm/mermaid@10.6.1/dist/mermaid.min.js"></script>
+    
+    <!-- Ethers.js for crypto demos -->
+    <script src="https://cdn.jsdelivr.net/npm/ethers@6.9.0/dist/ethers.umd.min.js"></script>
+    
+    <!-- Custom Interactive Functions -->
+    <script src="../assets/js/interactive.js"></script>
+    
+    <script>
+        // Initialize Reveal.js
+        Reveal.initialize({
+            hash: true,
+            slideNumber: 'c/t',
+            showSlideNumber: 'all',
+            transition: 'slide',
+            transitionSpeed: 'default',
+            backgroundTransition: 'fade',
+            pdfSeparateFragments: false,
+            
+            // Responsive settings
+            width: 1920,
+            height: 1080,
+            margin: 0.04,
+            minScale: 0.2,
+            maxScale: 2.0
+        });
+        
+        // Initialize Mermaid with Blocksphere theme
+        mermaid.initialize({
+            startOnLoad: true,
+            theme: 'base',
+            themeVariables: {
+                primaryColor: '#4a9ea4',
+                primaryTextColor: '#043854',
+                primaryBorderColor: '#043854',
+                lineColor: '#4a9ea4',
+                secondaryColor: '#ffffff',
+                tertiaryColor: '#f8fafc',
+                fontSize: '16px'
+            }
+        });
+        
+        // Initialize code highlighting
+        hljs.highlightAll();
+        
+        // Initialize hash demo when page loads
+        document.addEventListener('DOMContentLoaded', function() {
+            // Wait for ethers to load
+            setTimeout(function() {
+                if (typeof ethers !== 'undefined') {
+                    initHashDemo('hash-input', 'hash-output');
+                }
+            }, 1000);
+        });
+        
+        // Hash demo initialization
+        function initHashDemo(inputId, outputId) {
+            const input = document.getElementById(inputId);
+            const output = document.getElementById(outputId);
+            
+            if (!input || !output) return;
+            
+            async function updateHash() {
+                const value = input.value || '';
+                if (value.length === 0) {
+                    output.textContent = 'Enter text above to see its hash...';
+                    output.style.opacity = '0.5';
+                    return;
+                }
+                
+                try {
+                    const hash = ethers.keccak256(ethers.toUtf8Bytes(value));
+                    output.textContent = hash;
+                    output.style.opacity = '1';
+                } catch (e) {
+                    output.textContent = 'Error computing hash';
+                }
+            }
+            
+            input.addEventListener('input', updateHash);
+            updateHash();
+        }
+    </script>
+</body>
+</html>
