@@ -1,0 +1,1273 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Final Project & Conclusions | Blocksphere Training</title>
+    
+    <!-- Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+    
+    <!-- Reveal.js -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/reveal.js@5.0.4/dist/reset.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/reveal.js@5.0.4/dist/reveal.css">
+    
+    <!-- Highlight.js for code -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/highlight.js@11.9.0/styles/atom-one-dark.min.css">
+    
+    <!-- Custom Theme -->
+    <link rel="stylesheet" href="../assets/css/blocksphere-theme.css">
+</head>
+<body>
+    <div class="reveal">
+        <div class="slides">
+            
+            <!-- ============================================
+                 SLIDE 1: TITLE SLIDE
+                 ============================================ -->
+            <section data-background="linear-gradient(135deg, #043854 0%, #065a7a 100%)">
+                <div class="slide-header">
+                    <img src="../assets/images/logo-blocksphere.png" alt="Blocksphere" class="logo">
+                    <span class="topic-badge">Day 3 | Final Session</span>
+                </div>
+                
+                <div class="title-slide">
+                    <h1>Final Project & Conclusions</h1>
+                    <p class="subtitle">"From Code to Chain — Your Journey Complete"</p>
+                    <p class="session-info">Deploy, Celebrate, and Plan Your Next Steps</p>
+                </div>
+                
+                <div class="slide-footer">
+                    <span class="presenter">Gilang Bhagaskara | Certified Blockchain Professional</span>
+                </div>
+            </section>
+
+            <!-- ============================================
+                 SLIDE 2: SESSION OVERVIEW
+                 ============================================ -->
+            <section data-background="#043854">
+                <div class="slide-header">
+                    <img src="../assets/images/logo-blocksphere.png" alt="Blocksphere" class="logo">
+                </div>
+                
+                <div class="slide-content">
+                    <h2>What We'll Cover in This Final Session</h2>
+                    
+                    <p>This is it—the grand finale! We'll deploy your smart contract to a real blockchain network, review everything you've accomplished, and set you up for continued success in Web3 development.</p>
+                    
+                    <div class="progress-tracker">
+                        <div class="progress-item">
+                            <div class="progress-checkbox"></div>
+                            <div><strong>Final Project:</strong> Deploy to Sepolia testnet</div>
+                        </div>
+                        <div class="progress-item">
+                            <div class="progress-checkbox"></div>
+                            <div><strong>Contract Verification:</strong> Make your code public on Etherscan</div>
+                        </div>
+                        <div class="progress-item">
+                            <div class="progress-checkbox"></div>
+                            <div><strong>Live Interaction:</strong> Execute a full invoice lifecycle</div>
+                        </div>
+                        <div class="progress-item">
+                            <div class="progress-checkbox"></div>
+                            <div><strong>Celebration:</strong> Review your achievements</div>
+                        </div>
+                        <div class="progress-item">
+                            <div class="progress-checkbox"></div>
+                            <div><strong>Next Steps:</strong> Your continued learning path</div>
+                        </div>
+                    </div>
+                    
+                    <div class="callout callout-success">
+                        <strong>By the end of this session:</strong> You'll have a verified smart contract deployed on a public testnet that you can show to anyone!
+                    </div>
+                </div>
+                
+                <div class="slide-footer">
+                    <span class="presenter">Gilang Bhagaskara | Certified Blockchain Professional</span>
+                </div>
+            </section>
+
+            <!-- ============================================
+                 SLIDE 3: FINAL PROJECT OVERVIEW
+                 ============================================ -->
+            <section data-background="#043854">
+                <div class="slide-header">
+                    <img src="../assets/images/logo-blocksphere.png" alt="Blocksphere" class="logo">
+                </div>
+                
+                <div class="slide-content">
+                    <h2>🚀 Final Project: Testnet Deployment</h2>
+                    
+                    <p>It's time to take your smart contract from a local development environment to a real, public blockchain. This is the moment where your code becomes <strong>truly immutable and verifiable by anyone in the world</strong>.</p>
+                    
+                    <h3>Project Requirements</h3>
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>Task</th>
+                                <th>Description</th>
+                                <th>Status</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>Deploy Contract</td>
+                                <td>Deploy FactoringContract to Sepolia testnet</td>
+                                <td>⬜</td>
+                            </tr>
+                            <tr>
+                                <td>Verify Contract</td>
+                                <td>Verify source code on Etherscan</td>
+                                <td>⬜</td>
+                            </tr>
+                            <tr>
+                                <td>Authorize Users</td>
+                                <td>Call authorizeSupplier() and authorizeBuyer()</td>
+                                <td>⬜</td>
+                            </tr>
+                            <tr>
+                                <td>Create Invoice</td>
+                                <td>Create at least one invoice</td>
+                                <td>⬜</td>
+                            </tr>
+                            <tr>
+                                <td>Complete Lifecycle</td>
+                                <td>Execute create → approve → request → fund → settle</td>
+                                <td>⬜ (Bonus)</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                    
+                    <div class="callout callout-info">
+                        <strong>Working Together:</strong> Pair up if you're stuck. Help each other debug deployment issues. In the real world, deployment is always a team sport!
+                    </div>
+                </div>
+                
+                <div class="slide-footer">
+                    <span class="presenter">Gilang Bhagaskara | Certified Blockchain Professional</span>
+                </div>
+            </section>
+
+            <!-- ============================================
+                 SLIDE 4: GETTING TESTNET ETH
+                 ============================================ -->
+            <section data-background="#043854">
+                <div class="slide-header">
+                    <img src="../assets/images/logo-blocksphere.png" alt="Blocksphere" class="logo">
+                </div>
+                
+                <div class="slide-content">
+                    <h2>Step 1: Getting Testnet ETH</h2>
+                    
+                    <p>Before deploying, you need testnet ETH to pay for gas. These tokens have no real value—they exist purely for testing. Here are the most reliable faucets.</p>
+                    
+                    <h3>Sepolia Faucets</h3>
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>Faucet</th>
+                                <th>URL</th>
+                                <th>Requirements</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>Alchemy</td>
+                                <td>sepoliafaucet.com</td>
+                                <td>Alchemy account</td>
+                            </tr>
+                            <tr>
+                                <td>Infura</td>
+                                <td>infura.io/faucet/sepolia</td>
+                                <td>Infura account</td>
+                            </tr>
+                            <tr>
+                                <td>Google Cloud</td>
+                                <td>cloud.google.com/web3/faucet</td>
+                                <td>Google account</td>
+                            </tr>
+                            <tr>
+                                <td>QuickNode</td>
+                                <td>faucet.quicknode.com/ethereum/sepolia</td>
+                                <td>QuickNode account</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                    
+                    <div class="terminal">
+                        <div class="terminal-header">
+                            <span class="terminal-dot red"></span>
+                            <span class="terminal-dot yellow"></span>
+                            <span class="terminal-dot green"></span>
+                        </div>
+                        <div class="terminal-body">
+                            <span class="terminal-prompt">$</span> # Check your balance in MetaMask<br>
+                            <span class="terminal-output">Sepolia ETH Balance: 0.5 ETH ✓</span><br><br>
+                            <span class="terminal-prompt">$</span> # You only need ~0.01 ETH for deployment<br>
+                            <span class="terminal-output">Contract deployment typically costs: 0.002 - 0.01 ETH</span>
+                        </div>
+                    </div>
+                    
+                    <div class="callout callout-warning">
+                        <strong>Important:</strong> Use a TEST wallet! Never use your mainnet wallet with real funds for development. Create a separate MetaMask wallet specifically for testing.
+                    </div>
+                </div>
+                
+                <div class="slide-footer">
+                    <span class="presenter">Gilang Bhagaskara | Certified Blockchain Professional</span>
+                </div>
+            </section>
+
+            <!-- ============================================
+                 SLIDE 5: ENVIRONMENT CONFIGURATION
+                 ============================================ -->
+            <section data-background="#043854">
+                <div class="slide-header">
+                    <img src="../assets/images/logo-blocksphere.png" alt="Blocksphere" class="logo">
+                </div>
+                
+                <div class="slide-content">
+                    <h2>Step 2: Configure Environment</h2>
+                    
+                    <p>Set up your environment variables securely. <strong>Never commit your private keys to Git!</strong></p>
+                    
+                    <h3>Create .env File</h3>
+                    <div class="code-block" data-language="bash">
+                        <button class="code-copy-btn">Copy</button>
+                        <pre><code class="language-bash"># .env - NEVER COMMIT THIS FILE!
+SEPOLIA_RPC_URL=https://eth-sepolia.g.alchemy.com/v2/YOUR_API_KEY
+PRIVATE_KEY=your_test_wallet_private_key_without_0x_prefix
+ETHERSCAN_API_KEY=your_etherscan_api_key_for_verification</code></pre>
+                    </div>
+                    
+                    <h3>Update hardhat.config.js</h3>
+                    <div class="code-block" data-language="JavaScript">
+                        <button class="code-copy-btn">Copy</button>
+                        <pre><code class="language-javascript">require("@nomicfoundation/hardhat-toolbox");
+require("dotenv").config();
+
+module.exports = {
+    solidity: "0.8.19",
+    networks: {
+        sepolia: {
+            url: process.env.SEPOLIA_RPC_URL || "",
+            accounts: process.env.PRIVATE_KEY 
+                ? [process.env.PRIVATE_KEY] 
+                : []
+        }
+    },
+    etherscan: {
+        apiKey: process.env.ETHERSCAN_API_KEY
+    }
+};</code></pre>
+                    </div>
+                    
+                    <div class="callout callout-danger">
+                        <strong>Security Reminder:</strong> Add <code>.env</code> to your <code>.gitignore</code> file immediately. Private keys exposed on GitHub get compromised within minutes by automated bots.
+                    </div>
+                </div>
+                
+                <div class="slide-footer">
+                    <span class="presenter">Gilang Bhagaskara | Certified Blockchain Professional</span>
+                </div>
+            </section>
+
+            <!-- ============================================
+                 SLIDE 6: DEPLOYMENT SCRIPT
+                 ============================================ -->
+            <section data-background="#043854">
+                <div class="slide-header">
+                    <img src="../assets/images/logo-blocksphere.png" alt="Blocksphere" class="logo">
+                </div>
+                
+                <div class="slide-content">
+                    <h2>Step 3: Create Deployment Script</h2>
+                    
+                    <p>Create a deployment script that will deploy your contract and log the address. Save this as <code>scripts/deploy.js</code>.</p>
+                    
+                    <div class="code-block" data-language="JavaScript">
+                        <button class="code-copy-btn">Copy</button>
+                        <pre><code class="language-javascript">const { ethers } = require("hardhat");
+
+async function main() {
+    // Get deployer account
+    const [deployer] = await ethers.getSigners();
+    console.log("Deploying contracts with account:", deployer.address);
+    
+    // Check balance
+    const balance = await ethers.provider.getBalance(deployer.address);
+    console.log("Account balance:", ethers.formatEther(balance), "ETH");
+    
+    // Deploy the contract
+    console.log("\n📦 Deploying FactoringContract...");
+    const Factory = await ethers.getContractFactory("FactoringContract");
+    const contract = await Factory.deploy();
+    
+    // Wait for deployment
+    await contract.waitForDeployment();
+    const address = await contract.getAddress();
+    
+    console.log("\n✅ FactoringContract deployed successfully!");
+    console.log("📍 Contract address:", address);
+    console.log("🔍 View on Etherscan: https://sepolia.etherscan.io/address/" + address);
+    
+    // Return address for verification
+    return address;
+}
+
+main()
+    .then(() => process.exit(0))
+    .catch((error) => {
+        console.error(error);
+        process.exit(1);
+    });</code></pre>
+                    </div>
+                </div>
+                
+                <div class="slide-footer">
+                    <span class="presenter">Gilang Bhagaskara | Certified Blockchain Professional</span>
+                </div>
+            </section>
+
+            <!-- ============================================
+                 SLIDE 7: RUNNING DEPLOYMENT
+                 ============================================ -->
+            <section data-background="#043854">
+                <div class="slide-header">
+                    <img src="../assets/images/logo-blocksphere.png" alt="Blocksphere" class="logo">
+                </div>
+                
+                <div class="slide-content">
+                    <h2>Step 4: Deploy to Sepolia!</h2>
+                    
+                    <p>This is the moment of truth. Run the deployment command and watch your contract go live on a public blockchain!</p>
+                    
+                    <div class="terminal">
+                        <div class="terminal-header">
+                            <span class="terminal-dot red"></span>
+                            <span class="terminal-dot yellow"></span>
+                            <span class="terminal-dot green"></span>
+                        </div>
+                        <div class="terminal-body">
+                            <span class="terminal-prompt">$</span> npx hardhat run scripts/deploy.js --network sepolia<br><br>
+                            <span class="terminal-output">Deploying contracts with account: 0xYourAddress...</span><br>
+                            <span class="terminal-output">Account balance: 0.5 ETH</span><br><br>
+                            <span class="terminal-output">📦 Deploying FactoringContract...</span><br><br>
+                            <span class="terminal-output" style="color: #10b981;">✅ FactoringContract deployed successfully!</span><br>
+                            <span class="terminal-output" style="color: #10b981;">📍 Contract address: 0x1234...abcd</span><br>
+                            <span class="terminal-output" style="color: #4a9ea4;">🔍 View on Etherscan: https://sepolia.etherscan.io/address/0x1234...abcd</span>
+                        </div>
+                    </div>
+                    
+                    <div class="callout callout-success" style="margin-top: 20px;">
+                        <strong>🎉 Congratulations!</strong> Your smart contract is now deployed on a public blockchain! The address is permanent and the code is immutable. Anyone in the world can interact with it.
+                    </div>
+                    
+                    <h3>Common Deployment Errors</h3>
+                    <ul>
+                        <li><strong>"insufficient funds"</strong> — Get more testnet ETH from a faucet</li>
+                        <li><strong>"nonce too low"</strong> — Reset MetaMask account or wait for pending txs</li>
+                        <li><strong>"network timeout"</strong> — Check your RPC URL or try a different provider</li>
+                    </ul>
+                </div>
+                
+                <div class="slide-footer">
+                    <span class="presenter">Gilang Bhagaskara | Certified Blockchain Professional</span>
+                </div>
+            </section>
+
+            <!-- ============================================
+                 SLIDE 8: CONTRACT VERIFICATION
+                 ============================================ -->
+            <section data-background="#043854">
+                <div class="slide-header">
+                    <img src="../assets/images/logo-blocksphere.png" alt="Blocksphere" class="logo">
+                </div>
+                
+                <div class="slide-content">
+                    <h2>Step 5: Verify on Etherscan</h2>
+                    
+                    <p>Verification makes your contract source code publicly readable and enables direct interaction through Etherscan's UI. This builds trust—anyone can audit your code.</p>
+                    
+                    <div class="terminal">
+                        <div class="terminal-header">
+                            <span class="terminal-dot red"></span>
+                            <span class="terminal-dot yellow"></span>
+                            <span class="terminal-dot green"></span>
+                        </div>
+                        <div class="terminal-body">
+                            <span class="terminal-prompt">$</span> npx hardhat verify --network sepolia YOUR_CONTRACT_ADDRESS<br><br>
+                            <span class="terminal-output">Compiling 1 file with 0.8.19</span><br>
+                            <span class="terminal-output">Successfully submitted source code for contract</span><br>
+                            <span class="terminal-output">contracts/FactoringContract.sol:FactoringContract</span><br>
+                            <span class="terminal-output">at 0x1234...abcd</span><br>
+                            <span class="terminal-output">for verification on the block explorer.</span><br><br>
+                            <span class="terminal-output" style="color: #10b981;">✅ Contract verified successfully!</span><br>
+                            <span class="terminal-output" style="color: #4a9ea4;">🔍 https://sepolia.etherscan.io/address/0x1234...abcd#code</span>
+                        </div>
+                    </div>
+                    
+                    <h3>What Verification Enables</h3>
+                    <div class="two-columns">
+                        <div>
+                            <h4>Before Verification</h4>
+                            <ul>
+                                <li>Only bytecode visible</li>
+                                <li>No function names shown</li>
+                                <li>Must use external tools to interact</li>
+                                <li>Users can't verify safety</li>
+                            </ul>
+                        </div>
+                        <div>
+                            <h4>After Verification</h4>
+                            <ul>
+                                <li>Full source code readable</li>
+                                <li>All functions labeled clearly</li>
+                                <li>Interact directly on Etherscan</li>
+                                <li>Builds trust with users</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="slide-footer">
+                    <span class="presenter">Gilang Bhagaskara | Certified Blockchain Professional</span>
+                </div>
+            </section>
+
+            <!-- ============================================
+                 SLIDE 9: INTERACTION SCRIPT
+                 ============================================ -->
+            <section data-background="#043854">
+                <div class="slide-header">
+                    <img src="../assets/images/logo-blocksphere.png" alt="Blocksphere" class="logo">
+                </div>
+                
+                <div class="slide-content">
+                    <h2>Step 6: Interact with Your Contract</h2>
+                    
+                    <p>Now let's run through a complete invoice lifecycle on your deployed contract. Create <code>scripts/interact.js</code>:</p>
+                    
+                    <div class="code-block" data-language="JavaScript">
+                        <button class="code-copy-btn">Copy</button>
+                        <pre><code class="language-javascript">const { ethers } = require("hardhat");
+
+const CONTRACT_ADDRESS = "YOUR_DEPLOYED_CONTRACT_ADDRESS";
+
+async function main() {
+    const [admin, supplier, buyer] = await ethers.getSigners();
+    console.log("Admin:", admin.address);
+    
+    // Connect to deployed contract
+    const contract = await ethers.getContractAt("FactoringContract", CONTRACT_ADDRESS);
+    console.log("Connected to contract at:", CONTRACT_ADDRESS);
+    
+    // 1. Authorize users
+    console.log("\n📝 Authorizing supplier...");
+    let tx = await contract.authorizeSupplier(supplier.address);
+    await tx.wait();
+    console.log("✅ Supplier authorized:", supplier.address);
+    
+    console.log("\n📝 Authorizing buyer...");
+    tx = await contract.authorizeBuyer(buyer.address);
+    await tx.wait();
+    console.log("✅ Buyer authorized:", buyer.address);
+    
+    // 2. Create invoice (as supplier)
+    console.log("\n📄 Creating invoice...");
+    const amount = ethers.parseEther("10"); // 10 ETH
+    const dueDate = Math.floor(Date.now() / 1000) + (30 * 24 * 60 * 60); // 30 days
+    tx = await contract.connect(supplier).createInvoice(buyer.address, amount, dueDate);
+    await tx.wait();
+    console.log("✅ Invoice created!");
+    
+    // 3. Check invoice
+    const invoice = await contract.invoices(1);
+    console.log("\n📋 Invoice Details:");
+    console.log("   ID:", invoice.id.toString());
+    console.log("   Amount:", ethers.formatEther(invoice.amount), "ETH");
+    console.log("   Status:", invoice.status.toString(), "(0=Created)");
+    
+    // 4. Approve invoice (as buyer)
+    console.log("\n✍️ Buyer approving invoice...");
+    tx = await contract.connect(buyer).approveInvoice(1);
+    await tx.wait();
+    console.log("✅ Invoice approved!");
+    
+    console.log("\n🎉 Complete invoice lifecycle executed on Sepolia!");
+}
+
+main().catch(console.error);</code></pre>
+                    </div>
+                </div>
+                
+                <div class="slide-footer">
+                    <span class="presenter">Gilang Bhagaskara | Certified Blockchain Professional</span>
+                </div>
+            </section>
+
+            <!-- ============================================
+                 SLIDE 10: LIVE DEPLOYMENT ACTIVITY
+                 ============================================ -->
+            <section data-background="#043854">
+                <div class="slide-header">
+                    <img src="../assets/images/logo-blocksphere.png" alt="Blocksphere" class="logo">
+                </div>
+                
+                <div class="slide-content">
+                    <h2>🏆 Live Deployment Challenge</h2>
+                    
+                    <div class="challenge-box">
+                        <h3>Deploy Your Contract — 15 Minutes!</h3>
+                        <div class="challenge-timer" id="deploy-timer">15:00</div>
+                        <button class="demo-button" onclick="BlocksphereDemos.startTimer('deploy-timer', 900)">START!</button>
+                    </div>
+                    
+                    <h3>Deployment Checklist</h3>
+                    <div class="progress-tracker">
+                        <div class="progress-item" id="check-1">
+                            <div class="progress-checkbox"></div>
+                            <div>Environment variables configured (.env file)</div>
+                        </div>
+                        <div class="progress-item" id="check-2">
+                            <div class="progress-checkbox"></div>
+                            <div>Testnet ETH in wallet (check balance)</div>
+                        </div>
+                        <div class="progress-item" id="check-3">
+                            <div class="progress-checkbox"></div>
+                            <div>Contract deploys successfully (note the address!)</div>
+                        </div>
+                        <div class="progress-item" id="check-4">
+                            <div class="progress-checkbox"></div>
+                            <div>Contract verified on Etherscan</div>
+                        </div>
+                        <div class="progress-item" id="check-5">
+                            <div class="progress-checkbox"></div>
+                            <div>At least one transaction executed</div>
+                        </div>
+                    </div>
+                    
+                    <div class="callout callout-info">
+                        <strong>Need Help?</strong> Raise your hand or pair up with someone who's done. We're all in this together!
+                    </div>
+                </div>
+                
+                <div class="slide-footer">
+                    <span class="presenter">Gilang Bhagaskara | Certified Blockchain Professional</span>
+                </div>
+            </section>
+
+            <!-- ============================================
+                 SLIDE 11: PROJECT SHOWCASE
+                 ============================================ -->
+            <section data-background="#043854">
+                <div class="slide-header">
+                    <img src="../assets/images/logo-blocksphere.png" alt="Blocksphere" class="logo">
+                </div>
+                
+                <div class="slide-content">
+                    <h2>🌟 Project Showcase</h2>
+                    
+                    <p>Let's celebrate! Share your deployed contract address with the group. Every address here represents a real, immutable smart contract on a public blockchain.</p>
+                    
+                    <div class="code-block" data-language="text">
+                        <pre><code class="language-text">🏆 Deployed Contracts Showcase
+
+Participant 1: 0x_________________________________
+Participant 2: 0x_________________________________
+Participant 3: 0x_________________________________
+Participant 4: 0x_________________________________
+Participant 5: 0x_________________________________
+
+View any contract: https://sepolia.etherscan.io/address/CONTRACT_ADDRESS</code></pre>
+                    </div>
+                    
+                    <div class="stat-highlight" style="margin-top: 30px;">
+                        <div class="stat-number" id="deployed-count">—</div>
+                        <div class="stat-label">Contracts Successfully Deployed!</div>
+                    </div>
+                    
+                    <div class="callout callout-success">
+                        <strong>You Did It!</strong> Each of these contracts is permanent, public, and verifiable. This is your first entry into the immutable ledger of blockchain history!
+                    </div>
+                </div>
+                
+                <div class="slide-footer">
+                    <span class="presenter">Gilang Bhagaskara | Certified Blockchain Professional</span>
+                </div>
+            </section>
+
+            <!-- ============================================
+                 SLIDE 12: TRAINING JOURNEY RECAP
+                 ============================================ -->
+            <section data-background="#043854">
+                <div class="slide-header">
+                    <img src="../assets/images/logo-blocksphere.png" alt="Blocksphere" class="logo">
+                </div>
+                
+                <div class="slide-content">
+                    <h2>Your Web3 Engineering Journey</h2>
+                    
+                    <p>Let's take a moment to appreciate how far you've come in just three days. You've gone from Web2 developers to Web3 engineers!</p>
+                    
+                    <div class="two-columns">
+                        <div>
+                            <h4>Day 1: Foundations</h4>
+                            <ul style="font-size: 0.85em;">
+                                <li>Cryptographic primitives (hashing, signatures)</li>
+                                <li>Merkle trees & blockchain structure</li>
+                                <li>Ethereum address generation</li>
+                                <li>Development environment setup</li>
+                                <li>Consensus mechanisms</li>
+                                <li>SCF business context</li>
+                            </ul>
+                        </div>
+                        <div>
+                            <h4>Day 2: Development</h4>
+                            <ul style="font-size: 0.85em;">
+                                <li>Solidity fundamentals</li>
+                                <li>Data types & storage</li>
+                                <li>Functions, modifiers, events</li>
+                                <li>Invoice struct implementation</li>
+                                <li>State machine logic</li>
+                                <li>Unit testing with Hardhat</li>
+                            </ul>
+                        </div>
+                    </div>
+                    
+                    <div style="margin-top: 20px;">
+                        <h4>Day 3: Production</h4>
+                        <ul style="font-size: 0.85em;">
+                            <li>Security vulnerabilities (reentrancy, overflow, access control)</li>
+                            <li>Audit tools (Slither, MythX)</li>
+                            <li>Oracle integration concepts</li>
+                            <li>Frontend connectivity basics</li>
+                            <li>Testnet deployment & verification</li>
+                            <li>Live contract interaction!</li>
+                        </ul>
+                    </div>
+                </div>
+                
+                <div class="slide-footer">
+                    <span class="presenter">Gilang Bhagaskara | Certified Blockchain Professional</span>
+                </div>
+            </section>
+
+            <!-- ============================================
+                 SLIDE 13: WHAT YOU'VE ACHIEVED
+                 ============================================ -->
+            <section data-background="#043854">
+                <div class="slide-header">
+                    <img src="../assets/images/logo-blocksphere.png" alt="Blocksphere" class="logo">
+                </div>
+                
+                <div class="slide-content">
+                    <h2>🏅 What You've Achieved</h2>
+                    
+                    <p>These aren't just checkboxes—each item represents real, marketable skills in one of the fastest-growing sectors in technology.</p>
+                    
+                    <div class="progress-tracker">
+                        <div class="progress-item completed">
+                            <div class="progress-checkbox"></div>
+                            <div><strong>Understand blockchain architecture</strong> — Layer 1/2, consensus, finality</div>
+                        </div>
+                        <div class="progress-item completed">
+                            <div class="progress-checkbox"></div>
+                            <div><strong>Write Solidity smart contracts</strong> — Structs, mappings, modifiers, events</div>
+                        </div>
+                        <div class="progress-item completed">
+                            <div class="progress-checkbox"></div>
+                            <div><strong>Implement business logic</strong> — Invoice factoring state machine</div>
+                        </div>
+                        <div class="progress-item completed">
+                            <div class="progress-checkbox"></div>
+                            <div><strong>Write comprehensive tests</strong> — Hardhat + Chai testing framework</div>
+                        </div>
+                        <div class="progress-item completed">
+                            <div class="progress-checkbox"></div>
+                            <div><strong>Identify security vulnerabilities</strong> — Reentrancy, overflow, access control</div>
+                        </div>
+                        <div class="progress-item completed">
+                            <div class="progress-checkbox"></div>
+                            <div><strong>Use professional audit tools</strong> — Slither, MythX</div>
+                        </div>
+                        <div class="progress-item completed">
+                            <div class="progress-checkbox"></div>
+                            <div><strong>Deploy to public blockchain</strong> — Testnet deployment & verification</div>
+                        </div>
+                    </div>
+                    
+                    <div class="callout callout-success" style="margin-top: 15px;">
+                        <strong>Market Value:</strong> These skills are in high demand. Web3 developers command premium salaries because the talent pool is still limited relative to demand.
+                    </div>
+                </div>
+                
+                <div class="slide-footer">
+                    <span class="presenter">Gilang Bhagaskara | Certified Blockchain Professional</span>
+                </div>
+            </section>
+
+            <!-- ============================================
+                 SLIDE 14: NEXT STEPS - LEARNING PATH
+                 ============================================ -->
+            <section data-background="#043854">
+                <div class="slide-header">
+                    <img src="../assets/images/logo-blocksphere.png" alt="Blocksphere" class="logo">
+                </div>
+                
+                <div class="slide-content">
+                    <h2>Your Continued Learning Path</h2>
+                    
+                    <p>This training is your launchpad, not your destination. Here's a roadmap for continued growth as a Web3 engineer.</p>
+                    
+                    <h3>Immediate Next Steps (1-4 weeks)</h3>
+                    <ul>
+                        <li>Complete CryptoZombies tutorial (free, interactive)</li>
+                        <li>Build a personal project (token, NFT, or DeFi protocol)</li>
+                        <li>Participate in a hackathon (ETHGlobal, Encode Club)</li>
+                        <li>Join developer communities (Discord, Telegram)</li>
+                    </ul>
+                    
+                    <h3>Intermediate Goals (1-3 months)</h3>
+                    <ul>
+                        <li>Learn advanced Solidity patterns (proxy contracts, diamonds)</li>
+                        <li>Study gas optimization techniques</li>
+                        <li>Explore Layer 2 development (Optimism, Arbitrum, zkSync)</li>
+                        <li>Build a full-stack DApp with React/Next.js</li>
+                    </ul>
+                    
+                    <h3>Advanced Mastery (3-12 months)</h3>
+                    <ul>
+                        <li>Contribute to open-source protocols</li>
+                        <li>Learn formal verification</li>
+                        <li>Study advanced cryptography (ZK proofs)</li>
+                        <li>Consider security audit training</li>
+                    </ul>
+                </div>
+                
+                <div class="slide-footer">
+                    <span class="presenter">Gilang Bhagaskara | Certified Blockchain Professional</span>
+                </div>
+            </section>
+
+            <!-- ============================================
+                 SLIDE 15: RESOURCES
+                 ============================================ -->
+            <section data-background="#043854">
+                <div class="slide-header">
+                    <img src="../assets/images/logo-blocksphere.png" alt="Blocksphere" class="logo">
+                </div>
+                
+                <div class="slide-content">
+                    <h2>Essential Resources</h2>
+                    
+                    <p>Bookmark these resources. They'll be your companions on your Web3 journey.</p>
+                    
+                    <div class="two-columns">
+                        <div>
+                            <h4>📚 Documentation</h4>
+                            <ul style="font-size: 0.85em;">
+                                <li><strong>Solidity:</strong> docs.soliditylang.org</li>
+                                <li><strong>Ethereum:</strong> ethereum.org/developers</li>
+                                <li><strong>OpenZeppelin:</strong> docs.openzeppelin.com</li>
+                                <li><strong>Hardhat:</strong> hardhat.org/docs</li>
+                                <li><strong>Ethers.js:</strong> docs.ethers.org</li>
+                            </ul>
+                            
+                            <h4 style="margin-top: 20px;">🎓 Learning Platforms</h4>
+                            <ul style="font-size: 0.85em;">
+                                <li><strong>CryptoZombies:</strong> cryptozombies.io (free)</li>
+                                <li><strong>Alchemy University:</strong> university.alchemy.com (free)</li>
+                                <li><strong>Speedrun Ethereum:</strong> speedrunethereum.com (free)</li>
+                                <li><strong>Cyfrin Updraft:</strong> updraft.cyfrin.io (free)</li>
+                            </ul>
+                        </div>
+                        <div>
+                            <h4>🛡️ Security</h4>
+                            <ul style="font-size: 0.85em;">
+                                <li><strong>SWC Registry:</strong> swcregistry.io</li>
+                                <li><strong>Damn Vulnerable DeFi:</strong> damnvulnerabledefi.xyz</li>
+                                <li><strong>Ethernaut:</strong> ethernaut.openzeppelin.com</li>
+                                <li><strong>Smart Contract Weakness:</strong> consensys.github.io/smart-contract-best-practices</li>
+                            </ul>
+                            
+                            <h4 style="margin-top: 20px;">🌐 Communities</h4>
+                            <ul style="font-size: 0.85em;">
+                                <li><strong>Ethereum Stack Exchange</strong></li>
+                                <li><strong>r/ethdev</strong> (Reddit)</li>
+                                <li><strong>ETHGlobal Discord</strong></li>
+                                <li><strong>Hardhat Discord</strong></li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="slide-footer">
+                    <span class="presenter">Gilang Bhagaskara | Certified Blockchain Professional</span>
+                </div>
+            </section>
+
+            <!-- ============================================
+                 SLIDE 16: ENTERPRISE CONSIDERATIONS
+                 ============================================ -->
+            <section data-background="#043854">
+                <div class="slide-header">
+                    <img src="../assets/images/logo-blocksphere.png" alt="Blocksphere" class="logo">
+                </div>
+                
+                <div class="slide-content">
+                    <h2>Enterprise Implementation Considerations</h2>
+                    
+                    <p>As you bring blockchain solutions to your clients, keep these enterprise-grade considerations in mind.</p>
+                    
+                    <div class="two-columns">
+                        <div>
+                            <h4>Regulatory & Compliance</h4>
+                            <ul style="font-size: 0.85em;">
+                                <li>KYC/AML requirements for financial transactions</li>
+                                <li>Data privacy regulations (GDPR, PDPA)</li>
+                                <li>Securities law for tokenized assets</li>
+                                <li>Cross-border transaction rules</li>
+                            </ul>
+                            
+                            <h4 style="margin-top: 20px;">Security & Operations</h4>
+                            <ul style="font-size: 0.85em;">
+                                <li>Multi-signature wallet governance</li>
+                                <li>Key management & HSM integration</li>
+                                <li>Disaster recovery procedures</li>
+                                <li>Incident response planning</li>
+                            </ul>
+                        </div>
+                        <div>
+                            <h4>Architecture Decisions</h4>
+                            <ul style="font-size: 0.85em;">
+                                <li>Public vs private/consortium chains</li>
+                                <li>On-chain vs off-chain data storage</li>
+                                <li>Upgradability patterns (proxy contracts)</li>
+                                <li>Oracle selection and fallback strategies</li>
+                            </ul>
+                            
+                            <h4 style="margin-top: 20px;">Integration</h4>
+                            <ul style="font-size: 0.85em;">
+                                <li>ERP system connectivity</li>
+                                <li>Legacy database synchronization</li>
+                                <li>API gateway and rate limiting</li>
+                                <li>Event-driven architecture (indexers)</li>
+                            </ul>
+                        </div>
+                    </div>
+                    
+                    <div class="callout callout-info" style="margin-top: 15px;">
+                        <strong>Pro Tip:</strong> Start with a pilot project on testnet, graduate to a consortium/private chain for controlled testing, then consider mainnet only when thoroughly validated.
+                    </div>
+                </div>
+                
+                <div class="slide-footer">
+                    <span class="presenter">Gilang Bhagaskara | Certified Blockchain Professional</span>
+                </div>
+            </section>
+
+            <!-- ============================================
+                 SLIDE 17: SCF VISION
+                 ============================================ -->
+            <section data-background="#043854">
+                <div class="slide-header">
+                    <img src="../assets/images/logo-blocksphere.png" alt="Blocksphere" class="logo">
+                </div>
+                
+                <div class="slide-content">
+                    <h2>The Vision: SCF on Blockchain</h2>
+                    
+                    <p>You've built a foundation for something transformative. Here's where supply chain finance on blockchain is heading.</p>
+                    
+                    <h3>The Future We're Building</h3>
+                    <div class="two-columns">
+                        <div>
+                            <h4>🔄 Real-time Settlement</h4>
+                            <p style="font-size: 0.85em;">Invoices approved and paid within minutes, not weeks. Suppliers get immediate liquidity.</p>
+                            
+                            <h4 style="margin-top: 15px;">🌐 Global Interoperability</h4>
+                            <p style="font-size: 0.85em;">Cross-border transactions without correspondent bank delays. One protocol, global reach.</p>
+                        </div>
+                        <div>
+                            <h4>🤖 Automated Compliance</h4>
+                            <p style="font-size: 0.85em;">Smart contracts enforce terms automatically. KYC/AML checks embedded in the flow.</p>
+                            
+                            <h4 style="margin-top: 15px;">🔍 Full Transparency</h4>
+                            <p style="font-size: 0.85em;">Every invoice, approval, and payment recorded on an immutable audit trail.</p>
+                        </div>
+                    </div>
+                    
+                    <h3 style="margin-top: 25px;">Industry Adoption</h3>
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>Platform</th>
+                                <th>Focus</th>
+                                <th>Consortium</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>Marco Polo Network</td>
+                                <td>Trade finance</td>
+                                <td>30+ global banks</td>
+                            </tr>
+                            <tr>
+                                <td>Contour</td>
+                                <td>Letters of credit</td>
+                                <td>Major trade banks</td>
+                            </tr>
+                            <tr>
+                                <td>Komgo</td>
+                                <td>Commodity finance</td>
+                                <td>Energy & commodities</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+                
+                <div class="slide-footer">
+                    <span class="presenter">Gilang Bhagaskara | Certified Blockchain Professional</span>
+                </div>
+            </section>
+
+            <!-- ============================================
+                 SLIDE 18: Q&A SESSION
+                 ============================================ -->
+            <section data-background="#043854">
+                <div class="slide-header">
+                    <img src="../assets/images/logo-blocksphere.png" alt="Blocksphere" class="logo">
+                </div>
+                
+                <div class="slide-content">
+                    <h2>❓ Questions & Answers</h2>
+                    
+                    <p>This is your time! Ask anything—technical questions, implementation advice, career guidance, or anything else on your mind.</p>
+                    
+                    <div class="two-columns" style="margin-top: 30px;">
+                        <div>
+                            <h4>Technical Questions</h4>
+                            <ul>
+                                <li>Solidity patterns & best practices</li>
+                                <li>Testing strategies</li>
+                                <li>Security considerations</li>
+                                <li>Deployment & DevOps</li>
+                                <li>Frontend integration</li>
+                            </ul>
+                        </div>
+                        <div>
+                            <h4>Strategic Questions</h4>
+                            <ul>
+                                <li>Implementation planning</li>
+                                <li>Team skill development</li>
+                                <li>Vendor/tool selection</li>
+                                <li>Architecture decisions</li>
+                                <li>Career advice</li>
+                            </ul>
+                        </div>
+                    </div>
+                    
+                    <div style="text-align: center; margin-top: 40px;">
+                        <div style="font-size: 4em;">🙋‍♂️ 🙋‍♀️</div>
+                        <p style="font-size: 1.2em; color: var(--bs-accent);">Who wants to go first?</p>
+                    </div>
+                </div>
+                
+                <div class="slide-footer">
+                    <span class="presenter">Gilang Bhagaskara | Certified Blockchain Professional</span>
+                </div>
+            </section>
+
+            <!-- ============================================
+                 SLIDE 19: FEEDBACK
+                 ============================================ -->
+            <section data-background="#043854">
+                <div class="slide-header">
+                    <img src="../assets/images/logo-blocksphere.png" alt="Blocksphere" class="logo">
+                </div>
+                
+                <div class="slide-content">
+                    <h2>📝 Your Feedback Matters</h2>
+                    
+                    <p>Help us improve future trainings. Your honest feedback shapes how we teach the next generation of Web3 developers.</p>
+                    
+                    <div class="two-columns" style="margin-top: 30px;">
+                        <div>
+                            <h4>What to Share</h4>
+                            <ul>
+                                <li>What worked well?</li>
+                                <li>What could be improved?</li>
+                                <li>Pace: too fast, too slow, just right?</li>
+                                <li>Hands-on labs vs lectures balance?</li>
+                                <li>Topics you wanted more depth on?</li>
+                                <li>Topics that felt unnecessary?</li>
+                            </ul>
+                        </div>
+                        <div>
+                            <h4>Feedback Channels</h4>
+                            <div style="background: rgba(74, 158, 164, 0.2); padding: 20px; border-radius: 10px; margin-top: 10px;">
+                                <p style="text-align: center; font-size: 0.9em;">
+                                    <strong>Training Feedback Form</strong><br><br>
+                                    📱 Scan QR code or visit:<br>
+                                    <code>forms.blocksphere.id/feedback</code>
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="callout callout-info" style="margin-top: 25px;">
+                        <strong>Thank you</strong> for taking the time to share your thoughts. Every piece of feedback helps us deliver better training experiences.
+                    </div>
+                </div>
+                
+                <div class="slide-footer">
+                    <span class="presenter">Gilang Bhagaskara | Certified Blockchain Professional</span>
+                </div>
+            </section>
+
+            <!-- ============================================
+                 SLIDE 20: CERTIFICATE
+                 ============================================ -->
+            <section data-background="linear-gradient(135deg, #043854 0%, #065a7a 100%)">
+                <div class="slide-header">
+                    <img src="../assets/images/logo-blocksphere.png" alt="Blocksphere" class="logo">
+                </div>
+                
+                <div class="slide-content" style="text-align: center;">
+                    <h2>🎓 Certificate of Completion</h2>
+                    
+                    <div style="background: rgba(255, 255, 255, 0.1); border: 2px solid var(--bs-accent); border-radius: 20px; padding: 40px; max-width: 700px; margin: 30px auto;">
+                        <p style="font-size: 0.9em; color: var(--bs-accent); margin-bottom: 10px;">This certifies that</p>
+                        <p style="font-size: 1.8em; font-weight: 700; margin: 15px 0; border-bottom: 2px solid var(--bs-accent); padding-bottom: 10px;">
+                            [Your Name]
+                        </p>
+                        <p style="font-size: 0.95em; margin: 20px 0;">
+                            has successfully completed the
+                        </p>
+                        <p style="font-size: 1.3em; font-weight: 700; color: var(--bs-accent);">
+                            Web3 Engineering Training
+                        </p>
+                        <p style="font-size: 1em;">
+                            Architecting Supply Chain Finance Solutions
+                        </p>
+                        <p style="font-size: 0.85em; margin-top: 25px; color: rgba(255,255,255,0.7);">
+                            21 Hours | Solidity | Smart Contracts | Security | Testnet Deployment
+                        </p>
+                    </div>
+                    
+                    <div style="margin-top: 25px;">
+                        <p style="font-size: 0.9em; color: rgba(255,255,255,0.8);">Delivered by</p>
+                        <p style="font-size: 1.1em;"><strong>Blocksphere.id</strong> in partnership with <strong>NobleProg</strong></p>
+                    </div>
+                </div>
+                
+                <div class="slide-footer">
+                    <span class="presenter">Gilang Bhagaskara | Certified Blockchain Professional</span>
+                </div>
+            </section>
+
+            <!-- ============================================
+                 SLIDE 21: STAY CONNECTED
+                 ============================================ -->
+            <section data-background="#043854">
+                <div class="slide-header">
+                    <img src="../assets/images/logo-blocksphere.png" alt="Blocksphere" class="logo">
+                </div>
+                
+                <div class="slide-content">
+                    <h2>🔗 Stay Connected</h2>
+                    
+                    <p>Your learning journey doesn't end here. Stay connected with Blocksphere and your fellow participants.</p>
+                    
+                    <div class="two-columns" style="margin-top: 30px;">
+                        <div>
+                            <h4>Blocksphere</h4>
+                            <ul style="font-size: 0.9em;">
+                                <li>🌐 Website: <strong>blocksphere.id</strong></li>
+                                <li>📧 Email: <strong>hello@blocksphere.id</strong></li>
+                                <li>💼 LinkedIn: <strong>Blocksphere Indonesia</strong></li>
+                                <li>📱 Instagram: <strong>@blocksphere.id</strong></li>
+                            </ul>
+                        </div>
+                        <div>
+                            <h4>Training Materials</h4>
+                            <ul style="font-size: 0.9em;">
+                                <li>📚 Slides: Available on this platform</li>
+                                <li>💻 Code: GitHub repository shared</li>
+                                <li>🎥 Recordings: Available upon request</li>
+                                <li>📋 Cheatsheets: PDF download ready</li>
+                            </ul>
+                        </div>
+                    </div>
+                    
+                    <div style="text-align: center; margin-top: 35px; padding: 25px; background: rgba(74, 158, 164, 0.15); border-radius: 15px;">
+                        <h4 style="color: var(--bs-accent);">Alumni Network</h4>
+                        <p style="font-size: 0.9em; margin-top: 10px;">Join our alumni community for continued learning, job opportunities, and collaboration on Web3 projects!</p>
+                    </div>
+                </div>
+                
+                <div class="slide-footer">
+                    <span class="presenter">Gilang Bhagaskara | Certified Blockchain Professional</span>
+                </div>
+            </section>
+
+            <!-- ============================================
+                 SLIDE 22: FINAL THANK YOU
+                 ============================================ -->
+            <section data-background="linear-gradient(135deg, #043854 0%, #065a7a 100%)">
+                <div class="slide-header">
+                    <img src="../assets/images/logo-blocksphere.png" alt="Blocksphere" class="logo">
+                </div>
+                
+                <div class="title-slide">
+                    <h1 style="font-size: 2.5em;">🙏 Thank You!</h1>
+                    <p class="subtitle">It's Been an Incredible Journey Together</p>
+                    
+                    <div style="margin-top: 40px; text-align: center;">
+                        <p style="font-size: 1.1em; max-width: 700px; margin: 0 auto; line-height: 1.8;">
+                            You came here as developers. You're leaving as <strong>Web3 engineers</strong>.<br>
+                            Go build the future of decentralized finance!
+                        </p>
+                    </div>
+                    
+                    <div style="margin-top: 50px;">
+                        <div style="font-size: 3em;">🚀</div>
+                        <p style="font-size: 1.2em; color: var(--bs-accent); font-weight: 600; margin-top: 15px;">
+                            The Blockchain Revolution Needs Engineers Like You
+                        </p>
+                    </div>
+                    
+                    <div style="margin-top: 40px; display: flex; justify-content: center; gap: 40px; flex-wrap: wrap;">
+                        <div style="text-align: center;">
+                            <p style="font-size: 2.5em; font-weight: 800; color: var(--bs-accent);">21</p>
+                            <p style="font-size: 0.8em;">Hours of Training</p>
+                        </div>
+                        <div style="text-align: center;">
+                            <p style="font-size: 2.5em; font-weight: 800; color: var(--bs-accent);">5</p>
+                            <p style="font-size: 0.8em;">Core Sessions</p>
+                        </div>
+                        <div style="text-align: center;">
+                            <p style="font-size: 2.5em; font-weight: 800; color: var(--bs-accent);">1</p>
+                            <p style="font-size: 0.8em;">Deployed Contract</p>
+                        </div>
+                        <div style="text-align: center;">
+                            <p style="font-size: 2.5em; font-weight: 800; color: var(--bs-accent);">∞</p>
+                            <p style="font-size: 0.8em;">Possibilities</p>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="slide-footer">
+                    <span class="presenter">Gilang Bhagaskara | Certified Blockchain Professional</span>
+                    <span>blocksphere.id</span>
+                </div>
+            </section>
+
+            <!-- ============================================
+                 SLIDE 23: CLOSING PHOTO
+                 ============================================ -->
+            <section data-background="linear-gradient(135deg, #043854 0%, #065a7a 100%)">
+                <div class="slide-header">
+                    <img src="../assets/images/logo-blocksphere.png" alt="Blocksphere" class="logo">
+                </div>
+                
+                <div class="title-slide">
+                    <h1 style="font-size: 2.2em;">📸 Group Photo Time!</h1>
+                    <p class="subtitle">Let's Capture This Moment</p>
+                    
+                    <div style="margin-top: 50px; text-align: center;">
+                        <div style="font-size: 8em;">👨‍💻👩‍💻👨‍💻👩‍💻</div>
+                        <p style="font-size: 1.1em; margin-top: 30px; color: rgba(255,255,255,0.9);">
+                            Everyone gather around!<br>
+                            Hold up your contract addresses! 📱
+                        </p>
+                    </div>
+                    
+                    <div style="margin-top: 50px; font-size: 0.9em; color: var(--bs-accent);">
+                        <p>#Web3Engineering #BlocksphereTrained #SolidityDeveloper</p>
+                    </div>
+                </div>
+                
+                <div class="slide-footer">
+                    <span class="presenter">Gilang Bhagaskara | Certified Blockchain Professional</span>
+                    <span>blocksphere.id</span>
+                </div>
+            </section>
+
+            <!-- ============================================
+                 SLIDE 24: FINAL SLIDE - CONTACT
+                 ============================================ -->
+            <section data-background="linear-gradient(135deg, #043854 0%, #065a7a 100%)">
+                <div class="slide-header">
+                    <img src="../assets/images/logo-blocksphere.png" alt="Blocksphere" class="logo">
+                </div>
+                
+                <div class="title-slide">
+                    <img src="../assets/images/logo-blocksphere.png" alt="Blocksphere" style="height: 80px; margin-bottom: 30px;">
+                    
+                    <h1 style="font-size: 2em;">Web3 Engineering Training</h1>
+                    <p class="subtitle">Architecting Supply Chain Finance Solutions</p>
+                    
+                    <div style="margin-top: 50px;">
+                        <p style="font-size: 1em;">
+                            <strong>Blocksphere.id</strong> — Your Partner in Web3 Innovation
+                        </p>
+                        <p style="font-size: 0.9em; margin-top: 15px; color: rgba(255,255,255,0.8);">
+                            Training | Consulting | Development
+                        </p>
+                    </div>
+                    
+                    <div style="margin-top: 40px; font-size: 0.95em;">
+                        <p>🌐 blocksphere.id</p>
+                        <p>📧 hello@blocksphere.id</p>
+                    </div>
+                    
+                    <p style="margin-top: 50px; font-size: 0.8em; color: rgba(255,255,255,0.5);">
+                        © 2024 Blocksphere.id | In Partnership with NobleProg Indonesia
+                    </p>
+                </div>
+                
+                <div class="slide-footer">
+                    <span class="presenter">Gilang Bhagaskara | Certified Blockchain Professional</span>
+                </div>
+            </section>
+
+        </div>
+    </div>
+
+    <!-- Reveal.js -->
+    <script src="https://cdn.jsdelivr.net/npm/reveal.js@5.0.4/dist/reveal.js"></script>
+    
+    <!-- Highlight.js -->
+    <script src="https://cdn.jsdelivr.net/npm/highlight.js@11.9.0/lib/highlight.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/highlight.js@11.9.0/lib/languages/javascript.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/highlight.js@11.9.0/lib/languages/solidity.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/highlight.js@11.9.0/lib/languages/bash.min.js"></script>
+    
+    <!-- Custom Interactive Functions -->
+    <script src="../assets/js/interactive.js"></script>
+    
+    <script>
+        Reveal.initialize({
+            hash: true,
+            slideNumber: 'c/t',
+            showSlideNumber: 'all',
+            transition: 'slide',
+            transitionSpeed: 'default',
+            backgroundTransition: 'fade',
+            pdfSeparateFragments: false,
+            width: 1920,
+            height: 1080,
+            margin: 0.04,
+            minScale: 0.2,
+            maxScale: 2.0
+        });
+        
+        hljs.highlightAll();
+    </script>
+</body>
+</html>
