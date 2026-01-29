@@ -601,7 +601,695 @@ View any contract: https://sepolia.etherscan.io/address/CONTRACT_ADDRESS</code><
             </section>
 
             <!-- ============================================
-                 SLIDE 12: TRAINING JOURNEY RECAP
+                 SLIDE 12: PROJECT STRUCTURE
+                 ============================================ -->
+            <section data-background="#043854">
+                <div class="slide-header">
+                    <img src="../assets/images/logo-blocksphere.png" alt="Blocksphere" class="logo">
+                </div>
+                
+                <div class="slide-content">
+                    <h2>📁 Final Project Structure</h2>
+                    
+                    <p>Here's the complete project structure. Copy this to your machine and follow along!</p>
+                    
+                    <div class="two-columns">
+                        <div>
+                            <div class="code-block" data-language="text">
+                                <button class="code-copy-btn">Copy</button>
+                                <pre><code class="language-text">finalproject/
+├── contracts/
+│   └── FactoringContract.sol
+├── scripts/
+│   ├── deploy.js
+│   └── interact.js
+├── test/
+│   └── FactoringContract.test.js
+├── frontend/
+│   ├── index.html
+│   ├── styles.css
+│   ├── app.js
+│   ├── config.js
+│   └── abi.js
+├── hardhat.config.js
+├── package.json
+└── .env.example</code></pre>
+                            </div>
+                        </div>
+                        <div>
+                            <h4>Key Files</h4>
+                            <ul style="font-size: 0.85em;">
+                                <li><strong>FactoringContract.sol</strong> — Smart contract with full invoice lifecycle</li>
+                                <li><strong>deploy.js</strong> — Deployment script that auto-updates frontend config</li>
+                                <li><strong>app.js</strong> — Frontend JavaScript using ethers.js v6</li>
+                                <li><strong>abi.js</strong> — Human-readable ABI for contract interaction</li>
+                                <li><strong>config.js</strong> — Contract address & network config</li>
+                            </ul>
+                            
+                            <h4 style="margin-top: 20px;">Quick Start</h4>
+                            <div class="terminal" style="font-size: 0.8em;">
+                                <div class="terminal-body">
+                                    <span class="terminal-prompt">$</span> npm install<br>
+                                    <span class="terminal-prompt">$</span> npm run node<br>
+                                    <span class="terminal-prompt">$</span> npm run deploy:local<br>
+                                    <span class="terminal-prompt">$</span> npm run frontend
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="slide-footer">
+                    <span class="presenter">Gilang Bhagaskara | Certified Blockchain Professional</span>
+                </div>
+            </section>
+
+            <!-- ============================================
+                 SLIDE 13: SMART CONTRACT - DATA STRUCTURES
+                 ============================================ -->
+            <section data-background="#043854">
+                <div class="slide-header">
+                    <img src="../assets/images/logo-blocksphere.png" alt="Blocksphere" class="logo">
+                </div>
+                
+                <div class="slide-content">
+                    <h2>Smart Contract: Data Structures</h2>
+                    
+                    <p>The contract uses enums for state management and a struct to store invoice data.</p>
+                    
+                    <div class="code-block" data-language="Solidity">
+                        <button class="code-copy-btn">Copy</button>
+                        <pre><code class="language-solidity">// SPDX-License-Identifier: MIT
+pragma solidity ^0.8.19;
+
+contract FactoringContract {
+    // Invoice status lifecycle
+    enum InvoiceStatus {
+        Created,            // 0: Supplier created invoice
+        Approved,           // 1: Buyer approved the invoice
+        FinancingRequested, // 2: Supplier requested early payment
+        Funded,             // 3: Financier paid the supplier
+        Settled,            // 4: Buyer paid the financier
+        Cancelled           // 5: Invoice was cancelled
+    }
+
+    // Invoice data structure
+    struct Invoice {
+        uint256 id;
+        address supplier;
+        address buyer;
+        uint256 amount;
+        uint256 dueDate;
+        InvoiceStatus status;
+        uint256 createdAt;
+        uint256 approvedAt;
+        address financier;
+        uint256 fundedAmount;
+        uint256 fundedAt;
+    }
+    
+    // State variables
+    address public admin;
+    uint256 public invoiceCount;
+    uint256 public discountRate = 200; // 2% in basis points
+    mapping(uint256 => Invoice) public invoices;
+}</code></pre>
+                    </div>
+                </div>
+                
+                <div class="slide-footer">
+                    <span class="presenter">Gilang Bhagaskara | Certified Blockchain Professional</span>
+                </div>
+            </section>
+
+            <!-- ============================================
+                 SLIDE 14: SMART CONTRACT - ACCESS CONTROL
+                 ============================================ -->
+            <section data-background="#043854">
+                <div class="slide-header">
+                    <img src="../assets/images/logo-blocksphere.png" alt="Blocksphere" class="logo">
+                </div>
+                
+                <div class="slide-content">
+                    <h2>Smart Contract: Access Control</h2>
+                    
+                    <p>Role-based access control using mappings and modifiers ensures only authorized users can perform specific actions.</p>
+                    
+                    <div class="code-block" data-language="Solidity">
+                        <button class="code-copy-btn">Copy</button>
+                        <pre><code class="language-solidity">// Authorization mappings
+mapping(address => bool) public authorizedSuppliers;
+mapping(address => bool) public authorizedBuyers;
+mapping(address => bool) public authorizedFinanciers;
+
+// Access control modifiers
+modifier onlyAdmin() {
+    require(msg.sender == admin, "Only admin can call this function");
+    _;
+}
+
+modifier onlyAuthorizedSupplier() {
+    require(authorizedSuppliers[msg.sender], "Not an authorized supplier");
+    _;
+}
+
+modifier onlyBuyer(uint256 _invoiceId) {
+    require(invoices[_invoiceId].buyer == msg.sender, "Not the invoice buyer");
+    _;
+}
+
+modifier inStatus(uint256 _invoiceId, InvoiceStatus _status) {
+    require(invoices[_invoiceId].status == _status, "Invoice not in required status");
+    _;
+}
+
+// Admin authorization functions
+function authorizeSupplier(address _supplier) external onlyAdmin {
+    require(_supplier != address(0), "Invalid address");
+    authorizedSuppliers[_supplier] = true;
+    emit SupplierAuthorizationChanged(_supplier, true);
+}</code></pre>
+                    </div>
+                </div>
+                
+                <div class="slide-footer">
+                    <span class="presenter">Gilang Bhagaskara | Certified Blockchain Professional</span>
+                </div>
+            </section>
+
+            <!-- ============================================
+                 SLIDE 15: SMART CONTRACT - CORE FUNCTIONS
+                 ============================================ -->
+            <section data-background="#043854">
+                <div class="slide-header">
+                    <img src="../assets/images/logo-blocksphere.png" alt="Blocksphere" class="logo">
+                </div>
+                
+                <div class="slide-content">
+                    <h2>Smart Contract: Core Business Logic</h2>
+                    
+                    <p>The invoice lifecycle: Create → Approve → Request Financing → Fund → Settle</p>
+                    
+                    <div class="code-block" data-language="Solidity">
+                        <button class="code-copy-btn">Copy</button>
+                        <pre><code class="language-solidity">// Create invoice (supplier only)
+function createInvoice(address _buyer, uint256 _amount, uint256 _dueDate)
+    external onlyAuthorizedSupplier returns (uint256)
+{
+    require(_buyer != address(0), "Invalid buyer address");
+    require(_buyer != msg.sender, "Cannot invoice yourself");
+    require(_amount > 0, "Amount must be positive");
+    require(_dueDate > block.timestamp, "Due date must be in future");
+    
+    invoiceCount++;
+    invoices[invoiceCount] = Invoice({
+        id: invoiceCount,
+        supplier: msg.sender,
+        buyer: _buyer,
+        amount: _amount,
+        dueDate: _dueDate,
+        status: InvoiceStatus.Created,
+        createdAt: block.timestamp,
+        approvedAt: 0,
+        financier: address(0),
+        fundedAmount: 0,
+        fundedAt: 0
+    });
+    
+    emit InvoiceCreated(invoiceCount, msg.sender, _buyer, _amount, _dueDate);
+    return invoiceCount;
+}
+
+// Approve invoice (buyer only)
+function approveInvoice(uint256 _invoiceId)
+    external invoiceExists(_invoiceId) onlyBuyer(_invoiceId)
+    inStatus(_invoiceId, InvoiceStatus.Created)
+{
+    invoices[_invoiceId].status = InvoiceStatus.Approved;
+    invoices[_invoiceId].approvedAt = block.timestamp;
+    emit InvoiceApproved(_invoiceId, block.timestamp);
+}</code></pre>
+                    </div>
+                </div>
+                
+                <div class="slide-footer">
+                    <span class="presenter">Gilang Bhagaskara | Certified Blockchain Professional</span>
+                </div>
+            </section>
+
+            <!-- ============================================
+                 SLIDE 16: SMART CONTRACT - PAYMENT FUNCTIONS
+                 ============================================ -->
+            <section data-background="#043854">
+                <div class="slide-header">
+                    <img src="../assets/images/logo-blocksphere.png" alt="Blocksphere" class="logo">
+                </div>
+                
+                <div class="slide-content">
+                    <h2>Smart Contract: Payment Functions (CEI Pattern)</h2>
+                    
+                    <p>The <strong>Checks-Effects-Interactions</strong> pattern prevents reentrancy attacks by updating state before making external calls.</p>
+                    
+                    <div class="code-block" data-language="Solidity">
+                        <button class="code-copy-btn">Copy</button>
+                        <pre><code class="language-solidity">// Financier funds invoice (pays supplier early with discount)
+function fund(uint256 _invoiceId) external payable
+    invoiceExists(_invoiceId) onlyAuthorizedFinancier
+    inStatus(_invoiceId, InvoiceStatus.FinancingRequested)
+{
+    Invoice storage invoice = invoices[_invoiceId];
+    uint256 discountedAmount = calculateDiscountedAmount(invoice.amount);
+    require(msg.value >= discountedAmount, "Insufficient funds sent");
+    
+    // EFFECTS: Update state BEFORE external call (CEI pattern)
+    invoice.status = InvoiceStatus.Funded;
+    invoice.financier = msg.sender;
+    invoice.fundedAmount = discountedAmount;
+    invoice.fundedAt = block.timestamp;
+    
+    // INTERACTIONS: External calls after state updates
+    (bool success, ) = payable(invoice.supplier).call{value: discountedAmount}("");
+    require(success, "Transfer to supplier failed");
+    
+    // Refund excess payment
+    if (msg.value > discountedAmount) {
+        (bool refundSuccess, ) = payable(msg.sender).call{value: msg.value - discountedAmount}("");
+        require(refundSuccess, "Refund failed");
+    }
+    
+    emit InvoiceFunded(_invoiceId, msg.sender, discountedAmount);
+}
+
+// Calculate discounted amount (e.g., 2% discount = 98% of original)
+function calculateDiscountedAmount(uint256 _amount) public view returns (uint256) {
+    return _amount - (_amount * discountRate / 10000);
+}</code></pre>
+                    </div>
+                </div>
+                
+                <div class="slide-footer">
+                    <span class="presenter">Gilang Bhagaskara | Certified Blockchain Professional</span>
+                </div>
+            </section>
+
+            <!-- ============================================
+                 SLIDE 17: FRONTEND - SETUP & ABI
+                 ============================================ -->
+            <section data-background="#043854">
+                <div class="slide-header">
+                    <img src="../assets/images/logo-blocksphere.png" alt="Blocksphere" class="logo">
+                </div>
+                
+                <div class="slide-content">
+                    <h2>Frontend: Setup & ABI</h2>
+                    
+                    <p>The frontend uses <strong>ethers.js v6</strong> with human-readable ABI format for cleaner code.</p>
+                    
+                    <h3>abi.js — Human-Readable ABI</h3>
+                    <div class="code-block" data-language="JavaScript">
+                        <button class="code-copy-btn">Copy</button>
+                        <pre><code class="language-javascript">const CONTRACT_ABI = [
+    // Events
+    "event InvoiceCreated(uint256 indexed invoiceId, address indexed supplier, address indexed buyer, uint256 amount, uint256 dueDate)",
+    "event InvoiceApproved(uint256 indexed invoiceId, uint256 approvedAt)",
+    "event InvoiceFunded(uint256 indexed invoiceId, address indexed financier, uint256 fundedAmount)",
+    "event PaymentSettled(uint256 indexed invoiceId, address indexed buyer, address indexed financier, uint256 amount)",
+    
+    // View Functions
+    "function admin() view returns (address)",
+    "function invoiceCount() view returns (uint256)",
+    "function discountRate() view returns (uint256)",
+    "function invoices(uint256) view returns (uint256 id, address supplier, address buyer, uint256 amount, uint256 dueDate, uint8 status, uint256 createdAt, uint256 approvedAt, address financier, uint256 fundedAmount, uint256 fundedAt)",
+    "function getAuthorization(address _address) view returns (bool isSupplier, bool isBuyer, bool isFinancier)",
+    "function calculateDiscountedAmount(uint256 _amount) view returns (uint256)",
+    
+    // Write Functions
+    "function authorizeSupplier(address _supplier)",
+    "function authorizeBuyer(address _buyer)",
+    "function authorizeFinancier(address _financier)",
+    "function createInvoice(address _buyer, uint256 _amount, uint256 _dueDate) returns (uint256)",
+    "function approveInvoice(uint256 _invoiceId)",
+    "function requestEarlyPayment(uint256 _invoiceId)",
+    "function fund(uint256 _invoiceId) payable",
+    "function settlePayment(uint256 _invoiceId) payable"
+];</code></pre>
+                    </div>
+                </div>
+                
+                <div class="slide-footer">
+                    <span class="presenter">Gilang Bhagaskara | Certified Blockchain Professional</span>
+                </div>
+            </section>
+
+            <!-- ============================================
+                 SLIDE 18: FRONTEND - WALLET CONNECTION
+                 ============================================ -->
+            <section data-background="#043854">
+                <div class="slide-header">
+                    <img src="../assets/images/logo-blocksphere.png" alt="Blocksphere" class="logo">
+                </div>
+                
+                <div class="slide-content">
+                    <h2>Frontend: Connecting to MetaMask</h2>
+                    
+                    <p>Use <strong>ethers.BrowserProvider</strong> (v6) to connect to MetaMask and get a signer for transactions.</p>
+                    
+                    <div class="code-block" data-language="JavaScript">
+                        <button class="code-copy-btn">Copy</button>
+                        <pre><code class="language-javascript">let provider = null;
+let signer = null;
+let contract = null;
+let currentAccount = null;
+
+async function connectWallet() {
+    // Check if MetaMask is installed
+    if (typeof window.ethereum === 'undefined') {
+        alert('Please install MetaMask!');
+        return;
+    }
+    
+    try {
+        // Request account access
+        await window.ethereum.request({ method: 'eth_requestAccounts' });
+        
+        // Setup provider and signer (ethers.js v6 syntax)
+        provider = new ethers.BrowserProvider(window.ethereum);
+        signer = await provider.getSigner();
+        currentAccount = await signer.getAddress();
+        
+        // Get network info
+        const network = await provider.getNetwork();
+        console.log('Connected to chain:', Number(network.chainId));
+        
+        // Connect to contract
+        contract = new ethers.Contract(CONFIG.CONTRACT_ADDRESS, CONTRACT_ABI, signer);
+        
+        console.log('Wallet connected:', currentAccount);
+        
+    } catch (error) {
+        console.error('Connection error:', error);
+    }
+}
+
+// Listen for account changes
+window.ethereum.on('accountsChanged', (accounts) => {
+    if (accounts.length === 0) {
+        location.reload(); // Disconnected
+    } else {
+        currentAccount = accounts[0];
+        loadDashboardData(); // Refresh data
+    }
+});</code></pre>
+                    </div>
+                </div>
+                
+                <div class="slide-footer">
+                    <span class="presenter">Gilang Bhagaskara | Certified Blockchain Professional</span>
+                </div>
+            </section>
+
+            <!-- ============================================
+                 SLIDE 19: FRONTEND - READING CONTRACT DATA
+                 ============================================ -->
+            <section data-background="#043854">
+                <div class="slide-header">
+                    <img src="../assets/images/logo-blocksphere.png" alt="Blocksphere" class="logo">
+                </div>
+                
+                <div class="slide-content">
+                    <h2>Frontend: Reading Contract Data</h2>
+                    
+                    <p>Read public state variables and call view functions. Note: ethers.js v6 returns <strong>BigInt</strong> for numbers!</p>
+                    
+                    <div class="code-block" data-language="JavaScript">
+                        <button class="code-copy-btn">Copy</button>
+                        <pre><code class="language-javascript">async function loadDashboardData() {
+    // Read public state variables
+    const invoiceCount = await contract.invoiceCount();
+    const discountRate = await contract.discountRate();
+    const admin = await contract.admin();
+    
+    // IMPORTANT: ethers v6 returns BigInt, convert to Number for display
+    document.getElementById('stat-invoices').textContent = invoiceCount.toString();
+    document.getElementById('stat-discount').textContent = (Number(discountRate) / 100) + '%';
+    
+    // Call view function with parameters
+    const [isSupplier, isBuyer, isFinancier] = await contract.getAuthorization(currentAccount);
+    console.log('User roles:', { isSupplier, isBuyer, isFinancier });
+    
+    // Get user's ETH balance
+    const balance = await provider.getBalance(currentAccount);
+    document.getElementById('stat-balance').textContent = 
+        parseFloat(ethers.formatEther(balance)).toFixed(4) + ' ETH';
+}
+
+async function loadInvoices() {
+    const count = Number(await contract.invoiceCount());
+    
+    for (let i = count; i >= 1; i--) {
+        // Read invoice from mapping
+        const invoice = await contract.invoices(i);
+        
+        // Parse the Result object (ethers v6 returns array-like object)
+        const parsed = {
+            id: Number(invoice[0]),
+            supplier: String(invoice[1]),
+            buyer: String(invoice[2]),
+            amount: invoice[3],  // Keep as BigInt for calculations
+            status: Number(invoice[5])
+        };
+        
+        // Format amount for display
+        const amountEth = ethers.formatEther(parsed.amount);
+        console.log(`Invoice #${parsed.id}: ${amountEth} ETH`);
+    }
+}</code></pre>
+                    </div>
+                </div>
+                
+                <div class="slide-footer">
+                    <span class="presenter">Gilang Bhagaskara | Certified Blockchain Professional</span>
+                </div>
+            </section>
+
+            <!-- ============================================
+                 SLIDE 20: FRONTEND - WRITING TRANSACTIONS
+                 ============================================ -->
+            <section data-background="#043854">
+                <div class="slide-header">
+                    <img src="../assets/images/logo-blocksphere.png" alt="Blocksphere" class="logo">
+                </div>
+                
+                <div class="slide-content">
+                    <h2>Frontend: Sending Transactions</h2>
+                    
+                    <p>Write functions require a signer and return a transaction that must be awaited.</p>
+                    
+                    <div class="code-block" data-language="JavaScript">
+                        <button class="code-copy-btn">Copy</button>
+                        <pre><code class="language-javascript">// Create invoice (no ETH sent)
+async function createInvoice(buyerAddress, amountEth, dueDateTimestamp) {
+    try {
+        // Convert ETH to Wei (smallest unit)
+        const amountWei = ethers.parseEther(amountEth);
+        
+        // Call contract function - returns transaction
+        const tx = await contract.createInvoice(buyerAddress, amountWei, dueDateTimestamp);
+        
+        // Wait for transaction to be mined
+        console.log('Transaction sent:', tx.hash);
+        const receipt = await tx.wait();
+        console.log('Transaction confirmed in block:', receipt.blockNumber);
+        
+    } catch (error) {
+        console.error('Transaction failed:', error.reason || error.message);
+    }
+}
+
+// Fund invoice (sending ETH with the call)
+async function fundInvoice(invoiceId, amountEth) {
+    try {
+        // Calculate discounted amount from contract
+        const amount = ethers.parseEther(amountEth);
+        const discountedAmount = await contract.calculateDiscountedAmount(amount);
+        
+        // Send transaction WITH ETH value
+        const tx = await contract.fund(invoiceId, { value: discountedAmount });
+        await tx.wait();
+        
+        console.log('Invoice funded successfully!');
+        
+    } catch (error) {
+        // Parse error message
+        if (error.reason) {
+            alert('Error: ' + error.reason);
+        } else if (error.message.includes('user rejected')) {
+            alert('Transaction cancelled by user');
+        }
+    }
+}</code></pre>
+                    </div>
+                </div>
+                
+                <div class="slide-footer">
+                    <span class="presenter">Gilang Bhagaskara | Certified Blockchain Professional</span>
+                </div>
+            </section>
+
+            <!-- ============================================
+                 SLIDE 21: FRONTEND - EVENT LISTENING
+                 ============================================ -->
+            <section data-background="#043854">
+                <div class="slide-header">
+                    <img src="../assets/images/logo-blocksphere.png" alt="Blocksphere" class="logo">
+                </div>
+                
+                <div class="slide-content">
+                    <h2>Frontend: Listening to Events</h2>
+                    
+                    <p>Subscribe to contract events for real-time updates. Events are emitted when state changes on-chain.</p>
+                    
+                    <div class="code-block" data-language="JavaScript">
+                        <button class="code-copy-btn">Copy</button>
+                        <pre><code class="language-javascript">function setupContractEvents() {
+    // Listen for InvoiceCreated events
+    contract.on('InvoiceCreated', (invoiceId, supplier, buyer, amount, dueDate) => {
+        console.log('New invoice created!');
+        console.log('  ID:', invoiceId.toString());
+        console.log('  Supplier:', supplier);
+        console.log('  Buyer:', buyer);
+        console.log('  Amount:', ethers.formatEther(amount), 'ETH');
+        
+        // Show notification to user
+        showToast('success', 'Invoice Created', `Invoice #${invoiceId} created!`);
+        
+        // Refresh the invoice list
+        loadInvoices();
+    });
+    
+    // Listen for InvoiceApproved events
+    contract.on('InvoiceApproved', (invoiceId, approvedAt) => {
+        showToast('success', 'Invoice Approved', `Invoice #${invoiceId} approved!`);
+        loadInvoices();
+    });
+    
+    // Listen for InvoiceFunded events
+    contract.on('InvoiceFunded', (invoiceId, financier, fundedAmount) => {
+        showToast('success', 'Invoice Funded', 
+            `Invoice #${invoiceId} funded with ${ethers.formatEther(fundedAmount)} ETH!`);
+        loadInvoices();
+    });
+    
+    // Listen for PaymentSettled events
+    contract.on('PaymentSettled', (invoiceId, buyer, financier, amount) => {
+        showToast('success', 'Payment Settled', `Invoice #${invoiceId} has been settled!`);
+        loadInvoices();
+    });
+}
+
+// Call this after connecting wallet
+// setupContractEvents();</code></pre>
+                    </div>
+                </div>
+                
+                <div class="slide-footer">
+                    <span class="presenter">Gilang Bhagaskara | Certified Blockchain Professional</span>
+                </div>
+            </section>
+
+            <!-- ============================================
+                 SLIDE 22: ETHERS.JS V6 GOTCHAS
+                 ============================================ -->
+            <section data-background="#043854">
+                <div class="slide-header">
+                    <img src="../assets/images/logo-blocksphere.png" alt="Blocksphere" class="logo">
+                </div>
+                
+                <div class="slide-content">
+                    <h2>⚠️ Ethers.js v6 Gotchas</h2>
+                    
+                    <p>Common issues when migrating from v5 or working with contract data in v6.</p>
+                    
+                    <div class="two-columns">
+                        <div>
+                            <h4>BigInt Returns</h4>
+                            <div class="code-block" data-language="JavaScript" style="font-size: 0.75em;">
+                                <pre><code class="language-javascript">// ❌ Wrong - BigInt can't be in JSON
+const count = await contract.invoiceCount();
+console.log(JSON.stringify({ count })); // Error!
+
+// ✅ Correct - Convert to string/number
+console.log(JSON.stringify({ 
+    count: count.toString() 
+}));
+
+// ❌ Wrong - Direct comparison
+if (invoice.status === 1) { }
+
+// ✅ Correct - Convert BigInt first
+if (Number(invoice.status) === 1) { }</code></pre>
+                            </div>
+                            
+                            <h4 style="margin-top: 15px;">Struct Returns</h4>
+                            <div class="code-block" data-language="JavaScript" style="font-size: 0.75em;">
+                                <pre><code class="language-javascript">// ethers v6 returns Result object
+const invoice = await contract.invoices(1);
+
+// Access by index (more reliable)
+const id = Number(invoice[0]);
+const supplier = String(invoice[1]);
+const amount = invoice[3]; // Keep as BigInt
+
+// Or by name (if available)
+const status = Number(invoice.status);</code></pre>
+                            </div>
+                        </div>
+                        <div>
+                            <h4>Provider vs Signer</h4>
+                            <div class="code-block" data-language="JavaScript" style="font-size: 0.75em;">
+                                <pre><code class="language-javascript">// v5 syntax (old)
+const provider = new ethers.providers.Web3Provider(window.ethereum);
+
+// v6 syntax (new)
+const provider = new ethers.BrowserProvider(window.ethereum);</code></pre>
+                            </div>
+                            
+                            <h4 style="margin-top: 15px;">Formatting</h4>
+                            <div class="code-block" data-language="JavaScript" style="font-size: 0.75em;">
+                                <pre><code class="language-javascript">// Convert Wei to ETH
+const ethValue = ethers.formatEther(weiValue);
+
+// Convert ETH to Wei
+const weiValue = ethers.parseEther("1.5");
+
+// Format with units
+const gwei = ethers.formatUnits(value, "gwei");
+
+// Parse with units
+const value = ethers.parseUnits("10", "gwei");</code></pre>
+                            </div>
+                            
+                            <h4 style="margin-top: 15px;">Zero Address</h4>
+                            <div class="code-block" data-language="JavaScript" style="font-size: 0.75em;">
+                                <pre><code class="language-javascript">// Check for zero address
+const zeroAddr = ethers.ZeroAddress;
+// or: "0x0000000000000000000000000000000000000000"
+
+if (invoice.financier !== ethers.ZeroAddress) {
+    // Has a financier assigned
+}</code></pre>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="slide-footer">
+                    <span class="presenter">Gilang Bhagaskara | Certified Blockchain Professional</span>
+                </div>
+            </section>
+
+            <!-- ============================================
+                 SLIDE 23: TRAINING JOURNEY RECAP
                  ============================================ -->
             <section data-background="#043854">
                 <div class="slide-header">
@@ -657,7 +1345,7 @@ View any contract: https://sepolia.etherscan.io/address/CONTRACT_ADDRESS</code><
             </section>
 
             <!-- ============================================
-                 SLIDE 13: WHAT YOU'VE ACHIEVED
+                 SLIDE 24: WHAT YOU'VE ACHIEVED
                  ============================================ -->
             <section data-background="#043854">
                 <div class="slide-header">
@@ -711,7 +1399,7 @@ View any contract: https://sepolia.etherscan.io/address/CONTRACT_ADDRESS</code><
             </section>
 
             <!-- ============================================
-                 SLIDE 14: NEXT STEPS - LEARNING PATH
+                 SLIDE 25: NEXT STEPS - LEARNING PATH
                  ============================================ -->
             <section data-background="#043854">
                 <div class="slide-header">
@@ -754,7 +1442,7 @@ View any contract: https://sepolia.etherscan.io/address/CONTRACT_ADDRESS</code><
             </section>
 
             <!-- ============================================
-                 SLIDE 15: RESOURCES
+                 SLIDE 26: RESOURCES
                  ============================================ -->
             <section data-background="#043854">
                 <div class="slide-header">
@@ -811,7 +1499,7 @@ View any contract: https://sepolia.etherscan.io/address/CONTRACT_ADDRESS</code><
             </section>
 
             <!-- ============================================
-                 SLIDE 16: ENTERPRISE CONSIDERATIONS
+                 SLIDE 27: ENTERPRISE CONSIDERATIONS
                  ============================================ -->
             <section data-background="#043854">
                 <div class="slide-header">
@@ -871,7 +1559,7 @@ View any contract: https://sepolia.etherscan.io/address/CONTRACT_ADDRESS</code><
             </section>
 
             <!-- ============================================
-                 SLIDE 17: SCF VISION
+                 SLIDE 28: SCF VISION
                  ============================================ -->
             <section data-background="#043854">
                 <div class="slide-header">
@@ -936,7 +1624,7 @@ View any contract: https://sepolia.etherscan.io/address/CONTRACT_ADDRESS</code><
             </section>
 
             <!-- ============================================
-                 SLIDE 18: Q&A SESSION
+                 SLIDE 29: Q&A SESSION
                  ============================================ -->
             <section data-background="#043854">
                 <div class="slide-header">
@@ -983,7 +1671,7 @@ View any contract: https://sepolia.etherscan.io/address/CONTRACT_ADDRESS</code><
             </section>
 
             <!-- ============================================
-                 SLIDE 19: FINAL SLIDE - CONTACT
+                 SLIDE 30: FINAL SLIDE - CONTACT
                  ============================================ -->
             <section data-background="linear-gradient(135deg, #043854 0%, #065a7a 100%)">
                 <div class="slide-header">
