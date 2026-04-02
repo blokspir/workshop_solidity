@@ -1,0 +1,335 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Solana Development | Blocksphere Training</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/highlight.js@11.9.0/styles/atom-one-dark.min.css">
+    <style>
+        :root {
+            --bs-primary: #043854;
+            --bs-accent: #4a9ea4;
+            --bs-white: #ffffff;
+            --bs-light-bg: #f8fafc;
+            --bs-code-bg: #1e293b;
+        }
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+
+        body {
+            font-family: 'Inter', system-ui, -apple-system, sans-serif;
+            background: var(--bs-light-bg);
+            color: #1e293b;
+            line-height: 1.7;
+        }
+
+        /* Top bar */
+        .topbar {
+            background: var(--bs-primary);
+            padding: 12px 24px;
+            display: flex;
+            align-items: center;
+            gap: 16px;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+        .topbar a { color: var(--bs-accent); text-decoration: none; font-size: 0.9em; font-weight: 500; }
+        .topbar a:hover { color: #fff; }
+        .topbar .sep { color: rgba(255,255,255,0.3); }
+        .topbar .title { color: #fff; font-weight: 600; font-size: 0.9em; margin-left: auto; }
+
+        /* Sidebar */
+        .layout { display: flex; min-height: calc(100vh - 48px); }
+        .sidebar {
+            width: 280px;
+            background: #fff;
+            border-right: 1px solid #e2e8f0;
+            padding: 20px 0;
+            overflow-y: auto;
+            position: sticky;
+            top: 48px;
+            height: calc(100vh - 48px);
+            flex-shrink: 0;
+        }
+        .sidebar h3 {
+            padding: 8px 20px;
+            font-size: 0.7em;
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
+            color: #94a3b8;
+            font-weight: 600;
+        }
+        .sidebar a {
+            display: block;
+            padding: 6px 20px;
+            color: #475569;
+            text-decoration: none;
+            font-size: 0.85em;
+            border-left: 3px solid transparent;
+            transition: all 0.15s;
+        }
+        .sidebar a:hover { background: #f1f5f9; color: var(--bs-primary); border-left-color: var(--bs-accent); }
+        .sidebar a.active { background: #ecfeff; color: var(--bs-primary); font-weight: 600; border-left-color: var(--bs-accent); }
+
+        /* Content */
+        .content {
+            flex: 1;
+            max-width: 860px;
+            padding: 40px 48px 80px;
+            margin: 0 auto;
+        }
+
+        /* Markdown rendered styles */
+        .content h1 { font-size: 2em; font-weight: 800; color: var(--bs-primary); margin: 0 0 24px; border-bottom: 3px solid var(--bs-accent); padding-bottom: 12px; }
+        .content h2 { font-size: 1.5em; font-weight: 700; color: var(--bs-primary); margin: 40px 0 16px; }
+        .content h3 { font-size: 1.2em; font-weight: 600; color: #334155; margin: 28px 0 12px; }
+        .content h4 { font-size: 1.05em; font-weight: 600; color: #475569; margin: 20px 0 8px; }
+        .content p { margin: 0 0 16px; color: #334155; }
+        .content a { color: var(--bs-accent); font-weight: 500; }
+        .content a:hover { text-decoration: underline; }
+        .content strong { font-weight: 600; color: #1e293b; }
+
+        .content ul, .content ol { margin: 0 0 16px; padding-left: 24px; }
+        .content li { margin-bottom: 6px; color: #334155; }
+        .content li > ul, .content li > ol { margin-top: 6px; margin-bottom: 0; }
+
+        .content blockquote {
+            border-left: 4px solid var(--bs-accent);
+            background: #ecfeff;
+            padding: 12px 20px;
+            margin: 16px 0;
+            border-radius: 0 8px 8px 0;
+        }
+
+        .content hr { border: none; height: 2px; background: #e2e8f0; margin: 32px 0; }
+
+        .content code {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 0.88em;
+            background: #f1f5f9;
+            color: #be185d;
+            padding: 2px 6px;
+            border-radius: 4px;
+        }
+        .content pre {
+            margin: 16px 0;
+            border-radius: 10px;
+            overflow-x: auto;
+        }
+        .content pre code {
+            display: block;
+            padding: 20px;
+            background: var(--bs-code-bg);
+            color: #e2e8f0;
+            font-size: 0.85em;
+            line-height: 1.6;
+            border-radius: 10px;
+        }
+
+        .content table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 16px 0;
+            font-size: 0.92em;
+        }
+        .content th {
+            background: var(--bs-primary);
+            color: #fff;
+            padding: 10px 14px;
+            text-align: left;
+            font-weight: 600;
+        }
+        .content td {
+            padding: 10px 14px;
+            border-bottom: 1px solid #e2e8f0;
+        }
+        .content tr:nth-child(even) td { background: #f8fafc; }
+        .content tr:hover td { background: #ecfeff; }
+
+        .content details { margin: 16px 0; }
+        .content summary { cursor: pointer; font-weight: 600; color: var(--bs-accent); }
+        .content details[open] summary { margin-bottom: 8px; }
+
+        /* Nav buttons */
+        .nav-buttons { display: flex; justify-content: space-between; margin-top: 48px; padding-top: 24px; border-top: 2px solid #e2e8f0; }
+        .nav-btn {
+            display: inline-flex; align-items: center; gap: 8px;
+            padding: 10px 20px; background: var(--bs-primary); color: #fff;
+            text-decoration: none; border-radius: 8px; font-size: 0.9em; font-weight: 500;
+            transition: background 0.2s;
+        }
+        .nav-btn:hover { background: #065a7a; color: #fff; text-decoration: none; }
+
+        /* Loading */
+        .loading { text-align: center; padding: 80px 20px; color: #94a3b8; }
+
+        /* Responsive */
+        @media (max-width: 900px) {
+            .sidebar { display: none; }
+            .content { padding: 24px 20px 60px; }
+        }
+    </style>
+</head>
+<body>
+    <div class="topbar">
+        <a href="../index.html">Blocksphere Training</a>
+        <span class="sep">/</span>
+        <a href="index.html">Solana Development</a>
+        <span class="sep">/</span>
+        <span class="title" id="page-title">Loading...</span>
+    </div>
+
+    <div class="layout">
+        <nav class="sidebar" id="sidebar"></nav>
+        <main class="content" id="content">
+            <div class="loading">Loading content...</div>
+        </main>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/highlight.js@11.9.0/lib/core.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/highlight.js@11.9.0/lib/languages/rust.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/highlight.js@11.9.0/lib/languages/typescript.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/highlight.js@11.9.0/lib/languages/bash.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/highlight.js@11.9.0/lib/languages/json.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/highlight.js@11.9.0/lib/languages/toml.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/highlight.js@11.9.0/lib/languages/sql.min.js"></script>
+    <script>
+    hljs.registerLanguage('rust', window.hljsDefineRust || hljs.getLanguage('rust'));
+
+    const MODULES = [
+        { id: '00-environment-setup', title: '00: Environment Setup', files: [
+            '01-rust-and-cargo.md','02-solana-cli.md','03-anchor-cli.md','04-node-and-yarn.md',
+            '05-vs-code-extensions.md','06-devnet-wallet.md','07-hello-world-deploy.md']},
+        { id: '01-blockchain-and-solana-fundamentals', title: '01: Blockchain & Solana', files: [
+            '01-what-is-a-blockchain.md','02-how-solana-is-different.md','03-the-account-model.md',
+            '04-programs-and-instructions.md','05-transactions.md','06-program-derived-addresses.md',
+            '07-tokens-and-explorers.md']},
+        { id: '02-rust-essentials-for-solana', title: '02: Rust Essentials', files: [
+            '01-ownership-and-borrowing.md','02-structs-and-enums.md','03-traits-and-derive.md',
+            '04-error-handling.md','05-collections-and-iterators.md','06-macros.md',
+            '07-borsh-serialization.md','08-common-compiler-errors.md']},
+        { id: '03-anchor-framework', title: '03: Anchor Framework', files: [
+            '01-anchor-project-structure.md','02-program-basics.md','03-accounts-and-constraints.md',
+            '04-pdas-in-anchor.md','05-cross-program-invocations.md','06-errors-and-events.md',
+            '07-testing-with-anchor.md','08-lab-counter-program.md','09-lab-vault-program.md',
+            '10-lab-notes-program.md']},
+        { id: '04-spl-token-2022', title: '04: SPL Token-2022', files: [
+            '01-token-2022-overview.md','02-creating-a-token.md','03-transfer-fees.md',
+            '04-token-metadata.md','05-minting-and-supply.md','06-associated-token-accounts.md',
+            '07-lab-create-token.md']},
+        { id: '05-nfts-with-metaplex-core', title: '05: NFTs (Metaplex Core)', files: [
+            '01-nft-concepts.md','02-metaplex-core-overview.md','03-collections-and-minting.md',
+            '04-metadata-and-attributes.md','05-royalties-and-plugins.md','06-lab-nft-collection.md']},
+        { id: '06-permanent-storage-arweave-irys', title: '06: Permanent Storage', files: [
+            '01-why-permanent-storage.md','02-arweave-and-irys.md','03-lab-upload-metadata.md']},
+        { id: '07-staking-programs', title: '07: Staking Programs', files: [
+            '01-staking-concepts.md','02-program-design.md','03-deposit-and-withdraw.md',
+            '04-reward-calculation.md','05-lab-staking-program.md']},
+        { id: '08-royalty-and-fee-distribution', title: '08: Fee Distribution', files: [
+            '01-fee-distribution-concepts.md','02-multi-recipient-splits.md',
+            '03-per-asset-royalties.md','04-lab-fee-splitter.md']},
+        { id: '09-frontend-wallet-integration', title: '09: Frontend & Wallets', files: [
+            '01-web3js-basics.md','02-wallet-adapter-setup.md','03-sending-transactions.md',
+            '04-reading-onchain-data.md','05-pwa-and-mobile.md','06-lab-frontend-app.md']},
+        { id: '10-indexing-and-event-tracking', title: '10: Indexing & Events', files: [
+            '01-why-indexing.md','02-helius-webhooks.md','03-processing-events.md',
+            '04-lab-webhook-listener.md']},
+        { id: '11-security-and-deployment', title: '11: Security & Deployment', files: [
+            '01-common-vulnerabilities.md','02-anchor-protections.md','03-multisig-and-authorities.md',
+            '04-noncustodial-design.md','05-deployment-guide.md']},
+        { id: '12-capstone-exercises', title: '12: Capstone Exercises', files: [
+            '01-exercise-platform-token.md','02-exercise-nft-mint-burn.md',
+            '03-exercise-staking-vault.md','04-exercise-frontend-minting.md',
+            '05-exercise-activity-indexer.md']},
+    ];
+
+    function getFileParam() {
+        const params = new URLSearchParams(window.location.search);
+        return params.get('file') || '00-environment-setup/01-rust-and-cargo.md';
+    }
+
+    function fileToLabel(filename) {
+        return filename.replace(/^\d+-/, '').replace(/-/g, ' ').replace('.md', '')
+            .replace(/\b\w/g, c => c.toUpperCase());
+    }
+
+    function buildSidebar(currentFile) {
+        const sidebar = document.getElementById('sidebar');
+        let html = '';
+        for (const mod of MODULES) {
+            html += `<h3>${mod.title}</h3>`;
+            for (const file of mod.files) {
+                const path = `${mod.id}/${file}`;
+                const active = path === currentFile ? ' class="active"' : '';
+                html += `<a href="viewer.html?file=${encodeURIComponent(path)}"${active}>${fileToLabel(file)}</a>`;
+            }
+        }
+        sidebar.innerHTML = html;
+    }
+
+    function findNavLinks(currentFile) {
+        const allFiles = [];
+        for (const mod of MODULES) {
+            for (const file of mod.files) {
+                allFiles.push(`${mod.id}/${file}`);
+            }
+        }
+        const idx = allFiles.indexOf(currentFile);
+        return {
+            prev: idx > 0 ? allFiles[idx - 1] : null,
+            next: idx < allFiles.length - 1 ? allFiles[idx + 1] : null,
+        };
+    }
+
+    async function loadContent() {
+        const file = getFileParam();
+        buildSidebar(file);
+
+        const contentEl = document.getElementById('content');
+        const titleEl = document.getElementById('page-title');
+
+        try {
+            const resp = await fetch(`content/${file}`);
+            if (!resp.ok) throw new Error(`HTTP ${resp.status}`);
+            const md = await resp.text();
+
+            marked.setOptions({
+                highlight: function(code, lang) {
+                    if (lang && hljs.getLanguage(lang)) {
+                        return hljs.highlight(code, { language: lang }).value;
+                    }
+                    return hljs.highlightAuto(code).value;
+                },
+                gfm: true,
+                breaks: false,
+            });
+
+            contentEl.innerHTML = marked.parse(md);
+
+            const h1 = contentEl.querySelector('h1');
+            titleEl.textContent = h1 ? h1.textContent : fileToLabel(file.split('/').pop());
+
+            const nav = findNavLinks(file);
+            let navHtml = '<div class="nav-buttons">';
+            if (nav.prev) navHtml += `<a class="nav-btn" href="viewer.html?file=${encodeURIComponent(nav.prev)}">&#8592; Previous</a>`;
+            else navHtml += '<span></span>';
+            if (nav.next) navHtml += `<a class="nav-btn" href="viewer.html?file=${encodeURIComponent(nav.next)}">Next &#8594;</a>`;
+            else navHtml += '<span></span>';
+            navHtml += '</div>';
+            contentEl.innerHTML += navHtml;
+
+            document.title = (h1 ? h1.textContent : 'Solana') + ' | Blocksphere Training';
+        } catch (err) {
+            contentEl.innerHTML = `<h1>Page Not Found</h1><p>Could not load <code>${file}</code>.</p><p><a href="index.html">Back to Solana curriculum</a></p>`;
+            titleEl.textContent = 'Not Found';
+        }
+    }
+
+    loadContent();
+    </script>
+</body>
+</html>
